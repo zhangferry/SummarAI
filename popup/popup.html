@@ -1,26 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>ChatGPT Summarizer</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <script src="popup.js"></script>
 </head>
 <body>
-  <div class="container">
-    <img src="../icons/icon128.png" class="logo">
-    <div class="header">
-      <h2>Page Summarizer</h2>
-      <p>ChatGPT generated summaries of the web content (articles, email threads, etc.) delivered by zhangferry.com</p>
+  <div id="content">
+    <div class="container">
+      <img src="../icons/icon128.png" class="logo">
+      <div class="header">
+        <h2>Page Summarizer</h2>
+        <p>总结网页内容的GPT插件</p>
+        <!-- <a href="./setting.html">Setting</a> -->
+        <button id="settings-btn">Settings</button>
+        <!-- <script>
+          document.getElementById("settings-btn").addEventListener("click", function() {
+            console.log("setting click");
+            chrome.tabs.create({ url: "settings.html" });
+          });
+        </script> -->
+      </div>
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>...Analyzing content...</p>
+      </div>
+      <pre id="response"></pre>
+      <button id="copyButton" disabled>Copy to Clipboard</button>
+      <p id="error" class="error"></p>
+      <p class="powered-by">Powered by zhangferry</p>
     </div>
-    <div id="loading" class="loading">
-      <div class="spinner"></div>
-      <p>...Analyzing content...</p>
+    <div id="setting-container">
+
     </div>
-    <pre id="response"></pre>
-    <button id="copyButton" disabled>Copy to Clipboard</button>
-    <p id="error" class="error"></p>
-    <p class="powered-by">Powered by zhangferry</p>
   </div>
 </body>
 </html>

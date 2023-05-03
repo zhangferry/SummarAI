@@ -139,6 +139,7 @@ function displayData(data) {
         files: ['content.js']
       }, () => {
         if (chrome.runtime.lastError) {
+          console.error("Error injecting content script");
           console.error(chrome.runtime.lastError.message);
           return;
         }
@@ -182,6 +183,31 @@ function displayData(data) {
     if (request.action === 'getTextContent') {
       const textContent = document.body.innerText;
       sendResponse({textContent: textContent});
+    }
+  });
+
+  document.getElementById("settings-btn").addEventListener("click", function() {
+    console.log("setting click");
+    // 使用文件绝对路径
+    fetch(chrome.runtime.getURL('popup/setting.html'))
+    .then(response => response.text())
+    .then(html => {
+      // 将HTML代码插入到设置页面的容器元素中
+      document.querySelector('#setting-container').innerHTML = html;
+    });
+
+    document.querySelector('#setting-container').style.display = 'block';
+
+  });
+
+  var parentElement = document.getElementById('content');
+  parentElement.addEventListener('click', function(event) {
+    console.log(`click content: ${event.target.classList}`);
+    if (event.target.classList.contains('back-btn')) {
+      console.log('您点击了动态生成的按钮：', event.target.textContent);
+      // 隐藏设置页面的容器元素
+      console.log("click back");
+      document.querySelector('#setting-container').style.display = 'none';
     }
   });
 

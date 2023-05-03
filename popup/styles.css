@@ -5,7 +5,7 @@ body {
   padding: 0;
 }
 
-.container {
+.container, .setting-container {
   position: relative;
   width: 350px;
   margin: 0 auto;
