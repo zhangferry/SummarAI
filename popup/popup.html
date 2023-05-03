@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChatGPT Summarizer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="popup.js"></script>
+</head>
+<body>
+  <div class="container">
+    <img src="../icons/icon128.png" class="logo">
+    <div class="header">
+      <h2>Page Summarizer</h2>
+      <p>ChatGPT generated summaries of the web content (articles, email threads, etc.) delivered by zhangferry.com</p>
+    </div>
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>...Analyzing content...</p>
+    </div>
+    <pre id="response"></pre>
+    <button id="copyButton" disabled>Copy to Clipboard</button>
+    <p id="error" class="error"></p>
+    <p class="powered-by">Powered by zhangferry</p>
+  </div>
+</body>
+</html>
