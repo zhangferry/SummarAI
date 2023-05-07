@@ -5,9 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tokenLimit = 4096; // for gpt-3.5-turbo
 
  async function fetchData(question) {
-    console.log(`origin question: `, question);
     question = truncateText(question, tokenLimit);
-    console.log("<<<====>>>");
     console.log(`truncateText question: `, question);
 
     const loadingElement = document.getElementById('loading');
@@ -126,6 +124,8 @@ async function makeAPICall(data) {
   if (!apiKey) {
     throw new Error(`你应该先配置 Token`);
   }
+
+  const responseElement = document.getElementById('response');
   
   try {
     const response = await fetch(url, {
@@ -138,9 +138,25 @@ async function makeAPICall(data) {
     });
   
     if (response.status >= 200 && response.status < 300) {
-      console.log(`response: ${response}`);
-      const jsonRes = await response.json();
-      return jsonRes.choices[0].message.content;
+      const reader = response.body.getReader();
+
+      let result = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        // Convert ArrayBuffer to string
+        let chunk = new TextDecoder("utf-8").decode(value);
+        let res = parseChunkContent(chunk);
+        if (res === -1) {
+          // stop
+          break;
+        }
+        result += res;
+        responseElement.textContent += res;
+      }
+      return result;
+      // const jsonRes = await response.json();
+      // return jsonRes.choices[0].message.content;
     } else {
       console.log(response.status);
       throw new Error(`Failed to fetch data from server: ${response.status}, error message: ${await response.text()}`);
@@ -150,16 +166,50 @@ async function makeAPICall(data) {
   }
 }
 
+function parseChunkContent(decodeText) {
+  const array = decodeText.split("\n")
+  let res = []
+  let stop = false
+  array.forEach(element => {
+      if (!element) {
+          return
+      }
+      element = element.replace("data: ", "")
+      try {
+        const json = JSON.parse(element)
+        const choice = json.choices[0]
+        const content = choice.delta.content
+
+        if (choice.finish_reason === "stop") {
+          stop = true
+          return
+        }
+
+        if (!content) {
+            return
+        }
+        res.push(content)
+      } catch (error) {
+        console.log("not valid JSON")
+      }
+  });
+  if (stop) {
+    return -1
+  } else {
+    return res.join("")
+  }
+}
+
 function displayData(data) {
     const responseElement = document.getElementById('response');
     const errorElement = document.getElementById('error');
     const copyButtonElement = document.getElementById('copyButton');
     
-    responseElement.textContent = '';
+    // responseElement.textContent = '';
     errorElement.textContent = '';
     copyButtonElement.disabled = true;
 
-    responseElement.textContent = data;
+    // responseElement.textContent = data;
     copyButtonElement.disabled = false;
   }
 
@@ -240,14 +290,6 @@ function displayData(data) {
   }
 
   init();
-
-  // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  //   if (request.action === 'getTextContent') {
-  //     const textContent = document.body.innerText;
-  //     sendResponse({textContent: textContent});
-  //   }
-  // });
-
   setupEventListeners();
 });
 
