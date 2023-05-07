@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>QuickSum</title>
+  <title>SummarAI</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <script type="module" src="popup.js"></script>
@@ -13,19 +13,18 @@
     <div class="container">
       <img src="../icons/icon128.png" class="logo">
       <div class="header">
-        <h2>QuickSum</h2>
-        <p>基于 ChatGPT 的网页内容总结插件</p>
-        <button id="analyze">执行分析</button>
-        <button id="settings-btn">设置</button>
+        <h2>SummarAI</h2>
+        <p>This browser extension utilizes AI technology to analyze web pages and extract important information.</p>
+        <button id="analyze">Analyze</button>
+        <button id="settings-btn">Setting</button>
       </div>
       <div id="loading" class="loading">
         <!-- <div class="spinner"></div> -->
-        <p>分析中...</p>
+        <p>Analyzing...</p>
       </div>
       <pre id="response"></pre>
-      <button id="copyButton" disabled>复制结果到剪切板</button>
+      <button id="copyButton" disabled>Copy Content</button>
       <p id="error" class="error"></p>
-      <p class="powered-by">Powered by zhangferry</p>
     </div>
     <div id="setting-container">
     </div>

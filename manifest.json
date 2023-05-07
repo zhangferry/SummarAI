@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Page Summarizer",
+  "name": "SummarAI",
   "version": "1.0.0",
   "homepage_url": "https://zhangferry.com",
-  "description": "Page Summarizer provides a brief summary of the content on a website page, specializing in summarizing articles.",
+  "description": "This browser extension utilizes AI technology to analyze web pages and extract important information.",
   "icons": {
     "16": "icons/icon128.png",
     "48": "icons/icon128.png",

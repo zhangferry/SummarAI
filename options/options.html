@@ -2,44 +2,44 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>QuickSum</title>
+  <title>SummarAI</title>
   <link rel="stylesheet" href="../popup/styles.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 <body>
   <div class="root">
-    <h1>设置</h1>
-    <h2>触发方式</h2>
+    <h1>Options</h1>
+    <h2>Trigger Mode</h2>
     <div class="radio-group">
       <div class="radio-item">
         
         <label for="auto-radio">
           <input type="radio" id="auto-radio" name="trigger-way", value="auto">
-          自动触发
+          Auto
         </label>
       </div>
       <div class="radio-item">
         <label for="manually-radio">
           <input type="radio" id="manually-radio" name="trigger-way", value="manual">
-          手动触发</label>
+          Manually</label>
       </div>
     </div>
-    <h2>OpenAI 配置</h2>
+    <h2>AI Provider</h2>
     <div class="ai-config">
       <div class="content-config"> 
-        <span class="content-tip-config">获取 OpenAI API Key <a href="https://platform.openai.com/docs/api-reference/chat" target="_blank" rel="noreferrer">Open API</a></span>
+        <span class="content-tip-config">You can find or create your API key <a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noreferrer">here</a></span>
         <div class="content-input">
-          <span> API Key </span>
+          <span>API Key</span>
           <input class="apikey-input" type="password" placeholder="API Key">  
         </div>
-        <span class="content-tip-config">自定义 Host<span>
+        <!-- <span class="content-tip-config">API Host<span> -->
         <div class="content-input">
           <span> API Host </span>
           <input class="host-input" type="text" placeholder="https://api.openai.com">  
         </div>
       </div>
       <div class="save-config">
-        <button type="button">保存</button>
+        <button type="button">Save</button>
       </div>
     </div>
 
