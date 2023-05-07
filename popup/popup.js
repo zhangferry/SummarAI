@@ -1,12 +1,21 @@
+import { getStorage } from "../tool.js";
+
 document.addEventListener('DOMContentLoaded', () => {
 
+  const tokenLimit = 4096; // for gpt-3.5-turbo
+
  async function fetchData(question) {
+    console.log(`origin question: `, question);
+    question = truncateText(question, tokenLimit);
+    console.log("<<<====>>>");
+    console.log(`truncateText question: `, question);
+
     const loadingElement = document.getElementById('loading');
+    const triggerButtonElement = document.getElementById('analyze');
     loadingElement.style.display = 'block';
+    triggerButtonElement.disabled = true;
 
     try {
-      // const contentType = await getContentType(question);
-      // console.log(contentType);
       const contentType = "article";
       const finalResponse = await getContentBasedOnType(contentType, question);
       const responseText = await finalResponse;
@@ -15,24 +24,48 @@ document.addEventListener('DOMContentLoaded', () => {
       displayError(error.message);
     } finally {
       loadingElement.style.display = 'none';
+      triggerButtonElement.disabled = false;
     }
   }
 
-  async function getContentType(question) {
-    const prompt = `What type of content is this - you are only allowed to answer with "article" or "email" or "other": ${question}`
-    const data = {
-      model: 'gpt-3.5-turbo',
-      temperature: 0.1,
-      messages: [
-        {
-          "role": "user",
-          "content": prompt
-        }
-      ]
+  function truncateText(text, maxTokens) {
+    // 判断text的语言类型，这里以中文和英文为例
+    const isChinese = /[\u4e00-\u9fa5]/.test(text);
+    const isEnglish = /^[a-zA-Z]/.test(text);
+  
+    // 根据不同语言的规则计算每个字符的token数
+    const getTokenCount = (char) => {
+      if (isChinese) {
+        // 中文字符算作2个token
+        return /\p{Unified_Ideograph}/u.test(char) ? 2 : 1;
+      } else if (isEnglish) {
+        // 英文字符算作1个token
+        return /[a-zA-Z]/.test(char) ? 1 : 0;
+      } else {
+        // 其他语言按照1个字符算作1个token处理
+        return 1;
+      }
     };
-
-    const response = await makeAPICall(data);
-    return response.toLowerCase();
+  
+    let tokenCount = 0;
+    let truncatedText = '';
+  
+    // 逐字符遍历原始文本
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const charTokenCount = getTokenCount(char);
+  
+      // 当前字符的token数超出最大限制，直接返回截断的字符串
+      if (tokenCount + charTokenCount > maxTokens) {
+        break;
+      }
+  
+      // 当前字符的token数未超出最大限制，将其添加到截断的字符串中
+      truncatedText += char;
+      tokenCount += charTokenCount;
+    }
+  
+    return truncatedText;
   }
 
   async function getContentBasedOnType(contentType, question) {
@@ -43,7 +76,8 @@ ${question}`;
 
     const data = {
       model: 'gpt-3.5-turbo',
-      temperature: 0.1,
+      stream: true,
+      temperature: 0.1, // more focused and deterministic.
       messages: [
         {
           "role": "system",
@@ -80,13 +114,24 @@ function getAdditionalText(contentType) {
 }
 
 async function makeAPICall(data) {
-  const url = "https://api.aios.chat/v1/chat/completions"
-  const token = "Bearer ak-CRFGv0NVLGsYQYDSpPnI34j2v8zfyBKonAwHzNYTQ2LkxMPL"
+
+  var host = "https://api.openai.com";
+  const hostRes = await getStorage("openai-host");
+  if (hostRes) {
+    host = hostRes;
+  }
+  const url = host + "/v1/chat/completions"
+
+  const apiKey = await getStorage("api-key");
+  if (!apiKey) {
+    throw new Error(`你应该先配置 Token`);
+  }
+  
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': token,
+        'Authorization': apiKey,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -109,7 +154,7 @@ function displayData(data) {
     const responseElement = document.getElementById('response');
     const errorElement = document.getElementById('error');
     const copyButtonElement = document.getElementById('copyButton');
-
+    
     responseElement.textContent = '';
     errorElement.textContent = '';
     copyButtonElement.disabled = true;
@@ -139,11 +184,11 @@ function displayData(data) {
         files: ['content.js']
       }, () => {
         if (chrome.runtime.lastError) {
+          console.log(chrome.runtime.lastError);
           console.error("Error injecting content script");
           console.error(chrome.runtime.lastError.message);
           return;
         }
-
         chrome.tabs.sendMessage(tabs[0].id, {action: 'getTextContent'}, (response) => {
           if (chrome.runtime.lastError) {
             console.error(chrome.runtime.lastError.message);
@@ -171,45 +216,37 @@ function displayData(data) {
     } else {
       console.error('Copy button not found');
     }
+
+    document.getElementById("settings-btn").addEventListener("click", function() {
+      chrome.runtime.openOptionsPage();
+    });
+  
+    document.getElementById("analyze").addEventListener("click", function() {
+      console.log("analyze manual");
+      injectContentScriptAndFetchData();
+    });
   }
 
   function init() {
-    injectContentScriptAndFetchData();
+    chrome.storage.sync.get(['trigger-way'], function(result) {
+      const optionValue = result['trigger-way'];
+      if (optionValue == "auto") {
+        injectContentScriptAndFetchData();
+      } else {
+        // manual
+        console.log("manual trigger");
+      }
+    });
   }
 
   init();
 
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'getTextContent') {
-      const textContent = document.body.innerText;
-      sendResponse({textContent: textContent});
-    }
-  });
-
-  document.getElementById("settings-btn").addEventListener("click", function() {
-    console.log("setting click");
-    // 使用文件绝对路径
-    fetch(chrome.runtime.getURL('popup/setting.html'))
-    .then(response => response.text())
-    .then(html => {
-      // 将HTML代码插入到设置页面的容器元素中
-      document.querySelector('#setting-container').innerHTML = html;
-    });
-
-    document.querySelector('#setting-container').style.display = 'block';
-
-  });
-
-  var parentElement = document.getElementById('content');
-  parentElement.addEventListener('click', function(event) {
-    console.log(`click content: ${event.target.classList}`);
-    if (event.target.classList.contains('back-btn')) {
-      console.log('您点击了动态生成的按钮：', event.target.textContent);
-      // 隐藏设置页面的容器元素
-      console.log("click back");
-      document.querySelector('#setting-container').style.display = 'none';
-    }
-  });
+  // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  //   if (request.action === 'getTextContent') {
+  //     const textContent = document.body.innerText;
+  //     sendResponse({textContent: textContent});
+  //   }
+  // });
 
   setupEventListeners();
 });

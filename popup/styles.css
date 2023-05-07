@@ -5,6 +5,14 @@ body {
   padding: 0;
 }
 
+.root {
+  padding: 24px;
+}
+
+.content-input {
+  margin-bottom: 15px;
+}
+
 .container, .setting-container {
   position: relative;
   width: 350px;

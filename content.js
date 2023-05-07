@@ -6,6 +6,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const url = window.location.href; // add this line to get the URL
     console.log(`innerText: ${textContent}`);
     console.log(`URL: ${url}`); // log the URL to the console
-    // sendResponse({textContent: textContent, url: url}); // include the URL in the response
+    sendResponse({textContent: textContent}); // include the URL in the response
   }
 });

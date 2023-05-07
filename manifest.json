@@ -13,12 +13,16 @@
     "default_popup": "popup/popup.html",
     "default_icon": "icons/icon128.png"
   },
+  "options_ui": {
+    "page": "options/options.html"
+  },
   "permissions": [
     "activeTab",
     "scripting",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
-    "https://gpt-summarizer-5oxqvewo.ew.gateway.dev/"
+    "https://*.openai.com/"
   ]
 }
