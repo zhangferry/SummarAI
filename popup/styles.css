@@ -17,7 +17,7 @@ body {
   position: relative;
   width: 350px;
   margin: 0 auto;
-  background-color: #F8F8F8;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   padding: 24px;
@@ -31,9 +31,9 @@ body {
   width: 70px;
 }
 
-.header {
+/* .header {
   margin-right: 40px;
-}
+} */
 
 h2 {
   font-size: 24px;
@@ -61,6 +61,41 @@ button:hover {
 button:disabled {
   background-color: #DDD;
   cursor: not-allowed;
+}
+
+.setting-btn {
+  background-image: url(../icons/setting.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  width: 25px;
+  height: 25px;
+}
+.copy-btn {
+  background-image: url(../icons/copy.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  width: 25px;
+  height: 25px;
+}
+.setting-btn:hover, .copy-btn:hover {
+  background-color: white;
+}
+.setting-btn:disabled, .copy-btn:disabled {
+  background-color: white;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.edit-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
 pre {

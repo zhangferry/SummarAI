@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`truncateText question: `, question);
 
     const loadingElement = document.getElementById('loading');
-    const triggerButtonElement = document.getElementById('analyze');
+    const triggerButtonElement = document.getElementsByClassName('analyze-btn')[0];
     loadingElement.style.display = 'block';
     triggerButtonElement.disabled = true;
 
@@ -122,7 +122,7 @@ async function makeAPICall(data) {
 
   const apiKey = await getStorage("api-key");
   if (!apiKey) {
-    throw new Error(`你应该先配置 Token`);
+    throw new Error(`You should config API Key first`);
   }
 
   const responseElement = document.getElementById('response');
@@ -131,7 +131,7 @@ async function makeAPICall(data) {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': apiKey,
+        'Authorization': "Bearer " + apiKey,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -201,9 +201,9 @@ function parseChunkContent(decodeText) {
 }
 
 function displayData(data) {
-    const responseElement = document.getElementById('response');
+    // const responseElement = document.getElementById('response');
     const errorElement = document.getElementById('error');
-    const copyButtonElement = document.getElementById('copyButton');
+    const copyButtonElement = document.getElementsByClassName('copy-btn')[0];
     
     // responseElement.textContent = '';
     errorElement.textContent = '';
@@ -253,7 +253,7 @@ function displayData(data) {
 
   function setupEventListeners() {
     // copy content
-    const copyButton = document.getElementById('copyButton');
+    const copyButton = document.getElementsByClassName('copy-btn')[0];
     if (copyButton) {
       copyButton.addEventListener('click', () => {
         const response = document.getElementById('response').textContent;
@@ -267,12 +267,11 @@ function displayData(data) {
       console.error('Copy button not found');
     }
 
-    document.getElementById("settings-btn").addEventListener("click", function() {
+    document.getElementsByClassName("setting-btn")[0].addEventListener("click", function() {
       chrome.runtime.openOptionsPage();
     });
   
-    document.getElementById("analyze").addEventListener("click", function() {
-      console.log("analyze manual");
+    document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function() {
       injectContentScriptAndFetchData();
     });
   }
