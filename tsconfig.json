@@ -1,0 +1,19 @@
+{
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"],
+    "compilerOptions": {
+        "module": "ESNext",
+        "esModuleInterop": true,
+        "target": "ES2018",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "noEmit": true,
+        "allowJs": true,
+        "jsx": "react-jsx",
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+          }
+    }
+}

@@ -5,16 +5,17 @@
   "homepage_url": "https://zhangferry.com",
   "description": "This browser extension utilizes AI technology to analyze web pages and extract important information.",
   "icons": {
-    "16": "icons/icon128.png",
-    "48": "icons/icon128.png",
-    "128": "icons/icon128.png"
+    "16": "logo-16.png",
+    "48": "logo-48.png",
+    "128": "logo-128.png"
   },
   "action": {
-    "default_popup": "popup/popup.html",
-    "default_icon": "icons/icon128.png"
+    "default_popup": "popup.html",
+    "default_icon": "logo-128.png"
   },
   "options_ui": {
-    "page": "options/options.html"
+    "page": "options.html",
+    "open_in_tab": true
   },
   "permissions": [
     "activeTab",

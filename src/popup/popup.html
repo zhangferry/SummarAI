@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SummarAI</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script type="module" src="popup.js"></script>
+  <script type="module" src="../tool.js"></script>
+</head>
+<body>
+  <div id="content">
+    <div class="container">
+      <img src="../icons/icon128.png" class="logo">
+      <div class="header">
+        <h2>SummarAI</h2>
+        <p>This browser extension utilizes AI technology to analyze web pages and extract important information.</p>
+        <div class="button-container"> 
+          <button class="analyze-btn">Analyze</button>
+          <div class="edit-container"> 
+            <button class="copy-btn" disabled></button>
+            <button class="setting-btn"></button>
+          </div>
+        </div>
+      </div>
+      <div id="loading" class="loading">
+        <!-- <div class="spinner"></div> -->
+        <p>Analyzing...</p>
+      </div>
+      <pre id="response"></pre>
+      <!-- <button id="copyButton" disabled>Copy Content</button> -->
+      <p id="error" class="error"></p>
+    </div>
+    <div id="setting-container">
+    </div>
+  </div>
+</body>
+</html>

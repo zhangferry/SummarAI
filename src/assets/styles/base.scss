@@ -1,0 +1,216 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$primary-color: #0070f3;
+$secondary-color: #000;
+$gray-color: #444;
+$font-size-large: 16px;
+$font-size-normal: 14px;
+$font-size-small: 12px;
+
+// card
+.glarity--card {
+  font-size: $font-size-normal;
+  border: 1px solid #ddd;
+  box-shadow: 0 3px 8px rgb(0 0 0 / 35%);
+  border-radius: 6px !important;
+  background: #fff;
+
+  .glarity--card__head {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: $font-size-large;
+
+    .glarity--card__head--title {
+      display: inline-flex;
+      align-items: center;
+      font-weight: bold;
+
+      .glarity--btn {
+        margin-left: 4px;
+      }
+
+      a {
+        display: inline-flex;
+        text-decoration: none;
+        color: #000;
+        align-items: center;
+      }
+
+      img {
+        margin: 0 4px 0 0;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .glarity--card__content {
+    position: relative;
+    padding: 15px;
+    color: #333;
+    line-height: 1.6;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    min-height: 110px;
+
+    .glarity--container {
+      margin-bottom: 0;
+
+      .glarity--chatgpt {
+        border: none;
+      }
+    }
+
+    .glarity--card__empty {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      display: flex;
+      padding: 6px 16px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      min-height: 70px;
+    }
+
+    .glarity--container #gpt-answer.markdown-body.gpt-markdown .glarity--chatgpt--header {
+      margin: -13px -12px 0 0 !important;
+    }
+  }
+}
+
+// button
+.glarity--btn {
+  margin: 0;
+  padding: 8px 10px;
+  line-height: 1;
+  font-size: $font-size-normal;
+  border-radius: 8px;
+  border: 1px solid #fff;
+  cursor: pointer;
+  text-align: center;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.glarity--btn__icon {
+    color: $secondary-color;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    color: $gray-color;
+    background: transparent;
+
+    // &:hover {
+    //   color: $primary-color;
+    // }
+  }
+
+  &.glarity--btn__launch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #144a7f;
+    background: #fff;
+
+    img {
+      margin: 0;
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      filter: blur(0);
+    }
+  }
+
+  &.glarity--btn__primary {
+    color: #fff;
+    background: $primary-color;
+  }
+
+  &.glarity--btn__primary--ghost {
+    color: $primary-color;
+    background: #fff;
+    border: 1px solid $primary-color;
+  }
+
+  &.glarity--btn__block {
+    width: 100%;
+  }
+
+  &.glarity--btn__large {
+    font-size: $font-size-large;
+    padding: 8px 16px;
+  }
+
+  &.glarity--btn__small {
+    font-size: $font-size-small;
+    padding: 4px 8px;
+  }
+}
+
+// text
+.glarity--subtitle {
+  font-size: $font-size-small;
+  color: #999 !important;
+  font-weight: normal;
+}
+
+// Dark
+@media (prefers-color-scheme: dark) {
+  .glarity--card {
+    background: rgb(35, 36, 40);
+    border-color: #444950;
+    box-shadow: 0 3px 9px rgb(255 255 255 / 30%);
+
+    .glarity--card__head {
+      border-bottom-color: #444950;
+    }
+
+    .glarity--card__content,
+    .glarity--card__head {
+      color: #ccc;
+
+      .glarity--card__head--title {
+        a {
+          color: #ccc;
+        }
+      }
+    }
+  }
+
+  .glarity--btn {
+    border-color: #444950;
+
+    &.glarity--btn__primary {
+      border-color: #999;
+    }
+
+    &.glarity--btn__icon {
+      color: #999;
+    }
+  }
+}

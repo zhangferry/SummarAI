@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "SummarAI",
+  "version": "1.0.0",
+  "homepage_url": "https://zhangferry.com",
+  "description": "This browser extension utilizes AI technology to analyze web pages and extract important information.",
+  "icons": {
+    "16": "logo-16.png",
+    "48": "logo-48.png",
+    "128": "logo-128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "logo-128.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.openai.com/"
+  ]
+}
