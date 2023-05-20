@@ -64,7 +64,7 @@ button:disabled {
 }
 
 .setting-btn {
-  background-image: url(../icons/setting.png);
+  background-image: url(setting.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -73,7 +73,7 @@ button:disabled {
   height: 25px;
 }
 .copy-btn {
-  background-image: url(../icons/copy.png);
+  background-image: url(copy.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

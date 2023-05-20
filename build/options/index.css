@@ -1,4 +1,4 @@
-/* temp_stylePlugin:ni:sha-256;mtM3QZTMHGHsE_h-T4cdDV334ivyivmXp0I3IQWIMHk */
+/* temp_stylePlugin:ni:sha-256;atELJwC38yS4qnHZpFoiDblJ-m11-6Y-ylgQ8gHuROE */
 *,
 ::before,
 ::after {
@@ -147,9 +147,6 @@
 .glarity--mt-5 {
   margin-top: 1.25rem;
 }
-.glarity--mt-8 {
-  margin-top: 2rem;
-}
 .glarity--flex {
   display: flex;
 }
@@ -182,9 +179,6 @@
 }
 .glarity--gap-3 {
   gap: 0.75rem;
-}
-.glarity--gap-4 {
-  gap: 1rem;
 }
 .glarity--rounded-lg {
   border-radius: 0.5rem;

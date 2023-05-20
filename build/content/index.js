@@ -766,6 +766,7 @@
                         reject
                       }, metadata));
                     } catch (cbError) {
+                      console.warn(`${name} API method doesn't seem to support the callback parameter, falling back to call it without a callback: `, cbError);
                       target[name](...args);
                       metadata.fallbackToNoCallback = false;
                       metadata.noCallback = true;
@@ -919,6 +920,7 @@
                       message: message2
                     });
                   }).catch((err) => {
+                    console.error("Failed to send onMessage rejected reply", err);
                   });
                 };
                 if (isResultThenable) {
@@ -1022,9 +1024,18 @@
   async function Run() {
     import_webextension_polyfill.default.runtime.onMessage.addListener((message, _, sendResponse) => {
       var _a;
+      console.log(message.action);
+      console.log(message);
       const { type, data } = message;
-      switch (type) {
-        case "CHATGPT_TAB_CURRENT": {
+      console.log(`type ${type}, data: ${data}, message: ${message}`);
+      switch (message.action) {
+        case "getTextContent": {
+          console.log("CHATGPT_TAB_CURRENT");
+          const textContent = document.body.innerText;
+          const url = window.location.href;
+          console.log(`innerText: ${textContent}`);
+          console.log(`URL: ${url}`);
+          sendResponse({ textContent });
           break;
         }
         case "GET_DOM": {
@@ -1034,5 +1045,6 @@
       }
     });
   }
+  console.log("\u5185\u5BB9\u811A\u672C\u6CE8\u5165\u6210\u529F!");
   Run();
 })();

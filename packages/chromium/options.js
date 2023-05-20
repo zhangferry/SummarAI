@@ -1670,6 +1670,7 @@
                         reject
                       }, metadata));
                     } catch (cbError) {
+                      console.warn(`${name} API method doesn't seem to support the callback parameter, falling back to call it without a callback: `, cbError);
                       target[name](...args);
                       metadata.fallbackToNoCallback = false;
                       metadata.noCallback = true;
@@ -1823,6 +1824,7 @@
                       message: message2
                     });
                   }).catch((err) => {
+                    console.error("Failed to send onMessage rejected reply", err);
                   });
                 };
                 if (isResultThenable) {
@@ -2187,6 +2189,7 @@
             {
               if (!hasWarnedAboutDeprecatedIsAsyncMode) {
                 hasWarnedAboutDeprecatedIsAsyncMode = true;
+                console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.");
               }
             }
             return isConcurrentMode(object4) || typeOf(object4) === REACT_ASYNC_MODE_TYPE;
@@ -2474,6 +2477,9 @@
           this._optimizeForSpeed = "insertRule" in this.getSheet();
           if (!this._optimizeForSpeed) {
             if (!isProd) {
+              console.warn(
+                "StyleSheet: optimizeForSpeed mode not supported falling back to standard mode."
+              );
             }
             this.flush();
             this._injected = true;
@@ -2530,6 +2536,9 @@
             sheet.insertRule(rule, index2);
           } catch (error) {
             if (!isProd) {
+              console.warn(
+                "StyleSheet: illegal rule: \n\n" + rule + "\n\nSee https://stackoverflow.com/q/20007992 for more info"
+              );
             }
             return -1;
           }
@@ -2553,6 +2562,9 @@
             sheet.insertRule(rule, index2);
           } catch (error) {
             if (!isProd) {
+              console.warn(
+                "StyleSheet: illegal rule: \n\n" + rule + "\n\nSee https://stackoverflow.com/q/20007992 for more info"
+              );
             }
             sheet.insertRule(this._deletedRulePlaceholder, index2);
           }
@@ -3438,30 +3450,6 @@
     var targetChildren = target.length >= 0 ? target : void 0;
     return [withoutTargetChildren, targetChildren];
   };
-  var pickChildByProps = function pickChildByProps2(children, key, value) {
-    var target = [];
-    var isArray2 = Array.isArray(value);
-    var withoutPropChildren = Cn.Children.map(children, function(item) {
-      if (!/* @__PURE__ */ Cn.isValidElement(item))
-        return null;
-      if (!item.props)
-        return item;
-      if (isArray2) {
-        if (value.includes(item.props[key])) {
-          target.push(item);
-          return null;
-        }
-        return item;
-      }
-      if (item.props[key] === value) {
-        target.push(item);
-        return null;
-      }
-      return item;
-    });
-    var targetChildren = target.length >= 0 ? target : void 0;
-    return [withoutPropChildren, targetChildren];
-  };
   var setChildrenIndex = function setChildrenIndex2(children) {
     var targetComponents = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
     if (Cn.Children.count(children) === 0)
@@ -3975,22 +3963,6 @@
   input_default.Password = password_default;
   var input_default2 = input_default;
 
-  // node_modules/@geist-ui/core/esm/shared/ellipsis.js
-  init_react();
-  var Ellipsis = function Ellipsis2(_ref) {
-    var children = _ref.children, height = _ref.height;
-    return /* @__PURE__ */ Cn.createElement("span", {
-      className: styled_jsx_es_default.dynamic([["822089635", [height]]])
-    }, children, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "822089635",
-      dynamic: [height]
-    }, "span.__jsx-style-dynamic-selector{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:".concat(height, ";min-width:0;}")));
-  };
-  var ellipsis_default = /* @__PURE__ */ Cn.memo(Ellipsis);
-
-  // node_modules/@geist-ui/core/esm/shared/dropdown.js
-  init_react();
-
   // node_modules/react-dom/index.mjs
   init_compat_module();
   init_compat_module();
@@ -4037,25 +4009,6 @@
     return elSnapshot;
   };
   var use_portal_default = usePortal;
-
-  // node_modules/@geist-ui/core/esm/utils/use-resize.js
-  init_react();
-  var useResize = function useResize2(callback) {
-    var immediatelyInvoke = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
-    p2(function() {
-      var fn2 = function fn3() {
-        return callback();
-      };
-      if (immediatelyInvoke) {
-        fn2();
-      }
-      window.addEventListener("resize", fn2);
-      return function() {
-        return window.removeEventListener("resize", fn2);
-      };
-    }, []);
-  };
-  var use_resize_default = useResize;
 
   // node_modules/@geist-ui/core/esm/shared/css-transition.js
   init_react();
@@ -4105,50 +4058,6 @@
   CssTransition.displayName = "GeistCssTransition";
   var css_transition_default = CssTransition;
 
-  // node_modules/@geist-ui/core/esm/utils/use-click-anywhere.js
-  init_react();
-  var useClickAnyWhere = function useClickAnyWhere2(handler) {
-    p2(function() {
-      var callback = function callback2(event) {
-        return handler(event);
-      };
-      document.addEventListener("click", callback);
-      return function() {
-        return document.removeEventListener("click", callback);
-      };
-    }, [handler]);
-  };
-  var use_click_anywhere_default = useClickAnyWhere;
-
-  // node_modules/@geist-ui/core/esm/utils/use-dom-observer.js
-  init_react();
-  var useDOMObserver = function useDOMObserver2(ref) {
-    var callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : function() {
-    };
-    var config = {
-      attributes: false,
-      childList: true,
-      subtree: true
-    };
-    p2(function() {
-      if (!ref || !ref.current)
-        return;
-      var unmount = false;
-      var done = function done2() {
-        if (unmount)
-          return;
-        callback.apply(void 0, arguments);
-      };
-      var observer = new MutationObserver(done);
-      observer.observe(ref.current, config);
-      return function() {
-        unmount = true;
-        observer.disconnect();
-      };
-    }, [ref]);
-  };
-  var use_dom_observer_default = useDOMObserver;
-
   // node_modules/@geist-ui/core/esm/utils/use-warning.js
   var warningStack = {};
   var useWarning = function useWarning2(message, component) {
@@ -4160,129 +4069,11 @@
       return;
     warningStack[log] = true;
     if (true) {
-      return void 0;
+      return console.error(log);
     }
+    console.warn(log);
   };
   var use_warning_default = useWarning;
-
-  // node_modules/@geist-ui/core/esm/utils/layouts.js
-  init_react();
-  var getElementOffset = function getElementOffset2(el) {
-    if (!el)
-      return {
-        top: 0,
-        left: 0
-      };
-    var _el$getBoundingClient = el.getBoundingClientRect(), top = _el$getBoundingClient.top, left = _el$getBoundingClient.left;
-    return {
-      top,
-      left
-    };
-  };
-  var defaultRect = {
-    top: -1e3,
-    left: -1e3,
-    right: -1e3,
-    width: 0,
-    height: 0,
-    elementTop: -1e3
-  };
-  var getRectFromDOMWithContainer = function getRectFromDOMWithContainer2(domRect, getContainer2) {
-    if (!domRect)
-      return defaultRect;
-    var container = getContainer2 ? getContainer2() : null;
-    var scrollElement = container || document.documentElement;
-    var _getElementOffset = getElementOffset(container), offsetTop = _getElementOffset.top, offsetLeft = _getElementOffset.left;
-    return _extends({}, domRect, {
-      width: domRect.width || domRect.right - domRect.left,
-      height: domRect.height || domRect.top - domRect.bottom,
-      top: domRect.bottom + scrollElement.scrollTop - offsetTop,
-      left: domRect.left + scrollElement.scrollLeft - offsetLeft,
-      elementTop: domRect.top + scrollElement.scrollTop - offsetTop
-    });
-  };
-  var getRefRect = function getRefRect2(ref, getContainer2) {
-    if (!ref || !ref.current)
-      return defaultRect;
-    var rect = ref.current.getBoundingClientRect();
-    return getRectFromDOMWithContainer(rect, getContainer2);
-  };
-
-  // node_modules/@geist-ui/core/esm/shared/dropdown.js
-  var defaultRect2 = {
-    top: -1e3,
-    left: -1e3,
-    right: -1e3,
-    width: 0
-  };
-  var Dropdown = /* @__PURE__ */ Cn.memo(function(_ref) {
-    var children = _ref.children, parent = _ref.parent, visible = _ref.visible, disableMatchWidth = _ref.disableMatchWidth, getPopupContainer = _ref.getPopupContainer;
-    var el = use_portal_default("dropdown", getPopupContainer);
-    var _useState = h2(defaultRect2), _useState2 = _slicedToArray(_useState, 2), rect = _useState2[0], setRect = _useState2[1];
-    var classes = use_classes_default2("dropdown", disableMatchWidth ? "disable-match" : "width-match");
-    if (!parent)
-      return null;
-    if (true) {
-      if (getPopupContainer && getPopupContainer()) {
-        var _el = getPopupContainer();
-        var style3 = window.getComputedStyle(_el);
-        if (style3.position === "static") {
-          use_warning_default('The element specified by "getPopupContainer" must have "position" set.');
-        }
-      }
-    }
-    var updateRect = function updateRect2() {
-      var _getRefRect = getRefRect(parent, getPopupContainer), top = _getRefRect.top, left = _getRefRect.left, right = _getRefRect.right, nativeWidth = _getRefRect.width;
-      setRect({
-        top,
-        left,
-        right,
-        width: nativeWidth
-      });
-    };
-    use_resize_default(updateRect);
-    use_click_anywhere_default(function() {
-      var _getRefRect2 = getRefRect(parent, getPopupContainer), top = _getRefRect2.top, left = _getRefRect2.left;
-      var shouldUpdatePosition = top !== rect.top || left !== rect.left;
-      if (!shouldUpdatePosition)
-        return;
-      updateRect();
-    });
-    use_dom_observer_default(parent, function() {
-      updateRect();
-    });
-    p2(function() {
-      if (!parent || !parent.current)
-        return;
-      parent.current.addEventListener("mouseenter", updateRect);
-      return function() {
-        if (!parent || !parent.current)
-          return;
-        parent.current.removeEventListener("mouseenter", updateRect);
-      };
-    }, [parent]);
-    var clickHandler = function clickHandler2(event) {
-      event.stopPropagation();
-      event.nativeEvent.stopImmediatePropagation();
-      event.preventDefault();
-    };
-    var mouseDownHandler = function mouseDownHandler2(event) {
-      event.preventDefault();
-    };
-    if (!el)
-      return null;
-    return /* @__PURE__ */ z3(/* @__PURE__ */ Cn.createElement(css_transition_default, {
-      visible
-    }, /* @__PURE__ */ Cn.createElement("div", {
-      onClick: clickHandler,
-      onMouseDown: mouseDownHandler,
-      className: styled_jsx_es_default.dynamic([["1644673105", [rect.top + 2, rect.left, rect.width, rect.width]]]) + " " + (classes || "")
-    }, children, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "1644673105",
-      dynamic: [rect.top + 2, rect.left, rect.width, rect.width]
-    }, ".dropdown.__jsx-style-dynamic-selector{position:absolute;top:".concat(rect.top + 2, "px;left:").concat(rect.left, "px;z-index:1100;}.width-match.__jsx-style-dynamic-selector{width:").concat(rect.width, "px;}.disable-match.__jsx-style-dynamic-selector{min-width:").concat(rect.width, "px;}")))), el);
-  });
-  var dropdown_default = Dropdown;
 
   // node_modules/@geist-ui/core/esm/loading/loading.js
   init_react();
@@ -4379,6 +4170,7 @@
     var colorType = color.substr(0, 4);
     var regArray = safeColor.match(/\((.+)\)/);
     if (!colorType.startsWith("rgb") || !regArray) {
+      console.log(color);
       throw new Error('Geist UI: Only support ["RGB", "RGBA", "HEX"] color.');
     }
     return regArray[1].split(",").map(function(str) {
@@ -5581,62 +5373,6 @@
   collapse_default.Group = collapse_group_default;
   var collapse_default2 = collapse_default;
 
-  // node_modules/@geist-ui/core/esm/divider/divider.js
-  init_react();
-  var _excluded20 = ["type", "align", "children", "className"];
-  var defaultProps19 = {
-    align: "center",
-    type: "default",
-    className: ""
-  };
-  var getColor = function getColor2(type4, palette3) {
-    var colors = {
-      "default": palette3.border,
-      lite: palette3.accents_1,
-      success: palette3.successLight,
-      warning: palette3.warningLight,
-      error: palette3.errorLight,
-      secondary: palette3.secondary,
-      dark: palette3.foreground
-    };
-    return colors[type4];
-  };
-  var DividerComponent = function DividerComponent2(_ref) {
-    var type4 = _ref.type, align = _ref.align, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded20);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var classes = use_classes_default2("divider", className);
-    var color = F2(function() {
-      return getColor(type4, theme.palette);
-    }, [type4, theme.palette]);
-    var alignClassName = F2(function() {
-      if (!align || align === "center")
-        return "";
-      if (align === "left" || align === "start")
-        return "start";
-      return "end";
-    }, [align]);
-    var alignClasses = use_classes_default2("text", alignClassName);
-    var textColor = type4 === "default" ? theme.palette.foreground : color;
-    return /* @__PURE__ */ Cn.createElement("div", _extends({
-      role: "separator"
-    }, props, {
-      className: styled_jsx_es_default.dynamic([["3410666717", [color, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(0.0625), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.background, textColor]]]) + " " + (props && props.className != null && props.className || classes || "")
-    }), children && /* @__PURE__ */ Cn.createElement("span", {
-      className: styled_jsx_es_default.dynamic([["3410666717", [color, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(0.0625), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.background, textColor]]]) + " " + (alignClasses || "")
-    }, children), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "3410666717",
-      dynamic: [color, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(0.0625), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.background, textColor]
-    }, ".divider.__jsx-style-dynamic-selector{max-width:100%;background-color:".concat(color, ";position:relative;font-size:").concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(0.0625), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0.5), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0.5), " ").concat(SCALES.ml(0), ";}.text.__jsx-style-dynamic-selector{position:absolute;left:50%;top:50%;min-height:100%;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);padding:0 0.75em;font-size:inherit;font-weight:bold;text-transform:capitalize;background-color:").concat(theme.palette.background, ";color:").concat(textColor, ";z-index:10;}.text.start.__jsx-style-dynamic-selector{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);left:7%;}.text.end.__jsx-style-dynamic-selector{-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);left:auto;right:7%;}")));
-  };
-  DividerComponent.defaultProps = defaultProps19;
-  DividerComponent.displayName = "GeistDivider";
-  var Divider = with_scale_default(DividerComponent);
-  var divider_default = Divider;
-
-  // node_modules/@geist-ui/core/esm/divider/index.js
-  var divider_default2 = divider_default;
-
   // node_modules/@geist-ui/core/esm/geist-provider/geist-provider.js
   init_react();
 
@@ -5963,142 +5699,6 @@
   // node_modules/@geist-ui/core/esm/geist-provider/index.js
   var geist_provider_default2 = geist_provider_default;
 
-  // node_modules/@geist-ui/core/esm/grid/grid.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/grid/basic-item.js
-  init_react();
-  var _excluded21 = ["xs", "sm", "md", "lg", "xl", "justify", "direction", "alignItems", "alignContent", "children", "className"];
-  var defaultProps20 = {
-    xs: false,
-    sm: false,
-    md: false,
-    lg: false,
-    xl: false,
-    className: ""
-  };
-  var getItemLayout = function getItemLayout2(val) {
-    var display = val === 0 ? "display: none;" : "display: inherit;";
-    if (typeof val === "number") {
-      var width = 100 / 24 * val;
-      var ratio = width > 100 ? "100%" : width < 0 ? "0" : "".concat(width, "%");
-      return {
-        grow: 0,
-        display,
-        width: ratio,
-        basis: ratio
-      };
-    }
-    return {
-      grow: 1,
-      display,
-      width: "100%",
-      basis: "0"
-    };
-  };
-  var GridBasicItem = function GridBasicItem2(_ref) {
-    var xs = _ref.xs, sm = _ref.sm, md = _ref.md, lg = _ref.lg, xl = _ref.xl, justify = _ref.justify, direction = _ref.direction, alignItems = _ref.alignItems, alignContent = _ref.alignContent, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded21);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var classes = F2(function() {
-      var aligns = {
-        justify,
-        direction,
-        alignItems,
-        alignContent,
-        xs,
-        sm,
-        md,
-        lg,
-        xl
-      };
-      var classString = Object.keys(aligns).reduce(function(pre, name) {
-        if (aligns[name] !== void 0 && aligns[name] !== false)
-          return "".concat(pre, " ").concat(name);
-        return pre;
-      }, "");
-      return classString.trim();
-    }, [justify, direction, alignItems, alignContent, xs, sm, md, lg, xl]);
-    var layout3 = F2(function() {
-      return {
-        xs: getItemLayout(xs),
-        sm: getItemLayout(sm),
-        md: getItemLayout(md),
-        lg: getItemLayout(lg),
-        xl: getItemLayout(xl)
-      };
-    }, [xs, sm, md, lg, xl]);
-    return /* @__PURE__ */ Cn.createElement("div", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["568430467", [SCALES.font(1, "inherit"), SCALES.height(1, "auto"), justify, direction, alignContent, alignItems, layout3.xs.grow, layout3.xs.width, layout3.xs.basis, layout3.xs.display, theme.breakpoints.sm.min, layout3.sm.grow, layout3.sm.width, layout3.sm.basis, layout3.sm.display, theme.breakpoints.md.min, layout3.md.grow, layout3.md.width, layout3.md.basis, layout3.md.display, theme.breakpoints.lg.min, layout3.lg.grow, layout3.lg.width, layout3.lg.basis, layout3.lg.display, theme.breakpoints.xl.min, layout3.xl.grow, layout3.xl.width, layout3.xl.basis, layout3.xl.display]]]) + " " + (props && props.className != null && props.className || use_classes_default2("item", classes, className) || "")
-    }), children, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "568430467",
-      dynamic: [SCALES.font(1, "inherit"), SCALES.height(1, "auto"), justify, direction, alignContent, alignItems, layout3.xs.grow, layout3.xs.width, layout3.xs.basis, layout3.xs.display, theme.breakpoints.sm.min, layout3.sm.grow, layout3.sm.width, layout3.sm.basis, layout3.sm.display, theme.breakpoints.md.min, layout3.md.grow, layout3.md.width, layout3.md.basis, layout3.md.display, theme.breakpoints.lg.min, layout3.lg.grow, layout3.lg.width, layout3.lg.basis, layout3.lg.display, theme.breakpoints.xl.min, layout3.xl.grow, layout3.xl.width, layout3.xl.basis, layout3.xl.display]
-    }, ".item.__jsx-style-dynamic-selector{font-size:".concat(SCALES.font(1, "inherit"), ";height:").concat(SCALES.height(1, "auto"), ";}.justify.__jsx-style-dynamic-selector{-webkit-box-pack:").concat(justify, ";-webkit-justify-content:").concat(justify, ";-ms-flex-pack:").concat(justify, ";justify-content:").concat(justify, ";}.direction.__jsx-style-dynamic-selector{-webkit-flex-direction:").concat(direction, ";-ms-flex-direction:").concat(direction, ";flex-direction:").concat(direction, ";}.alignContent.__jsx-style-dynamic-selector{-webkit-align-content:").concat(alignContent, ";-ms-flex-line-pack:").concat(alignContent, ";align-content:").concat(alignContent, ";}.alignItems.__jsx-style-dynamic-selector{-webkit-align-items:").concat(alignItems, ";-webkit-box-align:").concat(alignItems, ";-ms-flex-align:").concat(alignItems, ";align-items:").concat(alignItems, ";}.xs.__jsx-style-dynamic-selector{-webkit-box-flex:").concat(layout3.xs.grow, ";-webkit-flex-grow:").concat(layout3.xs.grow, ";-ms-flex-positive:").concat(layout3.xs.grow, ";flex-grow:").concat(layout3.xs.grow, ";max-width:").concat(layout3.xs.width, ";-webkit-flex-basis:").concat(layout3.xs.basis, ";-ms-flex-preferred-size:").concat(layout3.xs.basis, ";flex-basis:").concat(layout3.xs.basis, ";").concat(layout3.xs.display, ";}@media only screen and (min-width:").concat(theme.breakpoints.sm.min, "){.sm.__jsx-style-dynamic-selector{-webkit-box-flex:").concat(layout3.sm.grow, ";-webkit-flex-grow:").concat(layout3.sm.grow, ";-ms-flex-positive:").concat(layout3.sm.grow, ";flex-grow:").concat(layout3.sm.grow, ";max-width:").concat(layout3.sm.width, ";-webkit-flex-basis:").concat(layout3.sm.basis, ";-ms-flex-preferred-size:").concat(layout3.sm.basis, ";flex-basis:").concat(layout3.sm.basis, ";").concat(layout3.sm.display, ";}}@media only screen and (min-width:").concat(theme.breakpoints.md.min, "){.md.__jsx-style-dynamic-selector{-webkit-box-flex:").concat(layout3.md.grow, ";-webkit-flex-grow:").concat(layout3.md.grow, ";-ms-flex-positive:").concat(layout3.md.grow, ";flex-grow:").concat(layout3.md.grow, ";max-width:").concat(layout3.md.width, ";-webkit-flex-basis:").concat(layout3.md.basis, ";-ms-flex-preferred-size:").concat(layout3.md.basis, ";flex-basis:").concat(layout3.md.basis, ";").concat(layout3.md.display, ";}}@media only screen and (min-width:").concat(theme.breakpoints.lg.min, "){.lg.__jsx-style-dynamic-selector{-webkit-box-flex:").concat(layout3.lg.grow, ";-webkit-flex-grow:").concat(layout3.lg.grow, ";-ms-flex-positive:").concat(layout3.lg.grow, ";flex-grow:").concat(layout3.lg.grow, ";max-width:").concat(layout3.lg.width, ";-webkit-flex-basis:").concat(layout3.lg.basis, ";-ms-flex-preferred-size:").concat(layout3.lg.basis, ";flex-basis:").concat(layout3.lg.basis, ";").concat(layout3.lg.display, ";}}@media only screen and (min-width:").concat(theme.breakpoints.xl.min, "){.xl.__jsx-style-dynamic-selector{-webkit-box-flex:").concat(layout3.xl.grow, ";-webkit-flex-grow:").concat(layout3.xl.grow, ";-ms-flex-positive:").concat(layout3.xl.grow, ";flex-grow:").concat(layout3.xl.grow, ";max-width:").concat(layout3.xl.width, ";-webkit-flex-basis:").concat(layout3.xl.basis, ";-ms-flex-preferred-size:").concat(layout3.xl.basis, ";flex-basis:").concat(layout3.xl.basis, ";").concat(layout3.xl.display, ";}}")));
-  };
-  GridBasicItem.defaultProps = defaultProps20;
-  GridBasicItem.displayName = "GeistGridBasicItem";
-  var basic_item_default = GridBasicItem;
-
-  // node_modules/@geist-ui/core/esm/grid/grid.js
-  var _excluded22 = ["children", "className"];
-  var defaultProps21 = {
-    className: ""
-  };
-  var GridComponent = function GridComponent2(_ref) {
-    var children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded22);
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var _styles$className = {
-      styles: /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-        id: "1271839607",
-        dynamic: [SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0, "var(--grid-gap-unit)"), SCALES.pr(0, "var(--grid-gap-unit)"), SCALES.pb(0, "var(--grid-gap-unit)"), SCALES.pl(0, "var(--grid-gap-unit)")]
-      }, "div.__jsx-style-dynamic-selector{margin:".concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";box-sizing:border-box;padding:").concat(SCALES.pt(0, "var(--grid-gap-unit)"), " ").concat(SCALES.pr(0, "var(--grid-gap-unit)"), " ").concat(SCALES.pb(0, "var(--grid-gap-unit)"), " ").concat(SCALES.pl(0, "var(--grid-gap-unit)"), ";}")),
-      className: styled_jsx_es_default.dynamic([["1271839607", [SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0, "var(--grid-gap-unit)"), SCALES.pr(0, "var(--grid-gap-unit)"), SCALES.pb(0, "var(--grid-gap-unit)"), SCALES.pl(0, "var(--grid-gap-unit)")]]])
-    }, resolveClassName = _styles$className.className, styles = _styles$className.styles;
-    var classes = use_classes_default2(resolveClassName, className);
-    return /* @__PURE__ */ Cn.createElement(basic_item_default, _extends({
-      className: classes
-    }, props), children, styles);
-  };
-  GridComponent.defaultProps = defaultProps21;
-  GridComponent.displayName = "GeistGrid";
-  var Grid = with_scale_default(GridComponent);
-  var grid_default = Grid;
-
-  // node_modules/@geist-ui/core/esm/grid/grid-container.js
-  init_react();
-  var _excluded23 = ["gap", "wrap", "children", "className"];
-  var defaultProps22 = {
-    gap: 0,
-    wrap: "wrap",
-    className: ""
-  };
-  var GridContainerComponent = function GridContainerComponent2(_ref) {
-    var gap = _ref.gap, wrap = _ref.wrap, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded23);
-    var _useScale = use_scale_default(), unit = _useScale.unit, SCALES = _useScale.SCALES;
-    var gapUnit = F2(function() {
-      return "calc(".concat(gap, " * ").concat(unit, " * 1/3)");
-    }, [gap, unit]);
-    var _styles$className = {
-      styles: /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-        id: "3631618093",
-        dynamic: [gapUnit, wrap, SCALES.width(1, "var(--grid-container-width)"), SCALES.mt(0, "var(--grid-container-margin)"), SCALES.mr(0, "var(--grid-container-margin)"), SCALES.mb(0, "var(--grid-container-margin)"), SCALES.ml(0, "var(--grid-container-margin)")]
-      }, "div.__jsx-style-dynamic-selector{--grid-gap-unit:".concat(gapUnit, ";--grid-container-margin:calc(-1 * var(--grid-gap-unit));--grid-container-width:calc(100% + var(--grid-gap-unit) * 2);display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:").concat(wrap, ";-ms-flex-wrap:").concat(wrap, ";flex-wrap:").concat(wrap, ";box-sizing:border-box;width:").concat(SCALES.width(1, "var(--grid-container-width)"), ";margin:").concat(SCALES.mt(0, "var(--grid-container-margin)"), " ").concat(SCALES.mr(0, "var(--grid-container-margin)"), " ").concat(SCALES.mb(0, "var(--grid-container-margin)"), " ").concat(SCALES.ml(0, "var(--grid-container-margin)"), ";}")),
-      className: styled_jsx_es_default.dynamic([["3631618093", [gapUnit, wrap, SCALES.width(1, "var(--grid-container-width)"), SCALES.mt(0, "var(--grid-container-margin)"), SCALES.mr(0, "var(--grid-container-margin)"), SCALES.mb(0, "var(--grid-container-margin)"), SCALES.ml(0, "var(--grid-container-margin)")]]])
-    }, resolveClassName = _styles$className.className, styles = _styles$className.styles;
-    var classes = use_classes_default2(resolveClassName, className);
-    return /* @__PURE__ */ Cn.createElement(basic_item_default, _extends({
-      className: classes
-    }, props), children, styles);
-  };
-  GridContainerComponent.defaultProps = defaultProps22;
-  GridContainerComponent.displayName = "GeistGridContainer";
-  var GridContainer = with_scale_default(GridContainerComponent);
-  var grid_container_default = GridContainer;
-
-  // node_modules/@geist-ui/core/esm/grid/index.js
-  grid_default.Container = grid_container_default;
-  var grid_default2 = grid_default;
-
   // node_modules/@geist-ui/core/esm/radio/radio.js
   init_react();
 
@@ -6115,12 +5715,12 @@
 
   // node_modules/@geist-ui/core/esm/radio/radio-description.js
   init_react();
-  var _excluded24 = ["className", "children"];
-  var defaultProps23 = {
+  var _excluded20 = ["className", "children"];
+  var defaultProps19 = {
     className: ""
   };
   var RadioDescriptionComponent = function RadioDescriptionComponent2(_ref) {
-    var className = _ref.className, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded24);
+    var className = _ref.className, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded20);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     return /* @__PURE__ */ Cn.createElement("span", _extends({}, props, {
@@ -6130,7 +5730,7 @@
       dynamic: [theme.palette.accents_3, SCALES.font(0.85, "calc(var(--radio-size) * 0.85)"), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0, "calc(var(--radio-size) + var(--radio-size) * 0.375)")]
     }, "span.__jsx-style-dynamic-selector{color:".concat(theme.palette.accents_3, ";font-size:").concat(SCALES.font(0.85, "calc(var(--radio-size) * 0.85)"), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0, "calc(var(--radio-size) + var(--radio-size) * 0.375)"), ";}")));
   };
-  RadioDescriptionComponent.defaultProps = defaultProps23;
+  RadioDescriptionComponent.defaultProps = defaultProps19;
   RadioDescriptionComponent.displayName = "GeistRadioDescription";
   var RadioDescription = with_scale_default(RadioDescriptionComponent);
   var radio_description_default = RadioDescription;
@@ -6170,14 +5770,14 @@
   };
 
   // node_modules/@geist-ui/core/esm/radio/radio.js
-  var _excluded25 = ["className", "checked", "onChange", "disabled", "type", "value", "children"];
-  var defaultProps24 = {
+  var _excluded21 = ["className", "checked", "onChange", "disabled", "type", "value", "children"];
+  var defaultProps20 = {
     type: "default",
     disabled: false,
     className: ""
   };
   var RadioComponent = function RadioComponent2(_ref) {
-    var className = _ref.className, checked = _ref.checked, onChange = _ref.onChange, disabled = _ref.disabled, type4 = _ref.type, radioValue = _ref.value, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded25);
+    var className = _ref.className, checked = _ref.checked, onChange = _ref.onChange, disabled = _ref.disabled, type4 = _ref.type, radioValue = _ref.value, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded21);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var _useState = h2(!!checked), _useState2 = _slicedToArray(_useState, 2), selfChecked = _useState2[0], setSelfChecked = _useState2[1];
@@ -6244,21 +5844,21 @@
       dynamic: [SCALES.font(1), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), isDisabled ? theme.palette.accents_4 : label, isDisabled ? "not-allowed" : "pointer", border, isDisabled ? theme.palette.accents_4 : bg]
     }, "input.__jsx-style-dynamic-selector{opacity:0;visibility:hidden;overflow:hidden;width:1px;height:1px;top:-1000px;right:-1000px;position:fixed;font-size:0;}.radio.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;position:relative;--radio-size:".concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "initial"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}label.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:start;-webkit-justify-content:flex-start;-ms-flex-pack:start;justify-content:flex-start;color:").concat(isDisabled ? theme.palette.accents_4 : label, ";cursor:").concat(isDisabled ? "not-allowed" : "pointer", ";}.name.__jsx-style-dynamic-selector{font-size:var(--radio-size);font-weight:bold;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}.point.__jsx-style-dynamic-selector{height:var(--radio-size);width:var(--radio-size);border-radius:50%;border:1px solid ").concat(border, ";-webkit-transition:all 0.2s ease 0s;transition:all 0.2s ease 0s;position:relative;display:inline-block;-webkit-transform:scale(0.875);-ms-transform:scale(0.875);transform:scale(0.875);margin-right:calc(var(--radio-size) * 0.375);}.point.__jsx-style-dynamic-selector:before{content:'';position:absolute;left:-1px;top:-1px;-webkit-transform:scale(0);-ms-transform:scale(0);transform:scale(0);height:var(--radio-size);width:var(--radio-size);border-radius:50%;background-color:").concat(isDisabled ? theme.palette.accents_4 : bg, ";}.active.__jsx-style-dynamic-selector:before{-webkit-transform:scale(0.875);-ms-transform:scale(0.875);transform:scale(0.875);-webkit-transition:all 0.2s ease 0s;transition:all 0.2s ease 0s;}")));
   };
-  RadioComponent.defaultProps = defaultProps24;
+  RadioComponent.defaultProps = defaultProps20;
   RadioComponent.displayName = "GeistRadio";
   var Radio = with_scale_default(RadioComponent);
   var radio_default = Radio;
 
   // node_modules/@geist-ui/core/esm/radio/radio-group.js
   init_react();
-  var _excluded26 = ["disabled", "onChange", "value", "children", "className", "initialValue", "useRow"];
-  var defaultProps25 = {
+  var _excluded22 = ["disabled", "onChange", "value", "children", "className", "initialValue", "useRow"];
+  var defaultProps21 = {
     disabled: false,
     className: "",
     useRow: false
   };
   var RadioGroupComponent = function RadioGroupComponent2(_ref) {
-    var disabled = _ref.disabled, onChange = _ref.onChange, value = _ref.value, children = _ref.children, className = _ref.className, initialValue = _ref.initialValue, useRow = _ref.useRow, props = _objectWithoutProperties(_ref, _excluded26);
+    var disabled = _ref.disabled, onChange = _ref.onChange, value = _ref.value, children = _ref.children, className = _ref.className, initialValue = _ref.initialValue, useRow = _ref.useRow, props = _objectWithoutProperties(_ref, _excluded22);
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var _useState = h2(initialValue), _useState2 = _slicedToArray(_useState, 2), selfVal = _useState2[0], setSelfVal = _useState2[1];
     var updateState = function updateState2(nextValue) {
@@ -6287,7 +5887,7 @@
       dynamic: [useRow ? "col" : "column", SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), useRow ? 0 : "var(--radio-group-gap)", useRow ? "var(--radio-group-gap)" : 0, SCALES.font(1)]
     }, ".radio-group.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:".concat(useRow ? "col" : "column", ";-ms-flex-direction:").concat(useRow ? "col" : "column", ";flex-direction:").concat(useRow ? "col" : "column", ";--radio-group-gap:").concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.radio-group.__jsx-style-dynamic-selector .radio{margin-top:").concat(useRow ? 0 : "var(--radio-group-gap)", ";margin-left:").concat(useRow ? "var(--radio-group-gap)" : 0, ";--radio-size:").concat(SCALES.font(1), ";}.radio-group.__jsx-style-dynamic-selector .radio:first-of-type{margin:0;}")));
   };
-  RadioGroupComponent.defaultProps = defaultProps25;
+  RadioGroupComponent.defaultProps = defaultProps21;
   RadioGroupComponent.displayName = "GeistRadioGroup";
   var RadioGroup = with_scale_default(RadioGroupComponent);
   var radio_group_default = RadioGroup;
@@ -6297,457 +5897,6 @@
   radio_default.Description = radio_description_default;
   radio_default.Desc = radio_description_default;
   var radio_default2 = radio_default;
-
-  // node_modules/@geist-ui/core/esm/select/select.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/select/select-icon.js
-  init_react();
-  var SelectIconComponent = function SelectIconComponent2() {
-    return /* @__PURE__ */ Cn.createElement("svg", {
-      viewBox: "0 0 24 24",
-      strokeWidth: "1",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      fill: "none",
-      shapeRendering: "geometricPrecision",
-      className: "jsx-2742933678"
-    }, /* @__PURE__ */ Cn.createElement("path", {
-      d: "M6 9l6 6 6-6",
-      className: "jsx-2742933678"
-    }), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2742933678"
-    }, "svg.jsx-2742933678{color:inherit;stroke:currentColor;-webkit-transition:all 200ms ease;transition:all 200ms ease;width:1.214em;height:1.214em;}"));
-  };
-  SelectIconComponent.displayName = "GeistSelectIcon";
-  var SelectIcon = /* @__PURE__ */ Cn.memo(SelectIconComponent);
-  var select_icon_default = SelectIcon;
-
-  // node_modules/@geist-ui/core/esm/select/select-dropdown.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/select/select-context.js
-  init_react();
-  var defaultContext5 = {
-    visible: false,
-    disableAll: false
-  };
-  var SelectContext = /* @__PURE__ */ Cn.createContext(defaultContext5);
-  var useSelectContext = function useSelectContext2() {
-    return Cn.useContext(SelectContext);
-  };
-
-  // node_modules/@geist-ui/core/esm/select/select-dropdown.js
-  var defaultProps26 = {
-    className: "",
-    dropdownStyle: {}
-  };
-  var SelectDropdown = /* @__PURE__ */ Cn.forwardRef(function(_ref, dropdownRef) {
-    var visible = _ref.visible, children = _ref.children, className = _ref.className, dropdownStyle = _ref.dropdownStyle, disableMatchWidth = _ref.disableMatchWidth, getPopupContainer = _ref.getPopupContainer;
-    var theme = use_theme_default();
-    var internalDropdownRef = _2(null);
-    var _useSelectContext = useSelectContext(), ref = _useSelectContext.ref;
-    var classes = use_classes_default2("select-dropdown", className);
-    A2(dropdownRef, function() {
-      return internalDropdownRef.current;
-    });
-    return /* @__PURE__ */ Cn.createElement(dropdown_default, {
-      parent: ref,
-      visible,
-      disableMatchWidth,
-      getPopupContainer
-    }, /* @__PURE__ */ Cn.createElement("div", {
-      ref: internalDropdownRef,
-      style: dropdownStyle,
-      className: styled_jsx_es_default.dynamic([["2782510679", [theme.layout.radius, theme.expressiveness.shadowLarge, theme.palette.background]]]) + " " + (classes || "")
-    }, children, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2782510679",
-      dynamic: [theme.layout.radius, theme.expressiveness.shadowLarge, theme.palette.background]
-    }, ".select-dropdown.__jsx-style-dynamic-selector{border-radius:".concat(theme.layout.radius, ";box-shadow:").concat(theme.expressiveness.shadowLarge, ";background-color:").concat(theme.palette.background, ";max-height:17em;overflow-y:auto;overflow-anchor:none;padding:0.38em 0;-webkit-scroll-behavior:smooth;-moz-scroll-behavior:smooth;-ms-scroll-behavior:smooth;scroll-behavior:smooth;}"))));
-  });
-  SelectDropdown.defaultProps = defaultProps26;
-  SelectDropdown.displayName = "GeistSelectDropdown";
-  var select_dropdown_default = SelectDropdown;
-
-  // node_modules/@geist-ui/core/esm/select/select-multiple-value.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/select/select-icon-clear.js
-  init_react();
-  var SelectIconClear = function SelectIconClear2(_ref) {
-    var onClick = _ref.onClick;
-    var theme = use_theme_default();
-    var clickHandler = function clickHandler2(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      event.nativeEvent.stopImmediatePropagation();
-      onClick && onClick(event);
-    };
-    return /* @__PURE__ */ Cn.createElement("div", {
-      onClick: clickHandler,
-      className: styled_jsx_es_default.dynamic([["1984024521", [theme.palette.accents_3, theme.palette.foreground]]]) + " clear-icon"
-    }, /* @__PURE__ */ Cn.createElement("svg", {
-      viewBox: "0 0 24 24",
-      stroke: "currentColor",
-      strokeWidth: "1.5",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      fill: "none",
-      shapeRendering: "geometricPrecision",
-      className: styled_jsx_es_default.dynamic([["1984024521", [theme.palette.accents_3, theme.palette.foreground]]])
-    }, /* @__PURE__ */ Cn.createElement("path", {
-      d: "M18 6L6 18",
-      className: styled_jsx_es_default.dynamic([["1984024521", [theme.palette.accents_3, theme.palette.foreground]]])
-    }), /* @__PURE__ */ Cn.createElement("path", {
-      d: "M6 6l12 12",
-      className: styled_jsx_es_default.dynamic([["1984024521", [theme.palette.accents_3, theme.palette.foreground]]])
-    })), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "1984024521",
-      dynamic: [theme.palette.accents_3, theme.palette.foreground]
-    }, ".clear-icon.__jsx-style-dynamic-selector{padding:0 0 0 0.5em;margin:0;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;height:100%;cursor:pointer;box-sizing:border-box;-webkit-transition:color 150ms ease 0s;transition:color 150ms ease 0s;color:".concat(theme.palette.accents_3, ";visibility:visible;opacity:1;}.clear-icon.__jsx-style-dynamic-selector:hover{color:").concat(theme.palette.foreground, ";}svg.__jsx-style-dynamic-selector{color:currentColor;width:1em;height:1em;}")));
-  };
-  var MemoSelectIconClear = /* @__PURE__ */ Cn.memo(SelectIconClear);
-  var select_icon_clear_default = MemoSelectIconClear;
-
-  // node_modules/@geist-ui/core/esm/select/select-multiple-value.js
-  var SelectMultipleValue = function SelectMultipleValue2(_ref) {
-    var disabled = _ref.disabled, onClear = _ref.onClear, children = _ref.children;
-    var theme = use_theme_default();
-    return /* @__PURE__ */ Cn.createElement(grid_default2, null, /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["3357578496", [theme.layout.radius, theme.palette.accents_2, disabled ? theme.palette.accents_4 : theme.palette.accents_6]]]) + " item"
-    }, children, !!onClear && /* @__PURE__ */ Cn.createElement(select_icon_clear_default, {
-      onClick: onClear
-    })), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "3357578496",
-      dynamic: [theme.layout.radius, theme.palette.accents_2, disabled ? theme.palette.accents_4 : theme.palette.accents_6]
-    }, ".item.__jsx-style-dynamic-selector{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;justify-items:center;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1;padding:0 0.5em;font-size:var(--select-font-size);height:calc(var(--select-font-size) * 2);border-radius:".concat(theme.layout.radius, ";background-color:").concat(theme.palette.accents_2, ";color:").concat(disabled ? theme.palette.accents_4 : theme.palette.accents_6, ";}.item.__jsx-style-dynamic-selector>div:not(.clear-icon),.item.__jsx-style-dynamic-selector>div:not(.clear-icon):hover{border-radius:0;background-color:transparent;padding:0;margin:0;color:inherit;}")));
-  };
-  SelectMultipleValue.displayName = "GeistSelectMultipleValue";
-  var select_multiple_value_default = SelectMultipleValue;
-
-  // node_modules/@geist-ui/core/esm/select/styles.js
-  var getColors7 = function getColors8(palette3, status) {
-    var colors = {
-      "default": {
-        border: palette3.border,
-        borderActive: palette3.foreground,
-        iconBorder: palette3.accents_5,
-        placeholderColor: palette3.accents_3
-      },
-      secondary: {
-        border: palette3.border,
-        borderActive: palette3.foreground,
-        iconBorder: palette3.accents_5,
-        placeholderColor: palette3.accents_3
-      },
-      success: {
-        border: palette3.successLight,
-        borderActive: palette3.successDark,
-        iconBorder: palette3.success,
-        placeholderColor: palette3.accents_3
-      },
-      warning: {
-        border: palette3.warningLight,
-        borderActive: palette3.warningDark,
-        iconBorder: palette3.warning,
-        placeholderColor: palette3.accents_3
-      },
-      error: {
-        border: palette3.errorLight,
-        borderActive: palette3.errorDark,
-        iconBorder: palette3.error,
-        placeholderColor: palette3.error
-      }
-    };
-    if (!status)
-      return colors["default"];
-    return colors[status];
-  };
-
-  // node_modules/@geist-ui/core/esm/select/select-input.js
-  init_react();
-  var SelectInput = /* @__PURE__ */ Cn.forwardRef(function(_ref, inputRef) {
-    var visible = _ref.visible, onBlur = _ref.onBlur, onFocus = _ref.onFocus;
-    var ref = _2(null);
-    A2(inputRef, function() {
-      return ref.current;
-    });
-    p2(function() {
-      if (visible) {
-        var _ref$current;
-        (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.focus();
-      }
-    }, [visible]);
-    return /* @__PURE__ */ Cn.createElement(Cn.Fragment, null, /* @__PURE__ */ Cn.createElement("input", {
-      ref,
-      type: "search",
-      role: "combobox",
-      "aria-haspopup": "listbox",
-      readOnly: true,
-      unselectable: "on",
-      "aria-expanded": visible,
-      onBlur,
-      onFocus,
-      className: "jsx-2813108835"
-    }), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2813108835"
-    }, "input.jsx-2813108835{position:fixed;top:-10000px;left:-10000px;opacity:0;z-index:-1;width:0;height:0;padding:0;font-size:0;border:none;}"));
-  });
-  SelectInput.displayName = "GeistSelectInput";
-  var select_input_default = SelectInput;
-
-  // node_modules/@geist-ui/core/esm/select/select.js
-  var _excluded27 = ["children", "type", "disabled", "initialValue", "value", "icon", "onChange", "pure", "multiple", "clearable", "placeholder", "className", "dropdownClassName", "dropdownStyle", "disableMatchWidth", "getPopupContainer", "onDropdownVisibleChange"];
-  var defaultProps27 = {
-    disabled: false,
-    type: "default",
-    icon: select_icon_default,
-    pure: false,
-    multiple: false,
-    clearable: true,
-    className: "",
-    disableMatchWidth: false,
-    onDropdownVisibleChange: function onDropdownVisibleChange() {
-    }
-  };
-  var SelectComponent = /* @__PURE__ */ Cn.forwardRef(function(_ref, selectRef) {
-    var children = _ref.children, type4 = _ref.type, disabled = _ref.disabled, init = _ref.initialValue, customValue = _ref.value, Icon2 = _ref.icon, onChange = _ref.onChange, pure = _ref.pure, multiple = _ref.multiple, clearable = _ref.clearable, placeholder = _ref.placeholder, className = _ref.className, dropdownClassName = _ref.dropdownClassName, dropdownStyle = _ref.dropdownStyle, disableMatchWidth = _ref.disableMatchWidth, getPopupContainer = _ref.getPopupContainer, onDropdownVisibleChange2 = _ref.onDropdownVisibleChange, props = _objectWithoutProperties(_ref, _excluded27);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var ref = _2(null);
-    var inputRef = _2(null);
-    var dropdownRef = _2(null);
-    var _useState = h2(false), _useState2 = _slicedToArray(_useState, 2), visible = _useState2[0], setVisible = _useState2[1];
-    var _useState3 = h2(false), _useState4 = _slicedToArray(_useState3, 2), selectFocus = _useState4[0], setSelectFocus = _useState4[1];
-    var _useCurrentState = use_current_state_default3(function() {
-      if (!multiple)
-        return init;
-      if (Array.isArray(init))
-        return init;
-      return typeof init === "undefined" ? [] : [init];
-    }), _useCurrentState2 = _slicedToArray(_useCurrentState, 3), value = _useCurrentState2[0], setValue = _useCurrentState2[1], valueRef = _useCurrentState2[2];
-    var isEmpty = F2(function() {
-      if (!Array.isArray(value))
-        return !value;
-      return value.length === 0;
-    }, [value]);
-    var _useMemo = F2(function() {
-      return getColors7(theme.palette, type4);
-    }, [theme.palette, type4]), border = _useMemo.border, borderActive = _useMemo.borderActive, iconBorder = _useMemo.iconBorder, placeholderColor = _useMemo.placeholderColor;
-    var updateVisible = function updateVisible2(next2) {
-      onDropdownVisibleChange2(next2);
-      setVisible(next2);
-    };
-    var updateValue = function updateValue2(next2) {
-      setValue(function(last) {
-        if (!Array.isArray(last))
-          return next2;
-        if (!last.includes(next2))
-          return [].concat(_toConsumableArray(last), [next2]);
-        return last.filter(function(item) {
-          return item !== next2;
-        });
-      });
-      onChange && onChange(valueRef.current);
-      if (!multiple) {
-        updateVisible(false);
-      }
-    };
-    var initialValue = F2(function() {
-      return {
-        value,
-        visible,
-        updateValue,
-        updateVisible,
-        ref,
-        disableAll: disabled
-      };
-    }, [visible, disabled, ref, value, multiple]);
-    var clickHandler = function clickHandler2(event) {
-      event.stopPropagation();
-      event.nativeEvent.stopImmediatePropagation();
-      event.preventDefault();
-      if (disabled)
-        return;
-      updateVisible(!visible);
-      event.preventDefault();
-    };
-    var mouseDownHandler = function mouseDownHandler2(event) {
-      if (visible) {
-        event.preventDefault();
-      }
-    };
-    p2(function() {
-      if (customValue === void 0)
-        return;
-      setValue(customValue);
-    }, [customValue]);
-    A2(selectRef, function() {
-      return {
-        focus: function focus() {
-          var _inputRef$current;
-          return (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 ? void 0 : _inputRef$current.focus();
-        },
-        blur: function blur() {
-          var _inputRef$current2;
-          return (_inputRef$current2 = inputRef.current) === null || _inputRef$current2 === void 0 ? void 0 : _inputRef$current2.blur();
-        },
-        scrollTo: function scrollTo(options) {
-          var _dropdownRef$current;
-          return (_dropdownRef$current = dropdownRef.current) === null || _dropdownRef$current === void 0 ? void 0 : _dropdownRef$current.scrollTo(options);
-        }
-      };
-    }, [inputRef, dropdownRef]);
-    var selectedChild = F2(function() {
-      var _pickChildByProps = pickChildByProps(children, "value", value), _pickChildByProps2 = _slicedToArray(_pickChildByProps, 2), optionChildren = _pickChildByProps2[1];
-      return Cn.Children.map(optionChildren, function(child) {
-        if (!/* @__PURE__ */ Cn.isValidElement(child))
-          return null;
-        var el = /* @__PURE__ */ Cn.cloneElement(child, {
-          preventAllEvents: true
-        });
-        if (!multiple)
-          return el;
-        return /* @__PURE__ */ Cn.createElement(select_multiple_value_default, {
-          disabled,
-          onClear: clearable ? function() {
-            return updateValue(child.props.value);
-          } : null
-        }, el);
-      });
-    }, [value, children, multiple]);
-    var onInputBlur = function onInputBlur2() {
-      updateVisible(false);
-      setSelectFocus(false);
-    };
-    var classes = use_classes_default2("select", {
-      active: selectFocus || visible,
-      multiple
-    }, className);
-    return /* @__PURE__ */ Cn.createElement(SelectContext.Provider, {
-      value: initialValue
-    }, /* @__PURE__ */ Cn.createElement("div", _extends({
-      ref,
-      onClick: clickHandler,
-      onMouseDown: mouseDownHandler
-    }, props, {
-      className: styled_jsx_es_default.dynamic([["3282295248", [disabled ? "not-allowed" : "pointer", border, theme.layout.radius, disabled ? theme.palette.accents_1 : theme.palette.background, SCALES.font(0.875), SCALES.height(2.25), SCALES.width(1, "initial"), SCALES.pt(0), SCALES.pr(0.334), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0.334), SCALES.pr(0.334), SCALES.pb(0.334), SCALES.pl(0.667), disabled ? theme.palette.border : borderActive, disabled ? theme.palette.accents_5 : borderActive, disabled ? theme.palette.accents_4 : theme.palette.foreground, placeholderColor, theme.layout.gapQuarter, visible ? "180" : "0", iconBorder]]]) + " " + (props && props.className != null && props.className || classes || "")
-    }), /* @__PURE__ */ Cn.createElement(select_input_default, {
-      ref: inputRef,
-      visible,
-      onBlur: onInputBlur,
-      onFocus: function onFocus() {
-        return setSelectFocus(true);
-      }
-    }), isEmpty && /* @__PURE__ */ Cn.createElement("span", {
-      className: styled_jsx_es_default.dynamic([["3282295248", [disabled ? "not-allowed" : "pointer", border, theme.layout.radius, disabled ? theme.palette.accents_1 : theme.palette.background, SCALES.font(0.875), SCALES.height(2.25), SCALES.width(1, "initial"), SCALES.pt(0), SCALES.pr(0.334), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0.334), SCALES.pr(0.334), SCALES.pb(0.334), SCALES.pl(0.667), disabled ? theme.palette.border : borderActive, disabled ? theme.palette.accents_5 : borderActive, disabled ? theme.palette.accents_4 : theme.palette.foreground, placeholderColor, theme.layout.gapQuarter, visible ? "180" : "0", iconBorder]]]) + " value placeholder"
-    }, /* @__PURE__ */ Cn.createElement(ellipsis_default, {
-      height: "var(--select-height)"
-    }, placeholder)), value && !multiple && /* @__PURE__ */ Cn.createElement("span", {
-      className: styled_jsx_es_default.dynamic([["3282295248", [disabled ? "not-allowed" : "pointer", border, theme.layout.radius, disabled ? theme.palette.accents_1 : theme.palette.background, SCALES.font(0.875), SCALES.height(2.25), SCALES.width(1, "initial"), SCALES.pt(0), SCALES.pr(0.334), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0.334), SCALES.pr(0.334), SCALES.pb(0.334), SCALES.pl(0.667), disabled ? theme.palette.border : borderActive, disabled ? theme.palette.accents_5 : borderActive, disabled ? theme.palette.accents_4 : theme.palette.foreground, placeholderColor, theme.layout.gapQuarter, visible ? "180" : "0", iconBorder]]]) + " value"
-    }, selectedChild), value && multiple && /* @__PURE__ */ Cn.createElement(grid_default2.Container, {
-      gap: 0.5
-    }, selectedChild), /* @__PURE__ */ Cn.createElement(select_dropdown_default, {
-      ref: dropdownRef,
-      visible,
-      className: dropdownClassName,
-      dropdownStyle,
-      disableMatchWidth,
-      getPopupContainer
-    }, children), !pure && /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["3282295248", [disabled ? "not-allowed" : "pointer", border, theme.layout.radius, disabled ? theme.palette.accents_1 : theme.palette.background, SCALES.font(0.875), SCALES.height(2.25), SCALES.width(1, "initial"), SCALES.pt(0), SCALES.pr(0.334), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0.334), SCALES.pr(0.334), SCALES.pb(0.334), SCALES.pl(0.667), disabled ? theme.palette.border : borderActive, disabled ? theme.palette.accents_5 : borderActive, disabled ? theme.palette.accents_4 : theme.palette.foreground, placeholderColor, theme.layout.gapQuarter, visible ? "180" : "0", iconBorder]]]) + " icon"
-    }, /* @__PURE__ */ Cn.createElement(Icon2, {
-      className: styled_jsx_es_default.dynamic([["3282295248", [disabled ? "not-allowed" : "pointer", border, theme.layout.radius, disabled ? theme.palette.accents_1 : theme.palette.background, SCALES.font(0.875), SCALES.height(2.25), SCALES.width(1, "initial"), SCALES.pt(0), SCALES.pr(0.334), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0.334), SCALES.pr(0.334), SCALES.pb(0.334), SCALES.pl(0.667), disabled ? theme.palette.border : borderActive, disabled ? theme.palette.accents_5 : borderActive, disabled ? theme.palette.accents_4 : theme.palette.foreground, placeholderColor, theme.layout.gapQuarter, visible ? "180" : "0", iconBorder]]])
-    })), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "3282295248",
-      dynamic: [disabled ? "not-allowed" : "pointer", border, theme.layout.radius, disabled ? theme.palette.accents_1 : theme.palette.background, SCALES.font(0.875), SCALES.height(2.25), SCALES.width(1, "initial"), SCALES.pt(0), SCALES.pr(0.334), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), SCALES.pt(0.334), SCALES.pr(0.334), SCALES.pb(0.334), SCALES.pl(0.667), disabled ? theme.palette.border : borderActive, disabled ? theme.palette.accents_5 : borderActive, disabled ? theme.palette.accents_4 : theme.palette.foreground, placeholderColor, theme.layout.gapQuarter, visible ? "180" : "0", iconBorder]
-    }, ".select.__jsx-style-dynamic-selector{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap;position:relative;cursor:".concat(disabled ? "not-allowed" : "pointer", ";max-width:90vw;overflow:hidden;-webkit-transition:border 150ms ease-in 0s,color 200ms ease-out 0s, box-shadow 200ms ease 0s;transition:border 150ms ease-in 0s,color 200ms ease-out 0s, box-shadow 200ms ease 0s;border:1px solid ").concat(border, ";border-radius:").concat(theme.layout.radius, ";background-color:").concat(disabled ? theme.palette.accents_1 : theme.palette.background, ";--select-font-size:").concat(SCALES.font(0.875), ";--select-height:").concat(SCALES.height(2.25), ";min-width:11.5em;width:").concat(SCALES.width(1, "initial"), ";height:var(--select-height);padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0.334), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0.667), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.multiple.__jsx-style-dynamic-selector{height:auto;min-height:var(--select-height);padding:").concat(SCALES.pt(0.334), " ").concat(SCALES.pr(0.334), " ").concat(SCALES.pb(0.334), " ").concat(SCALES.pl(0.667), ";}.select.active.__jsx-style-dynamic-selector,.select.__jsx-style-dynamic-selector:hover{border-color:").concat(disabled ? theme.palette.border : borderActive, ";}.select.active.icon.__jsx-style-dynamic-selector,.select.__jsx-style-dynamic-selector:hover .icon.__jsx-style-dynamic-selector{color:").concat(disabled ? theme.palette.accents_5 : borderActive, ";}.value.__jsx-style-dynamic-selector{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-flex:1;-ms-flex:1;flex:1;height:100%;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;line-height:1;padding:0;margin-right:1.25em;font-size:var(--select-font-size);color:").concat(disabled ? theme.palette.accents_4 : theme.palette.foreground, ";width:calc(100% - 1.25em);}.value.__jsx-style-dynamic-selector>div,.value.__jsx-style-dynamic-selector>div:hover{border-radius:0;background-color:transparent;padding:0;margin:0;color:inherit;}.placeholder.__jsx-style-dynamic-selector{color:").concat(placeholderColor, ";}.icon.__jsx-style-dynamic-selector{position:absolute;right:").concat(theme.layout.gapQuarter, ";font-size:var(--select-font-size);top:50%;bottom:0;-webkit-transform:translateY(-50%) rotate(").concat(visible ? "180" : "0", "deg);-ms-transform:translateY(-50%) rotate(").concat(visible ? "180" : "0", "deg);transform:translateY(-50%) rotate(").concat(visible ? "180" : "0", "deg);pointer-events:none;-webkit-transition:-webkit-transform 200ms ease;-webkit-transition:transform 200ms ease;transition:transform 200ms ease;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:").concat(iconBorder, ";}"))));
-  });
-  SelectComponent.defaultProps = defaultProps27;
-  SelectComponent.displayName = "GeistSelect";
-  var Select = with_scale_default(SelectComponent);
-  var select_default = Select;
-
-  // node_modules/@geist-ui/core/esm/select/select-option.js
-  init_react();
-  var _excluded28 = ["value", "className", "children", "disabled", "divider", "label", "preventAllEvents"];
-  var defaultProps28 = {
-    disabled: false,
-    divider: false,
-    label: false,
-    className: "",
-    preventAllEvents: false
-  };
-  var SelectOptionComponent = function SelectOptionComponent2(_ref) {
-    var identValue = _ref.value, className = _ref.className, children = _ref.children, disabled = _ref.disabled, divider = _ref.divider, label = _ref.label, preventAllEvents = _ref.preventAllEvents, props = _objectWithoutProperties(_ref, _excluded28);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var _useSelectContext = useSelectContext(), updateValue = _useSelectContext.updateValue, value = _useSelectContext.value, disableAll = _useSelectContext.disableAll;
-    var isDisabled = F2(function() {
-      return disabled || disableAll;
-    }, [disabled, disableAll]);
-    var isLabel = F2(function() {
-      return label || divider;
-    }, [label, divider]);
-    var classes = use_classes_default2("option", {
-      divider,
-      label
-    }, className);
-    if (!isLabel && identValue === void 0) {
-      use_warning_default('The props "value" is required.', "Select Option");
-    }
-    var selected = F2(function() {
-      if (!value)
-        return false;
-      if (typeof value === "string") {
-        return identValue === value;
-      }
-      return value.includes("".concat(identValue));
-    }, [identValue, value]);
-    var bgColor = F2(function() {
-      if (isDisabled)
-        return theme.palette.accents_1;
-      return selected ? theme.palette.accents_2 : theme.palette.background;
-    }, [selected, isDisabled, theme.palette]);
-    var hoverBgColor = F2(function() {
-      if (isDisabled || isLabel || selected)
-        return bgColor;
-      return theme.palette.accents_1;
-    }, [selected, isDisabled, theme.palette, isLabel, bgColor]);
-    var color = F2(function() {
-      if (isDisabled)
-        return theme.palette.accents_4;
-      return selected ? theme.palette.foreground : theme.palette.accents_5;
-    }, [selected, isDisabled, theme.palette]);
-    var clickHandler = function clickHandler2(event) {
-      if (preventAllEvents)
-        return;
-      event.stopPropagation();
-      event.nativeEvent.stopImmediatePropagation();
-      event.preventDefault();
-      if (isDisabled || isLabel)
-        return;
-      updateValue && updateValue(identValue);
-    };
-    return /* @__PURE__ */ Cn.createElement("div", _extends({
-      onClick: clickHandler
-    }, props, {
-      className: styled_jsx_es_default.dynamic([["199367556", [bgColor, color, isDisabled ? "not-allowed" : "pointer", SCALES.font(0.75), SCALES.width(1, "100%"), SCALES.height(2.25), SCALES.pt(0), SCALES.pr(0.667), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), hoverBgColor, theme.palette.accents_7, theme.palette.border, SCALES.width(1, "100%"), SCALES.height(1, 0), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.accents_7, theme.palette.border, SCALES.font(0.875), SCALES.width(1, "100%")]]]) + " " + (props && props.className != null && props.className || classes || "")
-    }), /* @__PURE__ */ Cn.createElement(ellipsis_default, {
-      height: SCALES.height(2.25)
-    }, children), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "199367556",
-      dynamic: [bgColor, color, isDisabled ? "not-allowed" : "pointer", SCALES.font(0.75), SCALES.width(1, "100%"), SCALES.height(2.25), SCALES.pt(0), SCALES.pr(0.667), SCALES.pb(0), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), hoverBgColor, theme.palette.accents_7, theme.palette.border, SCALES.width(1, "100%"), SCALES.height(1, 0), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0.5), SCALES.mr(0), SCALES.mb(0.5), SCALES.ml(0), theme.palette.accents_7, theme.palette.border, SCALES.font(0.875), SCALES.width(1, "100%")]
-    }, ".option.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;max-width:100%;box-sizing:border-box;-webkit-box-pack:start;-webkit-justify-content:flex-start;-ms-flex-pack:start;justify-content:flex-start;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-weight:normal;background-color:".concat(bgColor, ";color:").concat(color, ";-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:0;cursor:").concat(isDisabled ? "not-allowed" : "pointer", ";-webkit-transition:background 0.2s ease 0s,border-color 0.2s ease 0s;transition:background 0.2s ease 0s,border-color 0.2s ease 0s;--select-font-size:").concat(SCALES.font(0.75), ";font-size:var(--select-font-size);width:").concat(SCALES.width(1, "100%"), ";height:").concat(SCALES.height(2.25), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0.667), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0.667), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.option.__jsx-style-dynamic-selector:hover{background-color:").concat(hoverBgColor, ";color:").concat(theme.palette.accents_7, ";}.divider.__jsx-style-dynamic-selector{line-height:0;overflow:hidden;border-top:1px solid ").concat(theme.palette.border, ";width:").concat(SCALES.width(1, "100%"), ";height:").concat(SCALES.height(1, 0), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0.5), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0.5), " ").concat(SCALES.ml(0), ";}.label.__jsx-style-dynamic-selector{color:").concat(theme.palette.accents_7, ";border-bottom:1px solid ").concat(theme.palette.border, ";text-transform:capitalize;cursor:default;font-size:").concat(SCALES.font(0.875), ";width:").concat(SCALES.width(1, "100%"), ";font-weight:500;}")));
-  };
-  SelectOptionComponent.defaultProps = defaultProps28;
-  SelectOptionComponent.displayName = "GeistSelectOption";
-  var SelectOption = with_scale_default(SelectOptionComponent);
-  var select_option_default = SelectOption;
-
-  // node_modules/@geist-ui/core/esm/select/index.js
-  select_default.Option = select_option_default;
-  var select_default2 = select_default;
 
   // node_modules/@geist-ui/core/esm/snippet/snippet.js
   init_react();
@@ -6985,8 +6134,8 @@
   var use_toasts_default = use_toast_default;
 
   // node_modules/@geist-ui/core/esm/snippet/snippet.js
-  var _excluded29 = ["type", "filled", "children", "symbol", "toastText", "toastType", "text", "copy", "className"];
-  var defaultProps29 = {
+  var _excluded23 = ["type", "filled", "children", "symbol", "toastText", "toastType", "text", "copy", "className"];
+  var defaultProps22 = {
     filled: false,
     symbol: "$",
     toastText: "Copied to clipboard!",
@@ -7003,7 +6152,7 @@
     }, "");
   };
   var SnippetComponent = function SnippetComponent2(_ref) {
-    var type4 = _ref.type, filled = _ref.filled, children = _ref.children, symbol = _ref.symbol, toastText = _ref.toastText, toastType = _ref.toastType, text = _ref.text, copyType = _ref.copy, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded29);
+    var type4 = _ref.type, filled = _ref.filled, children = _ref.children, symbol = _ref.symbol, toastText = _ref.toastText, toastType = _ref.toastType, text = _ref.text, copyType = _ref.copy, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded23);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var _useClipboard = use_clipboard_default3(), copy = _useClipboard.copy;
@@ -7058,7 +6207,7 @@
       dynamic: [style3.color, style3.bgColor, style3.border, theme.layout.radius, SCALES.font(0.8125), SCALES.pt(0.667), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(2.667), SCALES.pb(0.667), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), style3.color, symbolBefore, style3.bgColor, isMultiLine ? "flex-start" : "center", theme.layout.radius, isMultiLine ? "var(--snippet-padding-top)" : 0]
     }, ".snippet.__jsx-style-dynamic-selector{position:relative;max-width:100%;color:".concat(style3.color, ";background-color:").concat(style3.bgColor, ";border:1px solid ").concat(style3.border, ";border-radius:").concat(theme.layout.radius, ";--snippet-font-size:").concat(SCALES.font(0.8125), ";--snippet-padding-top:").concat(SCALES.pt(0.667), ";font-size:var(--snippet-font-size);width:").concat(SCALES.width(1, "initial"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0.667), " ").concat(SCALES.pr(2.667), " ").concat(SCALES.pb(0.667), " ").concat(SCALES.pl(0.667), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}pre.__jsx-style-dynamic-selector{margin:0;padding:0;border:none;background-color:transparent;color:").concat(style3.color, ";font-size:inherit;}pre.__jsx-style-dynamic-selector::before{content:'").concat(symbolBefore, "';-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}pre.__jsx-style-dynamic-selector *{margin:0;padding:0;font-size:inherit;color:inherit;}.copy.__jsx-style-dynamic-selector{position:absolute;right:0;top:0;bottom:0;height:calc(100% - 2px);background-color:").concat(style3.bgColor, ";display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-align-items:").concat(isMultiLine ? "flex-start" : "center", ";-webkit-box-align:").concat(isMultiLine ? "flex-start" : "center", ";-ms-flex-align:").concat(isMultiLine ? "flex-start" : "center", ";align-items:").concat(isMultiLine ? "flex-start" : "center", ";width:calc(3.281 * var(--snippet-font-size));color:inherit;-webkit-transition:opacity 150ms ease 0s;transition:opacity 150ms ease 0s;border-radius:").concat(theme.layout.radius, ";cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding-top:").concat(isMultiLine ? "var(--snippet-padding-top)" : 0, ";opacity:0.65;}.copy.__jsx-style-dynamic-selector:hover{opacity:1;}")));
   };
-  SnippetComponent.defaultProps = defaultProps29;
+  SnippetComponent.defaultProps = defaultProps22;
   SnippetComponent.displayName = "GeistSnippet";
   var Snippet = with_scale_default(SnippetComponent);
   var snippet_default = Snippet;
@@ -7066,35 +6215,10 @@
   // node_modules/@geist-ui/core/esm/snippet/index.js
   var snippet_default2 = snippet_default;
 
-  // node_modules/@geist-ui/core/esm/spacer/spacer.js
-  init_react();
-  var _excluded30 = ["inline", "className"];
-  var defaultProps30 = {
-    inline: false,
-    className: ""
-  };
-  var SpacerComponent = function SpacerComponent2(_ref) {
-    var inline2 = _ref.inline, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded30);
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    return /* @__PURE__ */ Cn.createElement("span", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["1994396435", [inline2 ? "inline-block" : "block", SCALES.width(1), SCALES.height(1), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]]]) + " " + (props && props.className != null && props.className || className || "")
-    }), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "1994396435",
-      dynamic: [inline2 ? "inline-block" : "block", SCALES.width(1), SCALES.height(1), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]
-    }, "span.__jsx-style-dynamic-selector{display:".concat(inline2 ? "inline-block" : "block", ";width:").concat(SCALES.width(1), ";height:").concat(SCALES.height(1), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}")));
-  };
-  SpacerComponent.defaultProps = defaultProps30;
-  SpacerComponent.displayName = "GeistSpacer";
-  var Spacer = with_scale_default(SpacerComponent);
-  var spacer_default = Spacer;
-
-  // node_modules/@geist-ui/core/esm/spacer/index.js
-  var spacer_default2 = spacer_default;
-
   // node_modules/@geist-ui/core/esm/spinner/spinner.js
   init_react();
-  var _excluded31 = ["className"];
-  var defaultProps31 = {
+  var _excluded24 = ["className"];
+  var defaultProps23 = {
     className: ""
   };
   var getSpans = function getSpans2(theme) {
@@ -7109,7 +6233,7 @@
     });
   };
   var SpinnerComponent = function SpinnerComponent2(_ref) {
-    var className = _ref.className, props = _objectWithoutProperties(_ref, _excluded31);
+    var className = _ref.className, props = _objectWithoutProperties(_ref, _excluded24);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var classes = use_classes_default2("spinner", className);
@@ -7122,7 +6246,7 @@
       dynamic: [SCALES.width(1.25), SCALES.height(1.25), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]
     }, ".spinner.__jsx-style-dynamic-selector{display:block;box-sizing:border-box;width:".concat(SCALES.width(1.25), ";height:").concat(SCALES.height(1.25), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.container.__jsx-style-dynamic-selector{width:100%;height:100%;position:relative;left:50%;top:50%;}")));
   };
-  SpinnerComponent.defaultProps = defaultProps31;
+  SpinnerComponent.defaultProps = defaultProps23;
   SpinnerComponent.displayName = "GeistSpinner";
   var Spinner = with_scale_default(SpinnerComponent);
   var spinner_default = Spinner;
@@ -7171,8 +6295,8 @@
 
   // node_modules/@geist-ui/core/esm/text/child.js
   init_react();
-  var _excluded32 = ["children", "tag", "className", "type"];
-  var defaultProps32 = {
+  var _excluded25 = ["children", "tag", "className", "type"];
+  var defaultProps24 = {
     type: "default",
     className: ""
   };
@@ -7187,7 +6311,7 @@
     return colors[type4] || colors["default"];
   };
   var TextChild = function TextChild2(_ref) {
-    var children = _ref.children, tag = _ref.tag, className = _ref.className, type4 = _ref.type, props = _objectWithoutProperties(_ref, _excluded32);
+    var children = _ref.children, tag = _ref.tag, className = _ref.className, type4 = _ref.type, props = _objectWithoutProperties(_ref, _excluded25);
     var Component = tag;
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES, getScaleProps2 = _useScale.getScaleProps;
@@ -7230,13 +6354,13 @@
       dynamic: [tag, color, SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.font(1, "inherit"), SCALES.ml(0, "revert"), SCALES.mr(0, "revert"), SCALES.mt(0, "revert"), SCALES.mb(0, "revert"), SCALES.pl(0, "revert"), SCALES.pr(0, "revert"), SCALES.pt(0, "revert"), SCALES.pb(0, "revert")]
     }, "".concat(tag, ".__jsx-style-dynamic-selector{color:").concat(color, ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";}.font.__jsx-style-dynamic-selector{font-size:").concat(SCALES.font(1, "inherit"), ";}.mx.__jsx-style-dynamic-selector{margin-left:").concat(SCALES.ml(0, "revert"), ";margin-right:").concat(SCALES.mr(0, "revert"), ";}.my.__jsx-style-dynamic-selector{margin-top:").concat(SCALES.mt(0, "revert"), ";margin-bottom:").concat(SCALES.mb(0, "revert"), ";}.px.__jsx-style-dynamic-selector{padding-left:").concat(SCALES.pl(0, "revert"), ";padding-right:").concat(SCALES.pr(0, "revert"), ";}.py.__jsx-style-dynamic-selector{padding-top:").concat(SCALES.pt(0, "revert"), ";padding-bottom:").concat(SCALES.pb(0, "revert"), ";}")));
   };
-  TextChild.defaultProps = defaultProps32;
+  TextChild.defaultProps = defaultProps24;
   TextChild.displayName = "GeistTextChild";
   var child_default = TextChild;
 
   // node_modules/@geist-ui/core/esm/text/text.js
-  var _excluded33 = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "b", "small", "i", "span", "del", "em", "blockquote", "children", "className"];
-  var defaultProps33 = {
+  var _excluded26 = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "b", "small", "i", "span", "del", "em", "blockquote", "children", "className"];
+  var defaultProps25 = {
     h1: false,
     h2: false,
     h3: false,
@@ -7263,7 +6387,7 @@
     }, getModifierChild2(nextTag, children));
   };
   var TextComponent = function TextComponent2(_ref) {
-    var h1 = _ref.h1, h22 = _ref.h2, h3 = _ref.h3, h4 = _ref.h4, h5 = _ref.h5, h6 = _ref.h6, p3 = _ref.p, b3 = _ref.b, small = _ref.small, i3 = _ref.i, span = _ref.span, del = _ref.del, em = _ref.em, blockquote = _ref.blockquote, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded33);
+    var h1 = _ref.h1, h22 = _ref.h2, h3 = _ref.h3, h4 = _ref.h4, h5 = _ref.h5, h6 = _ref.h6, p3 = _ref.p, b3 = _ref.b, small = _ref.small, i3 = _ref.i, span = _ref.span, del = _ref.del, em = _ref.em, blockquote = _ref.blockquote, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded26);
     var elements = {
       h1,
       h2: h22,
@@ -7308,104 +6432,13 @@
       tag
     }, props), modifers);
   };
-  TextComponent.defaultProps = defaultProps33;
+  TextComponent.defaultProps = defaultProps25;
   TextComponent.displayName = "GeistText";
   var Text = with_scale_default(TextComponent);
   var text_default = Text;
 
   // node_modules/@geist-ui/core/esm/text/index.js
   var text_default2 = text_default;
-
-  // node_modules/@geist-ui/core/esm/toggle/toggle.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/toggle/styles.js
-  var getColors9 = function getColors10(palette3, status) {
-    var colors = {
-      "default": {
-        bg: palette3.success
-      },
-      secondary: {
-        bg: palette3.secondary
-      },
-      success: {
-        bg: palette3.success
-      },
-      warning: {
-        bg: palette3.warning
-      },
-      error: {
-        bg: palette3.error
-      }
-    };
-    if (!status)
-      return colors["default"];
-    return colors[status];
-  };
-
-  // node_modules/@geist-ui/core/esm/toggle/toggle.js
-  var _excluded34 = ["initialChecked", "checked", "disabled", "onChange", "type", "className"];
-  var defaultProps34 = {
-    type: "default",
-    disabled: false,
-    initialChecked: false,
-    className: ""
-  };
-  var ToggleComponent = function ToggleComponent2(_ref) {
-    var initialChecked = _ref.initialChecked, checked = _ref.checked, disabled = _ref.disabled, onChange = _ref.onChange, type4 = _ref.type, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded34);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var _useState = h2(initialChecked), _useState2 = _slicedToArray(_useState, 2), selfChecked = _useState2[0], setSelfChecked = _useState2[1];
-    var classes = use_classes_default2("toggle", {
-      checked: selfChecked,
-      disabled
-    });
-    var changeHandle = T2(function(ev) {
-      if (disabled)
-        return;
-      var selfEvent = {
-        target: {
-          checked: !selfChecked
-        },
-        stopPropagation: ev.stopPropagation,
-        preventDefault: ev.preventDefault,
-        nativeEvent: ev
-      };
-      setSelfChecked(!selfChecked);
-      onChange && onChange(selfEvent);
-    }, [disabled, selfChecked, onChange]);
-    var _useMemo = F2(function() {
-      return getColors9(theme.palette, type4);
-    }, [theme.palette, type4]), bg = _useMemo.bg;
-    p2(function() {
-      if (checked === void 0)
-        return;
-      setSelfChecked(checked);
-    }, [checked]);
-    return /* @__PURE__ */ Cn.createElement("label", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["4106206985", [disabled ? "not-allowed" : "pointer", SCALES.font(1), SCALES.height(0.875), SCALES.width(1.75), SCALES.pt(0.1875), SCALES.pr(0), SCALES.pb(0.1875), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_2, theme.palette.background, theme.palette.accents_2, theme.palette.accents_1, theme.palette.accents_2, theme.palette.accents_4, theme.palette.accents_4, bg]]]) + " " + (props && props.className != null && props.className || className || "")
-    }), /* @__PURE__ */ Cn.createElement("input", {
-      type: "checkbox",
-      disabled,
-      checked: selfChecked,
-      onChange: changeHandle,
-      className: styled_jsx_es_default.dynamic([["4106206985", [disabled ? "not-allowed" : "pointer", SCALES.font(1), SCALES.height(0.875), SCALES.width(1.75), SCALES.pt(0.1875), SCALES.pr(0), SCALES.pb(0.1875), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_2, theme.palette.background, theme.palette.accents_2, theme.palette.accents_1, theme.palette.accents_2, theme.palette.accents_4, theme.palette.accents_4, bg]]])
-    }), /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["4106206985", [disabled ? "not-allowed" : "pointer", SCALES.font(1), SCALES.height(0.875), SCALES.width(1.75), SCALES.pt(0.1875), SCALES.pr(0), SCALES.pb(0.1875), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_2, theme.palette.background, theme.palette.accents_2, theme.palette.accents_1, theme.palette.accents_2, theme.palette.accents_4, theme.palette.accents_4, bg]]]) + " " + (classes || "")
-    }, /* @__PURE__ */ Cn.createElement("span", {
-      className: styled_jsx_es_default.dynamic([["4106206985", [disabled ? "not-allowed" : "pointer", SCALES.font(1), SCALES.height(0.875), SCALES.width(1.75), SCALES.pt(0.1875), SCALES.pr(0), SCALES.pb(0.1875), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_2, theme.palette.background, theme.palette.accents_2, theme.palette.accents_1, theme.palette.accents_2, theme.palette.accents_4, theme.palette.accents_4, bg]]]) + " inner"
-    })), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "4106206985",
-      dynamic: [disabled ? "not-allowed" : "pointer", SCALES.font(1), SCALES.height(0.875), SCALES.width(1.75), SCALES.pt(0.1875), SCALES.pr(0), SCALES.pb(0.1875), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.palette.accents_2, theme.palette.background, theme.palette.accents_2, theme.palette.accents_1, theme.palette.accents_2, theme.palette.accents_4, theme.palette.accents_4, bg]
-    }, "label.__jsx-style-dynamic-selector{-webkit-tap-highlight-color:transparent;display:inline-block;vertical-align:middle;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;position:relative;cursor:".concat(disabled ? "not-allowed" : "pointer", ";--toggle-font-size:").concat(SCALES.font(1), ";--toggle-height:").concat(SCALES.height(0.875), ";width:").concat(SCALES.width(1.75), ";height:var(--toggle-height);padding:").concat(SCALES.pt(0.1875), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0.1875), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}input.__jsx-style-dynamic-selector{overflow:hidden;visibility:hidden;height:0;opacity:0;width:0;position:absolute;background-color:transparent;z-index:-1;}.toggle.__jsx-style-dynamic-selector{height:var(--toggle-height);width:100%;border-radius:var(--toggle-height);-webkit-transition-delay:0.12s;transition-delay:0.12s;-webkit-transition-duration:0.2s;transition-duration:0.2s;-webkit-transition-property:background,border;transition-property:background,border;-webkit-transition-timing-function:cubic-bezier(0,0,0.2,1);transition-timing-function:cubic-bezier(0,0,0.2,1);position:relative;border:1px solid transparent;background-color:").concat(theme.palette.accents_2, ";padding:0;}.inner.__jsx-style-dynamic-selector{width:calc(var(--toggle-height) - 2px);height:calc(var(--toggle-height) - 2px);position:absolute;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);left:1px;box-shadow:rgba(0,0,0,0.2) 0 1px 2px 0,rgba(0,0,0,0.1) 0 1px 3px 0;-webkit-transition:left 280ms cubic-bezier(0,0,0.2,1);transition:left 280ms cubic-bezier(0,0,0.2,1);border-radius:50%;background-color:").concat(theme.palette.background, ";}.disabled.__jsx-style-dynamic-selector{border-color:").concat(theme.palette.accents_2, ";background-color:").concat(theme.palette.accents_1, ";}.disabled.__jsx-style-dynamic-selector>.inner.__jsx-style-dynamic-selector{background-color:").concat(theme.palette.accents_2, ";}.disabled.checked.__jsx-style-dynamic-selector{border-color:").concat(theme.palette.accents_4, ";background-color:").concat(theme.palette.accents_4, ";}.checked.__jsx-style-dynamic-selector{background-color:").concat(bg, ";}.checked.__jsx-style-dynamic-selector>.inner.__jsx-style-dynamic-selector{left:calc(100% - (var(--toggle-height) - 2px));box-shadow:none;}")));
-  };
-  ToggleComponent.defaultProps = defaultProps34;
-  ToggleComponent.displayName = "GeistToggle";
-  var Toggle = with_scale_default(ToggleComponent);
-  var toggle_default = Toggle;
-
-  // node_modules/@geist-ui/core/esm/toggle/index.js
-  var toggle_default2 = toggle_default;
 
   // node_modules/@geist-ui/core/esm/use-input/use-input.js
   var useInput = function useInput2(initialValue) {
@@ -7965,20 +6998,6 @@
     Theme3["Dark"] = "dark";
     return Theme3;
   })(Theme || {});
-  var Language = /* @__PURE__ */ ((Language2) => {
-    Language2["Auto"] = "auto";
-    Language2["English"] = "en-US";
-    Language2["ChineseSimplified"] = "zh-Hans";
-    Language2["ChineseTraditional"] = "zh-Hant";
-    Language2["Spanish"] = "es-ES";
-    Language2["French"] = "fr-FR";
-    Language2["Korean"] = "ko-KR";
-    Language2["Japanese"] = "ja-JP";
-    Language2["German"] = "de-DE";
-    Language2["Portuguese"] = "pt-PT";
-    Language2["Russian"] = "ru-RU";
-    return Language2;
-  })(Language || {});
   var userConfigWithDefaultValue = {
     triggerMode: "always" /* Always */,
     theme: "auto" /* Auto */,
@@ -7998,6 +7017,7 @@
     return defaults_default(result, userConfigWithDefaultValue);
   }
   async function updateUserConfig(updates) {
+    console.debug("update configs", updates);
     return import_webextension_polyfill.default.storage.local.set(updates);
   }
   async function getProviderConfigs() {
@@ -9073,6 +8093,7 @@ https://www.viki.com
         return preMessageFn(msg !== null && msg !== void 0 ? msg : "", "warning");
       }, message);
       if (finalMessage) {
+        console.error("Warning: ".concat(finalMessage));
       }
     }
   }
@@ -9082,6 +8103,7 @@ https://www.viki.com
         return preMessageFn(msg !== null && msg !== void 0 ? msg : "", "note");
       }, message);
       if (finalMessage) {
+        console.warn("Note: ".concat(finalMessage));
       }
     }
   }
@@ -11744,6 +10766,7 @@ https://www.viki.com
         if (errors.every(function(e3) {
           return typeof e3 === "string";
         })) {
+          console.warn(type4, errors);
         }
       }
     };
@@ -12630,7 +11653,7 @@ https://www.viki.com
           try {
             res = rule.validator(rule, data.value, cb, data.source, options);
           } catch (error) {
-            console.error == null ? void 0 : void 0;
+            console.error == null ? void 0 : console.error(error);
             if (!options.suppressValidatorError) {
               setTimeout(function() {
                 throw error;
@@ -12943,6 +11966,7 @@ https://www.viki.com
                   try {
                     return originValidator.apply(void 0, arguments);
                   } catch (error) {
+                    console.error(error);
                     return Promise.reject(CODE_LOGIC_ERROR);
                   }
                 };
@@ -13175,7 +12199,7 @@ https://www.viki.com
   }
 
   // node_modules/rc-field-form/es/Field.js
-  var _excluded35 = ["name"];
+  var _excluded27 = ["name"];
   var EMPTY_ERRORS = [];
   function requireUpdate(shouldUpdate, prev2, next2, prevValue, nextValue, info) {
     if (typeof shouldUpdate === "function") {
@@ -13570,7 +12594,7 @@ https://www.viki.com
     valuePropName: "value"
   };
   function WrapperField(_ref5) {
-    var name = _ref5.name, restProps = _objectWithoutProperties(_ref5, _excluded35);
+    var name = _ref5.name, restProps = _objectWithoutProperties(_ref5, _excluded27);
     var fieldContext = q2(FieldContext_default);
     var listContext = q2(ListContext_default);
     var namePath = name !== void 0 ? getNamePath(name) : void 0;
@@ -13816,7 +12840,7 @@ https://www.viki.com
   var NameMap_default = NameMap;
 
   // node_modules/rc-field-form/es/useForm.js
-  var _excluded36 = ["name"];
+  var _excluded28 = ["name"];
   var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate) {
     var _this = this;
     _classCallCheck(this, FormStore2);
@@ -14196,7 +13220,7 @@ https://www.viki.com
       var prevStore = _this.store;
       var namePathList = [];
       fields.forEach(function(fieldData) {
-        var name = fieldData.name, data = _objectWithoutProperties(fieldData, _excluded36);
+        var name = fieldData.name, data = _objectWithoutProperties(fieldData, _excluded28);
         var namePath = getNamePath(name);
         namePathList.push(namePath);
         if ("value" in data) {
@@ -14521,6 +13545,7 @@ https://www.viki.com
           try {
             onFinish(values);
           } catch (err) {
+            console.error(err);
           }
         }
       }).catch(function(e3) {
@@ -14611,9 +13636,9 @@ https://www.viki.com
   var FormContext_default = FormContext;
 
   // node_modules/rc-field-form/es/Form.js
-  var _excluded37 = ["name", "initialValues", "fields", "form", "preserve", "children", "component", "validateMessages", "validateTrigger", "onValuesChange", "onFieldsChange", "onFinish", "onFinishFailed"];
+  var _excluded29 = ["name", "initialValues", "fields", "form", "preserve", "children", "component", "validateMessages", "validateTrigger", "onValuesChange", "onFieldsChange", "onFinish", "onFinishFailed"];
   var Form = function Form2(_ref, ref) {
-    var name = _ref.name, initialValues = _ref.initialValues, fields = _ref.fields, form = _ref.form, preserve = _ref.preserve, children = _ref.children, _ref$component = _ref.component, Component = _ref$component === void 0 ? "form" : _ref$component, validateMessages = _ref.validateMessages, _ref$validateTrigger = _ref.validateTrigger, validateTrigger = _ref$validateTrigger === void 0 ? "onChange" : _ref$validateTrigger, onValuesChange = _ref.onValuesChange, _onFieldsChange = _ref.onFieldsChange, _onFinish = _ref.onFinish, onFinishFailed = _ref.onFinishFailed, restProps = _objectWithoutProperties(_ref, _excluded37);
+    var name = _ref.name, initialValues = _ref.initialValues, fields = _ref.fields, form = _ref.form, preserve = _ref.preserve, children = _ref.children, _ref$component = _ref.component, Component = _ref$component === void 0 ? "form" : _ref$component, validateMessages = _ref.validateMessages, _ref$validateTrigger = _ref.validateTrigger, validateTrigger = _ref$validateTrigger === void 0 ? "onChange" : _ref$validateTrigger, onValuesChange = _ref.onValuesChange, _onFieldsChange = _ref.onFieldsChange, _onFinish = _ref.onFinish, onFinishFailed = _ref.onFinishFailed, restProps = _objectWithoutProperties(_ref, _excluded29);
     var formContext = q2(FormContext_default);
     var _useForm = useForm_default(form), _useForm2 = _slicedToArray(_useForm, 1), formInstance = _useForm2[0];
     var _formInstance$getInte = formInstance.getInternalHooks(HOOK_MARK), useSubscribe = _formInstance$getInte.useSubscribe, setInitialValues = _formInstance$getInte.setInitialValues, setCallbacks = _formInstance$getInte.setCallbacks, setValidateMessages = _formInstance$getInte.setValidateMessages, setPreserve = _formInstance$getInte.setPreserve, destroyForm = _formInstance$getInte.destroyForm;
@@ -17143,10 +16168,10 @@ https://www.viki.com
 
   // node_modules/rc-motion/es/context.js
   init_react();
-  var _excluded38 = ["children"];
+  var _excluded30 = ["children"];
   var Context2 = /* @__PURE__ */ G({});
   function MotionProvider(_ref) {
-    var children = _ref.children, props = _objectWithoutProperties(_ref, _excluded38);
+    var children = _ref.children, props = _objectWithoutProperties(_ref, _excluded30);
     return /* @__PURE__ */ y(Context2.Provider, {
       value: props
     }, children);
@@ -17759,7 +16784,7 @@ https://www.viki.com
   }
 
   // node_modules/rc-motion/es/CSSMotionList.js
-  var _excluded39 = ["component", "children", "onVisibleChanged", "onAllRemoved"];
+  var _excluded31 = ["component", "children", "onVisibleChanged", "onAllRemoved"];
   var _excluded210 = ["status"];
   var MOTION_PROP_NAMES = ["eventProps", "visible", "children", "motionName", "motionAppear", "motionEnter", "motionLeave", "motionLeaveImmediately", "motionDeadline", "removeOnLeave", "leavedClassName", "onAppearStart", "onAppearActive", "onAppearEnd", "onEnterStart", "onEnterActive", "onEnterEnd", "onLeaveStart", "onLeaveActive", "onLeaveEnd"];
   function genCSSMotionList(transitionSupport) {
@@ -17801,7 +16826,7 @@ https://www.viki.com
         value: function render() {
           var _this2 = this;
           var keyEntities = this.state.keyEntities;
-          var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, onAllRemoved = _this$props.onAllRemoved, restProps = _objectWithoutProperties(_this$props, _excluded39);
+          var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, onAllRemoved = _this$props.onAllRemoved, restProps = _objectWithoutProperties(_this$props, _excluded31);
           var Component = component || k;
           var motionProps = {};
           MOTION_PROP_NAMES.forEach(function(prop) {
@@ -18156,7 +17181,7 @@ https://www.viki.com
   };
 
   // node_modules/@ant-design/icons/es/components/IconBase.js
-  var _excluded40 = ["icon", "className", "onClick", "style", "primaryColor", "secondaryColor"];
+  var _excluded32 = ["icon", "className", "onClick", "style", "primaryColor", "secondaryColor"];
   var twoToneColorPalette = {
     primaryColor: "#333",
     secondaryColor: "#E6E6E6",
@@ -18172,7 +17197,7 @@ https://www.viki.com
     return _objectSpread2({}, twoToneColorPalette);
   }
   var IconBase = function IconBase2(props) {
-    var icon = props.icon, className = props.className, onClick = props.onClick, style3 = props.style, primaryColor = props.primaryColor, secondaryColor = props.secondaryColor, restProps = _objectWithoutProperties(props, _excluded40);
+    var icon = props.icon, className = props.className, onClick = props.onClick, style3 = props.style, primaryColor = props.primaryColor, secondaryColor = props.secondaryColor, restProps = _objectWithoutProperties(props, _excluded32);
     var colors = twoToneColorPalette;
     if (primaryColor) {
       colors = {
@@ -18224,11 +17249,11 @@ https://www.viki.com
   }
 
   // node_modules/@ant-design/icons/es/components/AntdIcon.js
-  var _excluded41 = ["className", "icon", "spin", "rotate", "tabIndex", "onClick", "twoToneColor"];
+  var _excluded33 = ["className", "icon", "spin", "rotate", "tabIndex", "onClick", "twoToneColor"];
   setTwoToneColor(blue.primary);
   var Icon = /* @__PURE__ */ k3(function(props, ref) {
     var _classNames;
-    var className = props.className, icon = props.icon, spin = props.spin, rotate = props.rotate, tabIndex = props.tabIndex, onClick = props.onClick, twoToneColor = props.twoToneColor, restProps = _objectWithoutProperties(props, _excluded41);
+    var className = props.className, icon = props.icon, spin = props.spin, rotate = props.rotate, tabIndex = props.tabIndex, onClick = props.onClick, twoToneColor = props.twoToneColor, restProps = _objectWithoutProperties(props, _excluded33);
     var _React$useContext = q2(Context_default), _React$useContext$pre = _React$useContext.prefixCls, prefixCls = _React$useContext$pre === void 0 ? "anticon" : _React$useContext$pre, rootClassName = _React$useContext.rootClassName;
     var classString = (0, import_classnames2.default)(rootClassName, prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(icon.name), !!icon.name), _defineProperty(_classNames, "".concat(prefixCls, "-spin"), !!spin || icon.name === "loading"), _classNames), className);
     var iconTabIndex = tabIndex;
@@ -19992,10 +19017,10 @@ https://www.viki.com
   // node_modules/rc-overflow/es/Item.js
   init_react();
   var import_classnames4 = __toESM(require_classnames());
-  var _excluded42 = ["prefixCls", "invalidate", "item", "renderItem", "responsive", "responsiveDisabled", "registerSize", "itemKey", "className", "style", "children", "display", "order", "component"];
+  var _excluded34 = ["prefixCls", "invalidate", "item", "renderItem", "responsive", "responsiveDisabled", "registerSize", "itemKey", "className", "style", "children", "display", "order", "component"];
   var UNDEFINED2 = void 0;
   function InternalItem(props, ref) {
-    var prefixCls = props.prefixCls, invalidate = props.invalidate, item = props.item, renderItem = props.renderItem, responsive = props.responsive, responsiveDisabled = props.responsiveDisabled, registerSize = props.registerSize, itemKey2 = props.itemKey, className = props.className, style3 = props.style, children = props.children, display = props.display, order = props.order, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, restProps = _objectWithoutProperties(props, _excluded42);
+    var prefixCls = props.prefixCls, invalidate = props.invalidate, item = props.item, renderItem = props.renderItem, responsive = props.responsive, responsiveDisabled = props.responsiveDisabled, registerSize = props.registerSize, itemKey2 = props.itemKey, className = props.className, style3 = props.style, children = props.children, display = props.display, order = props.order, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, restProps = _objectWithoutProperties(props, _excluded34);
     var mergedHidden = responsive && !display;
     function internalRegisterSize(width) {
       registerSize(itemKey2, width);
@@ -20090,19 +19115,19 @@ https://www.viki.com
   // node_modules/rc-overflow/es/RawItem.js
   init_react();
   var import_classnames5 = __toESM(require_classnames());
-  var _excluded43 = ["component"];
+  var _excluded35 = ["component"];
   var _excluded211 = ["className"];
-  var _excluded310 = ["className"];
+  var _excluded36 = ["className"];
   var InternalRawItem = function InternalRawItem2(props, ref) {
     var context = q2(OverflowContext);
     if (!context) {
-      var _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, _restProps = _objectWithoutProperties(props, _excluded43);
+      var _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, _restProps = _objectWithoutProperties(props, _excluded35);
       return /* @__PURE__ */ y(Component, _extends({}, _restProps, {
         ref
       }));
     }
     var contextClassName = context.className, restContext = _objectWithoutProperties(context, _excluded211);
-    var className = props.className, restProps = _objectWithoutProperties(props, _excluded310);
+    var className = props.className, restProps = _objectWithoutProperties(props, _excluded36);
     return /* @__PURE__ */ y(OverflowContext.Provider, {
       value: null
     }, /* @__PURE__ */ y(Item_default, _extends({
@@ -20115,7 +19140,7 @@ https://www.viki.com
   var RawItem_default = RawItem;
 
   // node_modules/rc-overflow/es/Overflow.js
-  var _excluded44 = ["prefixCls", "data", "renderItem", "renderRawItem", "itemKey", "itemWidth", "ssr", "style", "className", "maxCount", "renderRest", "renderRawRest", "suffix", "component", "itemComponent", "onVisibleChange"];
+  var _excluded37 = ["prefixCls", "data", "renderItem", "renderRawItem", "itemKey", "itemWidth", "ssr", "style", "className", "maxCount", "renderRest", "renderRawRest", "suffix", "component", "itemComponent", "onVisibleChange"];
   var OverflowContext = /* @__PURE__ */ G(null);
   var RESPONSIVE = "responsive";
   var INVALIDATE = "invalidate";
@@ -20123,7 +19148,7 @@ https://www.viki.com
     return "+ ".concat(omittedItems.length, " ...");
   }
   function Overflow(props, ref) {
-    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-overflow" : _props$prefixCls, _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, renderItem = props.renderItem, renderRawItem = props.renderRawItem, itemKey2 = props.itemKey, _props$itemWidth = props.itemWidth, itemWidth = _props$itemWidth === void 0 ? 10 : _props$itemWidth, ssr = props.ssr, style3 = props.style, className = props.className, maxCount = props.maxCount, renderRest = props.renderRest, renderRawRest = props.renderRawRest, suffix = props.suffix, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, itemComponent = props.itemComponent, onVisibleChange = props.onVisibleChange, restProps = _objectWithoutProperties(props, _excluded44);
+    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-overflow" : _props$prefixCls, _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, renderItem = props.renderItem, renderRawItem = props.renderRawItem, itemKey2 = props.itemKey, _props$itemWidth = props.itemWidth, itemWidth = _props$itemWidth === void 0 ? 10 : _props$itemWidth, ssr = props.ssr, style3 = props.style, className = props.className, maxCount = props.maxCount, renderRest = props.renderRest, renderRawRest = props.renderRawRest, suffix = props.suffix, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, itemComponent = props.itemComponent, onVisibleChange = props.onVisibleChange, restProps = _objectWithoutProperties(props, _excluded37);
     var fullySSR = ssr === "full";
     var notifyEffectUpdate = useBatcher();
     var _useEffectState = useEffectState(notifyEffectUpdate, null), _useEffectState2 = _slicedToArray(_useEffectState, 2), containerWidth = _useEffectState2[0], setContainerWidth = _useEffectState2[1];
@@ -21559,11 +20584,11 @@ https://www.viki.com
   var TriggerWrapper_default = TriggerWrapper;
 
   // node_modules/@rc-component/trigger/es/index.js
-  var _excluded45 = ["prefixCls", "children", "action", "showAction", "hideAction", "popupVisible", "defaultPopupVisible", "onPopupVisibleChange", "afterPopupVisibleChange", "mouseEnterDelay", "mouseLeaveDelay", "focusDelay", "blurDelay", "mask", "maskClosable", "getPopupContainer", "forceRender", "autoDestroy", "destroyPopupOnHide", "popup", "popupClassName", "popupStyle", "popupPlacement", "builtinPlacements", "popupAlign", "zIndex", "stretch", "getPopupClassNameFromAlign", "alignPoint", "onPopupClick", "onPopupAlign", "arrow", "popupMotion", "maskMotion", "popupTransitionName", "popupAnimation", "maskTransitionName", "maskAnimation", "className", "getTriggerDOMNode"];
+  var _excluded38 = ["prefixCls", "children", "action", "showAction", "hideAction", "popupVisible", "defaultPopupVisible", "onPopupVisibleChange", "afterPopupVisibleChange", "mouseEnterDelay", "mouseLeaveDelay", "focusDelay", "blurDelay", "mask", "maskClosable", "getPopupContainer", "forceRender", "autoDestroy", "destroyPopupOnHide", "popup", "popupClassName", "popupStyle", "popupPlacement", "builtinPlacements", "popupAlign", "zIndex", "stretch", "getPopupClassNameFromAlign", "alignPoint", "onPopupClick", "onPopupAlign", "arrow", "popupMotion", "maskMotion", "popupTransitionName", "popupAnimation", "maskTransitionName", "maskAnimation", "className", "getTriggerDOMNode"];
   function generateTrigger() {
     var PortalComponent = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : es_default3;
     var Trigger = /* @__PURE__ */ k3(function(props, ref) {
-      var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-trigger-popup" : _props$prefixCls, children = props.children, _props$action = props.action, action = _props$action === void 0 ? "hover" : _props$action, showAction = props.showAction, hideAction = props.hideAction, popupVisible = props.popupVisible, defaultPopupVisible = props.defaultPopupVisible, onPopupVisibleChange = props.onPopupVisibleChange, afterPopupVisibleChange = props.afterPopupVisibleChange, mouseEnterDelay = props.mouseEnterDelay, _props$mouseLeaveDela = props.mouseLeaveDelay, mouseLeaveDelay = _props$mouseLeaveDela === void 0 ? 0.1 : _props$mouseLeaveDela, focusDelay = props.focusDelay, blurDelay = props.blurDelay, mask = props.mask, _props$maskClosable = props.maskClosable, maskClosable = _props$maskClosable === void 0 ? true : _props$maskClosable, getPopupContainer = props.getPopupContainer, forceRender = props.forceRender, autoDestroy = props.autoDestroy, destroyPopupOnHide = props.destroyPopupOnHide, popup = props.popup, popupClassName = props.popupClassName, popupStyle = props.popupStyle, popupPlacement = props.popupPlacement, _props$builtinPlaceme = props.builtinPlacements, builtinPlacements = _props$builtinPlaceme === void 0 ? {} : _props$builtinPlaceme, popupAlign = props.popupAlign, zIndex = props.zIndex, stretch = props.stretch, getPopupClassNameFromAlign = props.getPopupClassNameFromAlign, alignPoint = props.alignPoint, onPopupClick = props.onPopupClick, onPopupAlign = props.onPopupAlign, arrow = props.arrow, popupMotion = props.popupMotion, maskMotion = props.maskMotion, popupTransitionName = props.popupTransitionName, popupAnimation = props.popupAnimation, maskTransitionName = props.maskTransitionName, maskAnimation = props.maskAnimation, className = props.className, getTriggerDOMNode = props.getTriggerDOMNode, restProps = _objectWithoutProperties(props, _excluded45);
+      var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-trigger-popup" : _props$prefixCls, children = props.children, _props$action = props.action, action = _props$action === void 0 ? "hover" : _props$action, showAction = props.showAction, hideAction = props.hideAction, popupVisible = props.popupVisible, defaultPopupVisible = props.defaultPopupVisible, onPopupVisibleChange = props.onPopupVisibleChange, afterPopupVisibleChange = props.afterPopupVisibleChange, mouseEnterDelay = props.mouseEnterDelay, _props$mouseLeaveDela = props.mouseLeaveDelay, mouseLeaveDelay = _props$mouseLeaveDela === void 0 ? 0.1 : _props$mouseLeaveDela, focusDelay = props.focusDelay, blurDelay = props.blurDelay, mask = props.mask, _props$maskClosable = props.maskClosable, maskClosable = _props$maskClosable === void 0 ? true : _props$maskClosable, getPopupContainer = props.getPopupContainer, forceRender = props.forceRender, autoDestroy = props.autoDestroy, destroyPopupOnHide = props.destroyPopupOnHide, popup = props.popup, popupClassName = props.popupClassName, popupStyle = props.popupStyle, popupPlacement = props.popupPlacement, _props$builtinPlaceme = props.builtinPlacements, builtinPlacements = _props$builtinPlaceme === void 0 ? {} : _props$builtinPlaceme, popupAlign = props.popupAlign, zIndex = props.zIndex, stretch = props.stretch, getPopupClassNameFromAlign = props.getPopupClassNameFromAlign, alignPoint = props.alignPoint, onPopupClick = props.onPopupClick, onPopupAlign = props.onPopupAlign, arrow = props.arrow, popupMotion = props.popupMotion, maskMotion = props.maskMotion, popupTransitionName = props.popupTransitionName, popupAnimation = props.popupAnimation, maskTransitionName = props.maskTransitionName, maskAnimation = props.maskAnimation, className = props.className, getTriggerDOMNode = props.getTriggerDOMNode, restProps = _objectWithoutProperties(props, _excluded38);
       var mergedAutoDestroy = autoDestroy || destroyPopupOnHide || false;
       var _React$useState = h2(false), _React$useState2 = _slicedToArray(_React$useState, 2), mobile = _React$useState2[0], setMobile = _React$useState2[1];
       useLayoutEffect_default(function() {
@@ -21890,7 +20915,7 @@ https://www.viki.com
   // node_modules/rc-select/es/SelectTrigger.js
   var import_classnames14 = __toESM(require_classnames());
   init_react();
-  var _excluded46 = ["prefixCls", "disabled", "visible", "children", "popupElement", "containerWidth", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "direction", "placement", "builtinPlacements", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "getPopupContainer", "empty", "getTriggerDOMNode", "onPopupVisibleChange", "onPopupMouseEnter"];
+  var _excluded39 = ["prefixCls", "disabled", "visible", "children", "popupElement", "containerWidth", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "direction", "placement", "builtinPlacements", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "getPopupContainer", "empty", "getTriggerDOMNode", "onPopupVisibleChange", "onPopupMouseEnter"];
   var getBuiltInPlacements = function getBuiltInPlacements2(dropdownMatchSelectWidth) {
     var adjustX = dropdownMatchSelectWidth === true ? 0 : 1;
     return {
@@ -21933,7 +20958,7 @@ https://www.viki.com
     };
   };
   var SelectTrigger = function SelectTrigger2(props, ref) {
-    var prefixCls = props.prefixCls, disabled = props.disabled, visible = props.visible, children = props.children, popupElement = props.popupElement, containerWidth = props.containerWidth, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, _props$direction = props.direction, direction = _props$direction === void 0 ? "ltr" : _props$direction, placement2 = props.placement, builtinPlacements = props.builtinPlacements, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, getPopupContainer = props.getPopupContainer, empty = props.empty, getTriggerDOMNode = props.getTriggerDOMNode, onPopupVisibleChange = props.onPopupVisibleChange, onPopupMouseEnter = props.onPopupMouseEnter, restProps = _objectWithoutProperties(props, _excluded46);
+    var prefixCls = props.prefixCls, disabled = props.disabled, visible = props.visible, children = props.children, popupElement = props.popupElement, containerWidth = props.containerWidth, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, _props$direction = props.direction, direction = _props$direction === void 0 ? "ltr" : _props$direction, placement2 = props.placement, builtinPlacements = props.builtinPlacements, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, getPopupContainer = props.getPopupContainer, empty = props.empty, getTriggerDOMNode = props.getTriggerDOMNode, onPopupVisibleChange = props.onPopupVisibleChange, onPopupMouseEnter = props.onPopupMouseEnter, restProps = _objectWithoutProperties(props, _excluded39);
     var dropdownPrefixCls = "".concat(prefixCls, "-dropdown");
     var popupNode = popupElement;
     if (dropdownRender) {
@@ -22075,14 +21100,14 @@ https://www.viki.com
   }
 
   // node_modules/rc-select/es/BaseSelect.js
-  var _excluded47 = ["id", "prefixCls", "className", "showSearch", "tagRender", "direction", "omitDomProps", "displayValues", "onDisplayValuesChange", "emptyOptions", "notFoundContent", "onClear", "mode", "disabled", "loading", "getInputElement", "getRawInputElement", "open", "defaultOpen", "onDropdownVisibleChange", "activeValue", "onActiveValueChange", "activeDescendantId", "searchValue", "autoClearSearchValue", "onSearch", "onSearchSplit", "tokenSeparators", "allowClear", "showArrow", "inputIcon", "clearIcon", "OptionList", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "placement", "builtinPlacements", "getPopupContainer", "showAction", "onFocus", "onBlur", "onKeyUp", "onKeyDown", "onMouseDown"];
+  var _excluded40 = ["id", "prefixCls", "className", "showSearch", "tagRender", "direction", "omitDomProps", "displayValues", "onDisplayValuesChange", "emptyOptions", "notFoundContent", "onClear", "mode", "disabled", "loading", "getInputElement", "getRawInputElement", "open", "defaultOpen", "onDropdownVisibleChange", "activeValue", "onActiveValueChange", "activeDescendantId", "searchValue", "autoClearSearchValue", "onSearch", "onSearchSplit", "tokenSeparators", "allowClear", "showArrow", "inputIcon", "clearIcon", "OptionList", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "placement", "builtinPlacements", "getPopupContainer", "showAction", "onFocus", "onBlur", "onKeyUp", "onKeyDown", "onMouseDown"];
   var DEFAULT_OMIT_PROPS = ["value", "onChange", "removeIcon", "placeholder", "autoFocus", "maxTagCount", "maxTagTextLength", "maxTagPlaceholder", "choiceTransitionName", "onInputKeyDown", "onPopupScroll", "tabIndex"];
   function isMultiple(mode) {
     return mode === "tags" || mode === "multiple";
   }
   var BaseSelect = /* @__PURE__ */ k3(function(props, ref) {
     var _customizeRawInputEle, _classNames2;
-    var id = props.id, prefixCls = props.prefixCls, className = props.className, showSearch = props.showSearch, tagRender = props.tagRender, direction = props.direction, omitDomProps = props.omitDomProps, displayValues = props.displayValues, onDisplayValuesChange = props.onDisplayValuesChange, emptyOptions = props.emptyOptions, _props$notFoundConten = props.notFoundContent, notFoundContent = _props$notFoundConten === void 0 ? "Not Found" : _props$notFoundConten, onClear = props.onClear, mode = props.mode, disabled = props.disabled, loading = props.loading, getInputElement = props.getInputElement, getRawInputElement = props.getRawInputElement, open = props.open, defaultOpen = props.defaultOpen, onDropdownVisibleChange2 = props.onDropdownVisibleChange, activeValue = props.activeValue, onActiveValueChange = props.onActiveValueChange, activeDescendantId = props.activeDescendantId, searchValue = props.searchValue, autoClearSearchValue = props.autoClearSearchValue, onSearch = props.onSearch, onSearchSplit = props.onSearchSplit, tokenSeparators = props.tokenSeparators, allowClear = props.allowClear, showArrow = props.showArrow, inputIcon = props.inputIcon, clearIcon = props.clearIcon, OptionList3 = props.OptionList, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, placement2 = props.placement, builtinPlacements = props.builtinPlacements, getPopupContainer = props.getPopupContainer, _props$showAction = props.showAction, showAction = _props$showAction === void 0 ? [] : _props$showAction, onFocus = props.onFocus, onBlur = props.onBlur, onKeyUp = props.onKeyUp, onKeyDown = props.onKeyDown, onMouseDown = props.onMouseDown, restProps = _objectWithoutProperties(props, _excluded47);
+    var id = props.id, prefixCls = props.prefixCls, className = props.className, showSearch = props.showSearch, tagRender = props.tagRender, direction = props.direction, omitDomProps = props.omitDomProps, displayValues = props.displayValues, onDisplayValuesChange = props.onDisplayValuesChange, emptyOptions = props.emptyOptions, _props$notFoundConten = props.notFoundContent, notFoundContent = _props$notFoundConten === void 0 ? "Not Found" : _props$notFoundConten, onClear = props.onClear, mode = props.mode, disabled = props.disabled, loading = props.loading, getInputElement = props.getInputElement, getRawInputElement = props.getRawInputElement, open = props.open, defaultOpen = props.defaultOpen, onDropdownVisibleChange = props.onDropdownVisibleChange, activeValue = props.activeValue, onActiveValueChange = props.onActiveValueChange, activeDescendantId = props.activeDescendantId, searchValue = props.searchValue, autoClearSearchValue = props.autoClearSearchValue, onSearch = props.onSearch, onSearchSplit = props.onSearchSplit, tokenSeparators = props.tokenSeparators, allowClear = props.allowClear, showArrow = props.showArrow, inputIcon = props.inputIcon, clearIcon = props.clearIcon, OptionList3 = props.OptionList, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, placement2 = props.placement, builtinPlacements = props.builtinPlacements, getPopupContainer = props.getPopupContainer, _props$showAction = props.showAction, showAction = _props$showAction === void 0 ? [] : _props$showAction, onFocus = props.onFocus, onBlur = props.onBlur, onKeyUp = props.onKeyUp, onKeyDown = props.onKeyDown, onMouseDown = props.onMouseDown, restProps = _objectWithoutProperties(props, _excluded40);
     var multiple = isMultiple(mode);
     var mergedShowSearch = (showSearch !== void 0 ? showSearch : multiple) || mode === "combobox";
     var domProps = _objectSpread2({}, restProps);
@@ -22143,10 +21168,10 @@ https://www.viki.com
       if (!disabled) {
         setInnerOpen(nextOpen);
         if (mergedOpen !== nextOpen) {
-          onDropdownVisibleChange2 === null || onDropdownVisibleChange2 === void 0 ? void 0 : onDropdownVisibleChange2(nextOpen);
+          onDropdownVisibleChange === null || onDropdownVisibleChange === void 0 ? void 0 : onDropdownVisibleChange(nextOpen);
         }
       }
-    }, [disabled, mergedOpen, setInnerOpen, onDropdownVisibleChange2]);
+    }, [disabled, mergedOpen, setInnerOpen, onDropdownVisibleChange]);
     var tokenWithEnter = F2(function() {
       return (tokenSeparators || []).some(function(tokenSeparator) {
         return ["\n", "\r\n"].includes(tokenSeparator);
@@ -22585,10 +21610,10 @@ https://www.viki.com
 
   // node_modules/rc-select/es/utils/legacyUtil.js
   init_react();
-  var _excluded48 = ["children", "value"];
+  var _excluded41 = ["children", "value"];
   var _excluded212 = ["children"];
   function convertNodeToOption(node2) {
-    var _ref = node2, key = _ref.key, _ref$props = _ref.props, children = _ref$props.children, value = _ref$props.value, restProps = _objectWithoutProperties(_ref$props, _excluded48);
+    var _ref = node2, key = _ref.key, _ref$props = _ref.props, children = _ref$props.children, value = _ref$props.value, restProps = _objectWithoutProperties(_ref$props, _excluded41);
     return _objectSpread2({
       key,
       value: value !== void 0 ? value : key,
@@ -23312,14 +22337,14 @@ https://www.viki.com
   }
 
   // node_modules/rc-virtual-list/es/List.js
-  var _excluded49 = ["prefixCls", "className", "height", "itemHeight", "fullHeight", "style", "data", "children", "itemKey", "virtual", "direction", "component", "onScroll", "onVisibleChange", "innerProps"];
+  var _excluded42 = ["prefixCls", "className", "height", "itemHeight", "fullHeight", "style", "data", "children", "itemKey", "virtual", "direction", "component", "onScroll", "onVisibleChange", "innerProps"];
   var EMPTY_DATA = [];
   var ScrollStyle = {
     overflowY: "auto",
     overflowAnchor: "none"
   };
   function RawList(props, ref) {
-    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-virtual-list" : _props$prefixCls, className = props.className, height = props.height, itemHeight = props.itemHeight, _props$fullHeight = props.fullHeight, fullHeight = _props$fullHeight === void 0 ? true : _props$fullHeight, style3 = props.style, data = props.data, children = props.children, itemKey2 = props.itemKey, virtual = props.virtual, direction = props.direction, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, onScroll = props.onScroll, onVisibleChange = props.onVisibleChange, innerProps = props.innerProps, restProps = _objectWithoutProperties(props, _excluded49);
+    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-virtual-list" : _props$prefixCls, className = props.className, height = props.height, itemHeight = props.itemHeight, _props$fullHeight = props.fullHeight, fullHeight = _props$fullHeight === void 0 ? true : _props$fullHeight, style3 = props.style, data = props.data, children = props.children, itemKey2 = props.itemKey, virtual = props.virtual, direction = props.direction, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, onScroll = props.onScroll, onVisibleChange = props.onVisibleChange, innerProps = props.innerProps, restProps = _objectWithoutProperties(props, _excluded42);
     var useVirtual = !!(virtual !== false && height && itemHeight);
     var inVirtual = useVirtual && data && itemHeight * data.length > height;
     var _useState = h2(0), _useState2 = _slicedToArray(_useState, 2), scrollTop = _useState2[0], setScrollTop = _useState2[1];
@@ -23546,8 +22571,8 @@ https://www.viki.com
 
   // node_modules/rc-select/es/SelectContext.js
   init_react();
-  var SelectContext2 = /* @__PURE__ */ G(null);
-  var SelectContext_default = SelectContext2;
+  var SelectContext = /* @__PURE__ */ G(null);
+  var SelectContext_default = SelectContext;
 
   // node_modules/rc-select/es/utils/platformUtil.js
   function isPlatformMac() {
@@ -23555,7 +22580,7 @@ https://www.viki.com
   }
 
   // node_modules/rc-select/es/OptionList.js
-  var _excluded50 = ["disabled", "title", "children", "style", "className"];
+  var _excluded43 = ["disabled", "title", "children", "style", "className"];
   function isTitleType2(content) {
     return typeof content === "string" || typeof content === "number";
   }
@@ -23771,7 +22796,7 @@ https://www.viki.com
           title: groupTitle
         }, label !== void 0 ? label : key);
       }
-      var disabled = data.disabled, title = data.title, children = data.children, style3 = data.style, className = data.className, otherProps = _objectWithoutProperties(data, _excluded50);
+      var disabled = data.disabled, title = data.title, children = data.children, style3 = data.style, className = data.className, otherProps = _objectWithoutProperties(data, _excluded43);
       var passedProps = omit(otherProps, omitFieldNameList);
       var selected = isSelected(value);
       var optionPrefixCls = "".concat(itemPrefixCls, "-option");
@@ -23903,13 +22928,13 @@ https://www.viki.com
   var warningPropsUtil_default = warningProps;
 
   // node_modules/rc-select/es/Select.js
-  var _excluded51 = ["id", "mode", "prefixCls", "backfill", "fieldNames", "inputValue", "searchValue", "onSearch", "autoClearSearchValue", "onSelect", "onDeselect", "dropdownMatchSelectWidth", "filterOption", "filterSort", "optionFilterProp", "optionLabelProp", "options", "children", "defaultActiveFirstOption", "menuItemSelectedIcon", "virtual", "listHeight", "listItemHeight", "value", "defaultValue", "labelInValue", "onChange"];
+  var _excluded44 = ["id", "mode", "prefixCls", "backfill", "fieldNames", "inputValue", "searchValue", "onSearch", "autoClearSearchValue", "onSelect", "onDeselect", "dropdownMatchSelectWidth", "filterOption", "filterSort", "optionFilterProp", "optionLabelProp", "options", "children", "defaultActiveFirstOption", "menuItemSelectedIcon", "virtual", "listHeight", "listItemHeight", "value", "defaultValue", "labelInValue", "onChange"];
   var OMIT_DOM_PROPS = ["inputValue"];
   function isRawValue(value) {
     return !value || _typeof(value) !== "object";
   }
-  var Select2 = /* @__PURE__ */ k3(function(props, ref) {
-    var id = props.id, mode = props.mode, _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-select" : _props$prefixCls, backfill = props.backfill, fieldNames = props.fieldNames, inputValue = props.inputValue, searchValue = props.searchValue, onSearch = props.onSearch, _props$autoClearSearc = props.autoClearSearchValue, autoClearSearchValue = _props$autoClearSearc === void 0 ? true : _props$autoClearSearc, onSelect = props.onSelect, onDeselect = props.onDeselect, _props$dropdownMatchS = props.dropdownMatchSelectWidth, dropdownMatchSelectWidth = _props$dropdownMatchS === void 0 ? true : _props$dropdownMatchS, filterOption = props.filterOption, filterSort = props.filterSort, optionFilterProp = props.optionFilterProp, optionLabelProp = props.optionLabelProp, options = props.options, children = props.children, defaultActiveFirstOption = props.defaultActiveFirstOption, menuItemSelectedIcon = props.menuItemSelectedIcon, virtual = props.virtual, _props$listHeight = props.listHeight, listHeight = _props$listHeight === void 0 ? 200 : _props$listHeight, _props$listItemHeight = props.listItemHeight, listItemHeight = _props$listItemHeight === void 0 ? 20 : _props$listItemHeight, value = props.value, defaultValue = props.defaultValue, labelInValue = props.labelInValue, onChange = props.onChange, restProps = _objectWithoutProperties(props, _excluded51);
+  var Select = /* @__PURE__ */ k3(function(props, ref) {
+    var id = props.id, mode = props.mode, _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-select" : _props$prefixCls, backfill = props.backfill, fieldNames = props.fieldNames, inputValue = props.inputValue, searchValue = props.searchValue, onSearch = props.onSearch, _props$autoClearSearc = props.autoClearSearchValue, autoClearSearchValue = _props$autoClearSearc === void 0 ? true : _props$autoClearSearc, onSelect = props.onSelect, onDeselect = props.onDeselect, _props$dropdownMatchS = props.dropdownMatchSelectWidth, dropdownMatchSelectWidth = _props$dropdownMatchS === void 0 ? true : _props$dropdownMatchS, filterOption = props.filterOption, filterSort = props.filterSort, optionFilterProp = props.optionFilterProp, optionLabelProp = props.optionLabelProp, options = props.options, children = props.children, defaultActiveFirstOption = props.defaultActiveFirstOption, menuItemSelectedIcon = props.menuItemSelectedIcon, virtual = props.virtual, _props$listHeight = props.listHeight, listHeight = _props$listHeight === void 0 ? 200 : _props$listHeight, _props$listItemHeight = props.listItemHeight, listItemHeight = _props$listItemHeight === void 0 ? 20 : _props$listItemHeight, value = props.value, defaultValue = props.defaultValue, labelInValue = props.labelInValue, onChange = props.onChange, restProps = _objectWithoutProperties(props, _excluded44);
     var mergedId = useId2(id);
     var multiple = isMultiple(mode);
     var childrenAsData = !!(!options && children);
@@ -24221,9 +23246,9 @@ https://www.viki.com
     })));
   });
   if (true) {
-    Select2.displayName = "Select";
+    Select.displayName = "Select";
   }
-  var TypedSelect = Select2;
+  var TypedSelect = Select;
   TypedSelect.Option = Option_default;
   TypedSelect.OptGroup = OptGroup_default;
   var Select_default = TypedSelect;
@@ -24650,7 +23675,7 @@ https://www.viki.com
       initMoveMotion(token2, "move-down")
     ];
   };
-  var dropdown_default2 = genSingleStyle;
+  var dropdown_default = genSingleStyle;
 
   // node_modules/antd/es/select/style/multiple.js
   var FIXED_ITEM_MARGIN = 2;
@@ -25228,7 +24253,7 @@ https://www.viki.com
       // Multiple
       multiple_default(token2),
       // Dropdown
-      dropdown_default2(token2),
+      dropdown_default(token2),
       // =====================================================
       // ==                       RTL                       ==
       // =====================================================
@@ -25587,13 +24612,13 @@ https://www.viki.com
   if (true) {
     InternalSelect.displayName = "Select";
   }
-  var Select3 = /* @__PURE__ */ k3(InternalSelect);
-  var PurePanel = genPurePanel(Select3);
-  Select3.SECRET_COMBOBOX_MODE_DO_NOT_USE = SECRET_COMBOBOX_MODE_DO_NOT_USE;
-  Select3.Option = Option_default;
-  Select3.OptGroup = OptGroup_default;
-  Select3._InternalPanelDoNotUseOrYouWillBeFired = PurePanel;
-  var select_default3 = Select3;
+  var Select2 = /* @__PURE__ */ k3(InternalSelect);
+  var PurePanel = genPurePanel(Select2);
+  Select2.SECRET_COMBOBOX_MODE_DO_NOT_USE = SECRET_COMBOBOX_MODE_DO_NOT_USE;
+  Select2.Option = Option_default;
+  Select2.OptGroup = OptGroup_default;
+  Select2._InternalPanelDoNotUseOrYouWillBeFired = PurePanel;
+  var select_default = Select2;
 
   // node_modules/antd/es/space/index.js
   var import_classnames23 = __toESM(require_classnames());
@@ -25801,7 +24826,7 @@ https://www.viki.com
   }
 
   // src/options/ProviderSelect.tsx
-  var { Option: Option3 } = select_default3;
+  var { Option: Option3 } = select_default;
   var ConfigPanel = ({ config, models }) => {
     var _a, _b, _c, _d, _e, _f;
     const [tab, setTab] = h2(isSafari ? "gpt3" /* GPT3 */ : config.provider);
@@ -25832,6 +24857,8 @@ https://www.viki.com
       setToast({ text: "Changes saved", type: "success" });
     }, [apiHostBindings.value, apiKeyBindings.value, model, models, setToast, tab]);
     p2(() => {
+      console.log("config", config);
+      console.log("models", models);
     }, [config, models]);
     return /* @__PURE__ */ o3(k, { children: /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-col glarity--gap-3", children: [
       /* @__PURE__ */ o3(radio_default2.Group, { value: tab, onChange: (v3) => setTab(v3), children: [
@@ -25863,7 +24890,7 @@ https://www.viki.com
                 }
               ),
               /* @__PURE__ */ o3(
-                select_default3,
+                select_default,
                 {
                   defaultValue: model,
                   onChange: (v3) => setModel(v3),
@@ -25949,21 +24976,21 @@ https://www.viki.com
         " "
       ] }) }),
       /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-3", children: [
-        /* @__PURE__ */ o3("a", { href: "https://discord.gg/JEJExVuWVM", target: "_blank", rel: "noreferrer", children: "Discord" }),
+        /* @__PURE__ */ o3("a", { href: "https://discord.gg/TdSNQtdX", target: "_blank", rel: "noreferrer", children: "Discord" }),
         /* @__PURE__ */ o3(
           "a",
           {
-            href: "https://github.com/sparticleinc/chatgpt-google-summary-extension/issues",
+            href: "https://github.com/zhangferry/SummarAI/issues",
             target: "_blank",
             rel: "noreferrer",
             children: "Feedback"
           }
         ),
-        /* @__PURE__ */ o3("a", { href: "https://twitter.com/Glarity_summary", target: "_blank", rel: "noreferrer", children: "Twitter" }),
+        /* @__PURE__ */ o3("a", { href: "https://twitter.com/zhangferry1", target: "_blank", rel: "noreferrer", children: "Twitter" }),
         /* @__PURE__ */ o3(
           "a",
           {
-            href: "https://github.com/sparticleinc/chatgpt-google-summary-extension",
+            href: "https://github.com/zhangferry/SummarAI",
             target: "_blank",
             rel: "noreferrer",
             children: "Source code"
@@ -26381,116 +25408,6 @@ The title is a bit exaggerated.
   }
   var CustomizePrompt_default = CustomizePrompt;
 
-  // src/options/components/PageSummary.tsx
-  init_hooks_module();
-  function PageSummaryComponent(props) {
-    const {
-      pageSummaryEnable,
-      setPageSummaryEnable,
-      pageSummaryWhitelist,
-      pageSummaryBlacklist,
-      setPageSummaryWhitelist,
-      setPageSummaryBlacklist
-    } = props;
-    const { setToast } = use_toasts_default();
-    const onPageSummarySave = T2(() => {
-      updateUserConfig({ pageSummaryWhitelist, pageSummaryBlacklist });
-      setPageSummaryWhitelist(pageSummaryWhitelist);
-      setPageSummaryBlacklist(pageSummaryBlacklist);
-      setToast(changeToast);
-    }, [
-      pageSummaryBlacklist,
-      pageSummaryWhitelist,
-      setPageSummaryBlacklist,
-      setPageSummaryWhitelist,
-      setToast
-    ]);
-    const onPageSummaryEnableChange = T2(
-      (e3) => {
-        const value = e3.target.checked;
-        setPageSummaryEnable(value);
-        updateUserConfig({ pageSummaryEnable: value });
-        setToast(changeToast);
-      },
-      [setPageSummaryEnable, setToast]
-    );
-    const onPageSummaryWhitelistChange = T2(
-      (e3) => {
-        const value = e3.target.value || "";
-        setPageSummaryWhitelist(value);
-      },
-      [setPageSummaryWhitelist]
-    );
-    const onPageSummaryBlacklistChange = T2(
-      (e3) => {
-        const value = e3.target.value || "";
-        setPageSummaryBlacklist(value);
-      },
-      [setPageSummaryBlacklist]
-    );
-    return /* @__PURE__ */ o3(k, { children: [
-      /* @__PURE__ */ o3(text_default2, { h3: true, className: "glarity--mt-5", children: "Page Summary" }),
-      /* @__PURE__ */ o3(card_default2, { children: [
-        /* @__PURE__ */ o3(card_default2.Content, { children: [
-          /* @__PURE__ */ o3(
-            text_default2,
-            {
-              h5: true,
-              className: "glarity--mb-0 glarity--flex glarity--flex-row glarity--items-center glarity--gap-1",
-              children: [
-                /* @__PURE__ */ o3(
-                  toggle_default2,
-                  {
-                    initialChecked: true,
-                    checked: pageSummaryEnable,
-                    onChange: onPageSummaryEnableChange
-                  }
-                ),
-                " ",
-                "Show Glarity Icon"
-              ]
-            }
-          ),
-          /* @__PURE__ */ o3(text_default2, { className: "glarity--mt-0", font: "12px", children: "Once hidden, the Glarity icon will no longer appear on the page. However, you can open the page summary by clicking on the browser extension icon." })
-        ] }),
-        /* @__PURE__ */ o3(divider_default2, {}),
-        /* @__PURE__ */ o3(card_default2.Content, { children: [
-          /* @__PURE__ */ o3(text_default2, { h4: true, className: "glarity--mb-0", children: "Whitelist Sites" }),
-          /* @__PURE__ */ o3(text_default2, { className: "glarity--mt-0", font: "12px", children: "Only display the Glarity icon on these sites (one URL per line)." }),
-          /* @__PURE__ */ o3(spacer_default2, { h: 0.5 }),
-          /* @__PURE__ */ o3(
-            textarea_default2,
-            {
-              placeholder: "https://glarity.app\nhttps://reddit.com",
-              resize: "vertical",
-              value: pageSummaryWhitelist,
-              style: { width: "400px", height: "100px" },
-              onChange: onPageSummaryWhitelistChange
-            }
-          )
-        ] }),
-        /* @__PURE__ */ o3(divider_default2, {}),
-        /* @__PURE__ */ o3(card_default2.Content, { children: [
-          /* @__PURE__ */ o3(text_default2, { h4: true, className: "glarity--mb-0", children: "Blacklist Sites" }),
-          /* @__PURE__ */ o3(text_default2, { className: "glarity--mt-0", font: "12px", children: "Do not display Glarity icon on these sites (one URL per line)." }),
-          /* @__PURE__ */ o3(spacer_default2, { h: 0.5 }),
-          /* @__PURE__ */ o3(
-            textarea_default2,
-            {
-              placeholder: "https://glarity.app\nhttps://reddit.com",
-              resize: "vertical",
-              value: pageSummaryBlacklist,
-              style: { width: "400px", height: "100px" },
-              onChange: onPageSummaryBlacklistChange
-            }
-          )
-        ] }),
-        /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(button_default2, { scale: 2 / 3, style: { width: 20 }, type: "success", onClick: onPageSummarySave, children: "Save" }) })
-      ] })
-    ] });
-  }
-  var PageSummary_default = PageSummaryComponent;
-
   // src/options/App.tsx
   function OptionsPage(props) {
     const {
@@ -26571,21 +25488,6 @@ The title is a bit exaggerated.
         /* @__PURE__ */ o3(radio_default2.Group, { value: props.theme, onChange: (val) => onThemeChange(val), useRow: true, children: Object.entries(Theme).map(([k4, v3]) => {
           return /* @__PURE__ */ o3(radio_default2, { value: v3, children: k4 }, v3);
         }) }),
-        /* @__PURE__ */ o3(text_default2, { h3: true, className: "glarity--mt-5 glarity--mb-0", children: "Language" }),
-        /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: [
-          "The language used in ChatGPT response. ",
-          /* @__PURE__ */ o3("span", { className: "glarity--italic", children: "Auto" }),
-          " is recommended."
-        ] }),
-        /* @__PURE__ */ o3(
-          select_default2,
-          {
-            value: language,
-            placeholder: "Choose one",
-            onChange: (val) => onLanguageChange(val),
-            children: Object.entries(Language).map(([k4, v3]) => /* @__PURE__ */ o3(select_default2.Option, { value: v3, children: getSplitString(String(k4)) }, k4))
-          }
-        ),
         /* @__PURE__ */ o3(text_default2, { h3: true, className: "glarity--mt-5 glarity--mb-0", children: "AI Provider" }),
         /* @__PURE__ */ o3(ProviderSelect_default, {}),
         /* @__PURE__ */ o3(
@@ -26599,17 +25501,6 @@ The title is a bit exaggerated.
             setPromptPage,
             promptComment,
             setPromptComment
-          }
-        ),
-        /* @__PURE__ */ o3(
-          PageSummary_default,
-          {
-            pageSummaryEnable,
-            setPageSummaryEnable,
-            pageSummaryWhitelist,
-            pageSummaryBlacklist,
-            setPageSummaryWhitelist,
-            setPageSummaryBlacklist
           }
         )
       ] })

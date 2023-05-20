@@ -19,21 +19,21 @@ function Header() {
           </a>
         </div>
         <div className="glarity--flex glarity--flex-row glarity--gap-3">
-          <a href="https://discord.gg/JEJExVuWVM" target="_blank" rel="noreferrer">
+          <a href="https://discord.gg/TdSNQtdX" target="_blank" rel="noreferrer">
             Discord
           </a>
           <a
-            href="https://github.com/sparticleinc/chatgpt-google-summary-extension/issues"
+            href="https://github.com/zhangferry/SummarAI/issues"
             target="_blank"
             rel="noreferrer"
           >
             Feedback
           </a>
-          <a href="https://twitter.com/Glarity_summary" target="_blank" rel="noreferrer">
+          <a href="https://twitter.com/zhangferry1" target="_blank" rel="noreferrer">
             Twitter
           </a>
           <a
-            href="https://github.com/sparticleinc/chatgpt-google-summary-extension"
+            href="https://github.com/zhangferry/SummarAI"
             target="_blank"
             rel="noreferrer"
           >

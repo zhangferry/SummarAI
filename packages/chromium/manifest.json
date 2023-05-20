@@ -19,11 +19,21 @@
   },
   "permissions": [
     "activeTab",
-    "scripting",
     "storage",
     "tabs"
   ],
   "host_permissions": [
     "https://*.openai.com/"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>",
+        "*://*/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
   ]
 }
