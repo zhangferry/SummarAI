@@ -112,14 +112,19 @@ ${question}`
   }
 
   async function makeAPICall(data) {
-    var host = "https://api.openai.com"
-    const hostRes = await getStorage("openai-host")
-    if (hostRes) {
-      host = hostRes
-    }
-    const url = host + "/v1/chat/completions"
+    console.log(data)
 
-    const apiKey = await getStorage("api-key")
+    var host = "api.openai.com"
+
+    let provider = await getStorage("provider")
+    const providerConfig = await getStorage("provider:" + provider)
+
+    if (providerConfig["apiHost"]) {
+      host = providerConfig["apiHost"]
+    }
+    const url = "https://" + host + "/v1/chat/completions"
+
+    const apiKey = providerConfig["apiKey"]
     if (!apiKey) {
       throw new Error(`You should config API Key first`)
     }
@@ -291,6 +296,13 @@ ${question}`
         // manual
         console.log("manual trigger")
       }
+    })
+
+    chrome.storage.local.get(null, function (items) {
+      console.log(`all local items: ${JSON.stringify(items)}`)
+    })
+    chrome.storage.sync.get(null, function (items) {
+      console.log(`all sync items: ${JSON.stringify(items)}`)
     })
   }
 

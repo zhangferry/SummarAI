@@ -25,7 +25,6 @@ import { isIOS } from '@/utils/utils'
 import Header from './components/Header'
 import CustomizePrompt from './components/CustomizePrompt'
 import PageSummaryComponent from './components/PageSummary'
-import EnableGlarity from './components/EnableGlarity'
 import { detectSystemColorScheme } from '@/utils/utils'
 import {
   videoSummaryPromptHightligt,
@@ -75,22 +74,6 @@ function OptionsPage(
     },
     [props, setToast],
   )
-
-  const onLanguageChange = useCallback(
-    (language: Language) => {
-      updateUserConfig({ language })
-      setToast({ text: 'Changes saved', type: 'success' })
-    },
-    [setToast],
-  )
-
-  const getSplitString = (str: string) => {
-    if (str && str.includes('Chinese')) {
-      return `Chinese (${str.split('Chinese')[1] || ''})`
-    }
-
-    return str ?? ''
-  }
 
   useEffect(() => {
     getUserConfig().then((config) => {

@@ -12,7 +12,7 @@ async function Run() {
             console.log("CHATGPT_TAB_CURRENT")
             const textContent = document.body.innerText;
             const url = window.location.href; // add this line to get the URL
-            console.log(`innerText: ${textContent}`);
+            // console.log(`innerText: ${textContent}`);
             console.log(`URL: ${url}`); // log the URL to the console
             sendResponse({textContent: textContent}); // include the URL in the response
           break

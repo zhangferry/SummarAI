@@ -109,6 +109,7 @@ export async function saveProviderConfigs(
   provider: ProviderType,
   configs: ProviderConfigs['configs'],
 ) {
+    console.log(`saveProviderConfigs: ${provider}, type: ${ProviderType.GPT3}, configs: ${configs[ProviderType.GPT3]}`)
   return Browser.storage.local.set({
     provider,
     [`provider:${ProviderType.GPT3}`]: configs[ProviderType.GPT3],
@@ -138,7 +139,7 @@ https://www.crunchyroll.com
 https://www.funimation.com
 https://www.viki.com
 `
-export const APP_TITLE = `Glarity Summary`
+export const APP_TITLE = `SummarAI`
 
 export const DEFAULT_MODEL = 'gpt-3.5-turbo'
 export const DEFAULT_API_HOST = 'api.openai.com'

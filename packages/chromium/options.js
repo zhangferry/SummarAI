@@ -7032,6 +7032,7 @@
     };
   }
   async function saveProviderConfigs(provider, configs) {
+    console.log(`saveProviderConfigs: ${provider}, type: ${"gpt3" /* GPT3 */}, configs: ${configs["gpt3" /* GPT3 */]}`);
     return import_webextension_polyfill.default.storage.local.set({
       provider,
       [`provider:${"gpt3" /* GPT3 */}`]: configs["gpt3" /* GPT3 */]
@@ -25441,19 +25442,6 @@ The title is a bit exaggerated.
       },
       [props, setToast]
     );
-    const onLanguageChange = T2(
-      (language2) => {
-        updateUserConfig({ language: language2 });
-        setToast({ text: "Changes saved", type: "success" });
-      },
-      [setToast]
-    );
-    const getSplitString = (str) => {
-      if (str && str.includes("Chinese")) {
-        return `Chinese (${str.split("Chinese")[1] || ""})`;
-      }
-      return str != null ? str : "";
-    };
     p2(() => {
       getUserConfig().then((config) => {
         setTriggerMode(config.triggerMode);

@@ -1033,7 +1033,6 @@
           console.log("CHATGPT_TAB_CURRENT");
           const textContent = document.body.innerText;
           const url = window.location.href;
-          console.log(`innerText: ${textContent}`);
           console.log(`URL: ${url}`);
           sendResponse({ textContent });
           break;
