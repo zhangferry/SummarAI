@@ -2064,7 +2064,7 @@
         "use strict";
         var hasOwn = {}.hasOwnProperty;
         var nativeCodeString = "[native code]";
-        function classNames24() {
+        function classNames23() {
           var classes = [];
           for (var i3 = 0; i3 < arguments.length; i3++) {
             var arg = arguments[i3];
@@ -2075,7 +2075,7 @@
               classes.push(arg);
             } else if (Array.isArray(arg)) {
               if (arg.length) {
-                var inner = classNames24.apply(null, arg);
+                var inner = classNames23.apply(null, arg);
                 if (inner) {
                   classes.push(inner);
                 }
@@ -2095,14 +2095,14 @@
           return classes.join(" ");
         }
         if (typeof module2 !== "undefined" && module2.exports) {
-          classNames24.default = classNames24;
-          module2.exports = classNames24;
+          classNames23.default = classNames23;
+          module2.exports = classNames23;
         } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
           define("classnames", [], function() {
-            return classNames24;
+            return classNames23;
           });
         } else {
-          window.classNames = classNames24;
+          window.classNames = classNames23;
         }
       })();
     }
@@ -3449,35 +3449,6 @@
     });
     var targetChildren = target.length >= 0 ? target : void 0;
     return [withoutTargetChildren, targetChildren];
-  };
-  var setChildrenIndex = function setChildrenIndex2(children) {
-    var targetComponents = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
-    if (Cn.Children.count(children) === 0)
-      return [];
-    var allowAll = targetComponents.length === 0;
-    var clone = function clone2(child) {
-      var props = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-      return /* @__PURE__ */ Cn.cloneElement(child, props);
-    };
-    var index2 = 0;
-    return Cn.Children.map(children, function(item) {
-      if (!/* @__PURE__ */ Cn.isValidElement(item))
-        return item;
-      index2 = index2 + 1;
-      if (allowAll)
-        return clone(item, {
-          index: index2
-        });
-      var isAllowed = targetComponents.find(function(child) {
-        return child === item.type;
-      });
-      if (isAllowed)
-        return clone(item, {
-          index: index2
-        });
-      index2 = index2 - 1;
-      return item;
-    });
   };
   var isBrowser = function isBrowser2() {
     return Boolean(typeof window !== "undefined" && window.document && window.document.createElement);
@@ -5062,317 +5033,6 @@
     return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
-  // node_modules/@geist-ui/core/esm/code/code.js
-  init_react();
-  var _excluded17 = ["children", "block", "className", "name", "classic"];
-  var defaultProps15 = {
-    block: false,
-    className: "",
-    name: "",
-    classic: false
-  };
-  var CodeComponent = function CodeComponent2(_ref) {
-    var children = _ref.children, block = _ref.block, className = _ref.className, name = _ref.name, classic = _ref.classic, props = _objectWithoutProperties(_ref, _excluded17);
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var theme = use_theme_default();
-    var _useMemo = F2(function() {
-      if (!classic)
-        return {
-          border: theme.palette.accents_1,
-          background: addColorAlpha(theme.palette.accents_1, 0.75)
-        };
-      return {
-        border: theme.palette.accents_2,
-        background: theme.palette.background
-      };
-    }, [classic, theme.palette]), background = _useMemo.background, border = _useMemo.border;
-    if (!block)
-      return /* @__PURE__ */ Cn.createElement("code", props, children);
-    return /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["2383620185", [border, SCALES.font(0.875), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.mt(1.3), SCALES.mr(0), SCALES.mb(1.3), SCALES.ml(0), theme.layout.radius, background, SCALES.pt(1.1), SCALES.pr(1), SCALES.pb(1.1), SCALES.pl(1), theme.layout.radius, theme.palette.accents_2, theme.palette.accents_2, theme.palette.accents_5, SCALES.font(0.8125), SCALES.font(0.32), SCALES.font(0.5), SCALES.font(0.32), SCALES.font(0.5), theme.layout.radius, theme.layout.radius]]]) + " pre"
-    }, name && /* @__PURE__ */ Cn.createElement("header", {
-      className: styled_jsx_es_default.dynamic([["2383620185", [border, SCALES.font(0.875), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.mt(1.3), SCALES.mr(0), SCALES.mb(1.3), SCALES.ml(0), theme.layout.radius, background, SCALES.pt(1.1), SCALES.pr(1), SCALES.pb(1.1), SCALES.pl(1), theme.layout.radius, theme.palette.accents_2, theme.palette.accents_2, theme.palette.accents_5, SCALES.font(0.8125), SCALES.font(0.32), SCALES.font(0.5), SCALES.font(0.32), SCALES.font(0.5), theme.layout.radius, theme.layout.radius]]])
-    }, /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["2383620185", [border, SCALES.font(0.875), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.mt(1.3), SCALES.mr(0), SCALES.mb(1.3), SCALES.ml(0), theme.layout.radius, background, SCALES.pt(1.1), SCALES.pr(1), SCALES.pb(1.1), SCALES.pl(1), theme.layout.radius, theme.palette.accents_2, theme.palette.accents_2, theme.palette.accents_5, SCALES.font(0.8125), SCALES.font(0.32), SCALES.font(0.5), SCALES.font(0.32), SCALES.font(0.5), theme.layout.radius, theme.layout.radius]]]) + " name"
-    }, name)), /* @__PURE__ */ Cn.createElement("pre", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["2383620185", [border, SCALES.font(0.875), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.mt(1.3), SCALES.mr(0), SCALES.mb(1.3), SCALES.ml(0), theme.layout.radius, background, SCALES.pt(1.1), SCALES.pr(1), SCALES.pb(1.1), SCALES.pl(1), theme.layout.radius, theme.palette.accents_2, theme.palette.accents_2, theme.palette.accents_5, SCALES.font(0.8125), SCALES.font(0.32), SCALES.font(0.5), SCALES.font(0.32), SCALES.font(0.5), theme.layout.radius, theme.layout.radius]]]) + " " + (props && props.className != null && props.className || className || "")
-    }), children), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2383620185",
-      dynamic: [border, SCALES.font(0.875), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.mt(1.3), SCALES.mr(0), SCALES.mb(1.3), SCALES.ml(0), theme.layout.radius, background, SCALES.pt(1.1), SCALES.pr(1), SCALES.pb(1.1), SCALES.pl(1), theme.layout.radius, theme.palette.accents_2, theme.palette.accents_2, theme.palette.accents_5, SCALES.font(0.8125), SCALES.font(0.32), SCALES.font(0.5), SCALES.font(0.32), SCALES.font(0.5), theme.layout.radius, theme.layout.radius]
-    }, ".pre.__jsx-style-dynamic-selector{max-width:100%;border:1px solid ".concat(border, ";font-size:").concat(SCALES.font(0.875), ";width:").concat(SCALES.width(1, "initial"), ";height:").concat(SCALES.height(1, "auto"), ";margin:").concat(SCALES.mt(1.3), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(1.3), " ").concat(SCALES.ml(0), ";border-radius:").concat(theme.layout.radius, ";background-color:").concat(background, ";}pre.__jsx-style-dynamic-selector{max-width:100%;font-size:inherit;border:none;margin:0;line-height:1.5em;padding:").concat(SCALES.pt(1.1), " ").concat(SCALES.pr(1), " ").concat(SCALES.pb(1.1), " ").concat(SCALES.pl(1), ";}.dark.__jsx-style-dynamic-selector{color:white;background:black;}.dark.__jsx-style-dynamic-selector code.__jsx-style-dynamic-selector{color:white;}header.__jsx-style-dynamic-selector{height:auto;width:100%;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;border-radius:").concat(theme.layout.radius, ";background-color:transparent;}.name.__jsx-style-dynamic-selector{border:1px solid ").concat(theme.palette.accents_2, ";background-color:").concat(theme.palette.accents_2, ";color:").concat(theme.palette.accents_5, ";height:auto;line-height:1.35em;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;font-size:").concat(SCALES.font(0.8125), ";padding:").concat(SCALES.font(0.32), " ").concat(SCALES.font(0.5), " ").concat(SCALES.font(0.32), " ").concat(SCALES.font(0.5), ";width:auto;border-top-left-radius:calc(").concat(theme.layout.radius, " - 1px);border-bottom-right-radius:").concat(theme.layout.radius, ";}")));
-  };
-  CodeComponent.defaultProps = defaultProps15;
-  CodeComponent.displayName = "GeistCode";
-  var Code = with_scale_default(CodeComponent);
-  var code_default = Code;
-
-  // node_modules/@geist-ui/core/esm/code/index.js
-  var code_default2 = code_default;
-
-  // node_modules/@geist-ui/core/esm/collapse/collapse.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/collapse/collapse-icon.js
-  init_react();
-  var CollapseIcon = function CollapseIcon2(_ref) {
-    var active = _ref.active;
-    return /* @__PURE__ */ Cn.createElement("svg", {
-      viewBox: "0 0 24 24",
-      stroke: "currentColor",
-      strokeWidth: "1.5",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      fill: "none",
-      shapeRendering: "geometricPrecision",
-      style: {
-        color: "currentColor"
-      },
-      className: styled_jsx_es_default.dynamic([["2249786880", [active ? "-180deg" : "0"]]])
-    }, /* @__PURE__ */ Cn.createElement("path", {
-      d: "M6 9l6 6 6-6",
-      className: styled_jsx_es_default.dynamic([["2249786880", [active ? "-180deg" : "0"]]])
-    }), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2249786880",
-      dynamic: [active ? "-180deg" : "0"]
-    }, "svg.__jsx-style-dynamic-selector{-webkit-transition:-webkit-transform 200ms ease;-webkit-transition:transform 200ms ease;transition:transform 200ms ease;-webkit-transform:rotateZ(".concat(active ? "-180deg" : "0", ");-ms-transform:rotateZ(").concat(active ? "-180deg" : "0", ");transform:rotateZ(").concat(active ? "-180deg" : "0", ");width:1.5em;height:1.5em;}")));
-  };
-  var MemoCollapseIcon = /* @__PURE__ */ Cn.memo(CollapseIcon);
-  var collapse_icon_default = MemoCollapseIcon;
-
-  // node_modules/@geist-ui/core/esm/shared/expand.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/utils/use-real-shape.js
-  init_react();
-  var getRealShape = function getRealShape2(el) {
-    var defaultShape = {
-      width: 0,
-      height: 0
-    };
-    if (!el || typeof window === "undefined")
-      return defaultShape;
-    var rect = el.getBoundingClientRect();
-    var _window$getComputedSt = window.getComputedStyle(el), width = _window$getComputedSt.width, height = _window$getComputedSt.height;
-    var getCSSStyleVal = function getCSSStyleVal2(str, parentNum) {
-      if (!str)
-        return 0;
-      var strVal = str.includes("px") ? +str.split("px")[0] : str.includes("%") ? +str.split("%")[0] * parentNum * 0.01 : str;
-      return Number.isNaN(+strVal) ? 0 : +strVal;
-    };
-    return {
-      width: getCSSStyleVal("".concat(width), rect.width),
-      height: getCSSStyleVal("".concat(height), rect.height)
-    };
-  };
-  var useRealShape = function useRealShape2(ref) {
-    var _useState = h2({
-      width: 0,
-      height: 0
-    }), _useState2 = _slicedToArray(_useState, 2), state = _useState2[0], setState = _useState2[1];
-    var update = function update2() {
-      var _getRealShape = getRealShape(ref.current), width = _getRealShape.width, height = _getRealShape.height;
-      setState({
-        width,
-        height
-      });
-    };
-    p2(function() {
-      return update();
-    }, [ref.current]);
-    return [state, update];
-  };
-  var use_real_shape_default = useRealShape;
-
-  // node_modules/@geist-ui/core/esm/shared/expand.js
-  var defaultProps16 = {
-    isExpanded: false,
-    delay: 200
-  };
-  var Expand = function Expand2(_ref) {
-    var isExpanded = _ref.isExpanded, delay = _ref.delay, children = _ref.children;
-    var _useState = h2(isExpanded ? "auto" : "0"), _useState2 = _slicedToArray(_useState, 2), height = _useState2[0], setHeight = _useState2[1];
-    var _useState3 = h2(isExpanded), _useState4 = _slicedToArray(_useState3, 2), selfExpanded = _useState4[0], setSelfExpanded = _useState4[1];
-    var _useState5 = h2(isExpanded), _useState6 = _slicedToArray(_useState5, 2), visible = _useState6[0], setVisible = _useState6[1];
-    var contentRef = _2(null);
-    var entryTimer = _2();
-    var leaveTimer = _2();
-    var resetTimer = _2();
-    var _useRealShape = use_real_shape_default(contentRef), _useRealShape2 = _slicedToArray(_useRealShape, 2), state = _useRealShape2[0], updateShape = _useRealShape2[1];
-    var classes = use_classes_default2("container", {
-      expanded: selfExpanded
-    });
-    p2(function() {
-      return setHeight("".concat(state.height, "px"));
-    }, [state.height]);
-    p2(function() {
-      if (isExpanded) {
-        setVisible(isExpanded);
-      } else {
-        updateShape();
-        setHeight("".concat(state.height, "px"));
-      }
-      entryTimer.current = window.setTimeout(function() {
-        setSelfExpanded(isExpanded);
-        clearTimeout(entryTimer.current);
-      }, 30);
-      if (isExpanded) {
-        resetTimer.current = window.setTimeout(function() {
-          setHeight("auto");
-          clearTimeout(resetTimer.current);
-        }, delay);
-      } else {
-        leaveTimer.current = window.setTimeout(function() {
-          setVisible(isExpanded);
-          clearTimeout(leaveTimer.current);
-        }, delay / 2);
-      }
-      return function() {
-        clearTimeout(entryTimer.current);
-        clearTimeout(leaveTimer.current);
-        clearTimeout(resetTimer.current);
-      };
-    }, [isExpanded]);
-    return /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["1918690829", [visible ? "visible" : "hidden", delay, height]]]) + " " + (classes || "")
-    }, /* @__PURE__ */ Cn.createElement("div", {
-      ref: contentRef,
-      className: styled_jsx_es_default.dynamic([["1918690829", [visible ? "visible" : "hidden", delay, height]]]) + " content"
-    }, children), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "1918690829",
-      dynamic: [visible ? "visible" : "hidden", delay, height]
-    }, ".container.__jsx-style-dynamic-selector{padding:0;margin:0;height:0;overflow:hidden;visibility:".concat(visible ? "visible" : "hidden", ";-webkit-transition:height ").concat(delay, "ms ease;transition:height ").concat(delay, "ms ease;}.expanded.__jsx-style-dynamic-selector{height:").concat(height, ";visibility:visible;}")));
-  };
-  Expand.defaultProps = defaultProps16;
-  Expand.displayName = "GeistExpand";
-  var expand_default = Expand;
-
-  // node_modules/@geist-ui/core/esm/collapse/collapse-context.js
-  init_react();
-  var defaultContext3 = {
-    values: []
-  };
-  var CollapseContext = /* @__PURE__ */ Cn.createContext(defaultContext3);
-  var useCollapseContext = function useCollapseContext2() {
-    return Cn.useContext(CollapseContext);
-  };
-
-  // node_modules/@geist-ui/core/esm/collapse/collapse.js
-  var _excluded18 = ["children", "title", "subtitle", "initialVisible", "shadow", "className", "index"];
-  var defaultProps17 = {
-    className: "",
-    shadow: false,
-    initialVisible: false
-  };
-  var CollapseComponent = function CollapseComponent2(_ref) {
-    var children = _ref.children, title = _ref.title, subtitle = _ref.subtitle, initialVisible = _ref.initialVisible, shadow = _ref.shadow, className = _ref.className, index2 = _ref.index, props = _objectWithoutProperties(_ref, _excluded18);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var _useCollapseContext = useCollapseContext(), values = _useCollapseContext.values, updateValues = _useCollapseContext.updateValues;
-    var _useCurrentState = use_current_state_default3(initialVisible), _useCurrentState2 = _slicedToArray(_useCurrentState, 3), visible = _useCurrentState2[0], setVisible = _useCurrentState2[1], visibleRef = _useCurrentState2[2];
-    var classes = use_classes_default2("collapse", {
-      shadow
-    }, className);
-    if (!title) {
-      use_warning_default('"title" is required.', "Collapse");
-    }
-    p2(function() {
-      if (!values.length)
-        return;
-      var isActive2 = !!values.find(function(item) {
-        return item === index2;
-      });
-      setVisible(isActive2);
-    }, [values.join(",")]);
-    var clickHandler = function clickHandler2() {
-      var next2 = !visibleRef.current;
-      setVisible(next2);
-      updateValues && updateValues(index2, next2);
-    };
-    return /* @__PURE__ */ Cn.createElement("div", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["3106940587", [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]]]) + " " + (props && props.className != null && props.className || classes || "")
-    }), /* @__PURE__ */ Cn.createElement("div", {
-      role: "button",
-      onClick: clickHandler,
-      className: styled_jsx_es_default.dynamic([["3106940587", [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]]]) + " view"
-    }, /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["3106940587", [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]]]) + " title"
-    }, /* @__PURE__ */ Cn.createElement("h3", {
-      className: styled_jsx_es_default.dynamic([["3106940587", [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]]])
-    }, title), " ", /* @__PURE__ */ Cn.createElement(collapse_icon_default, {
-      active: visible
-    })), subtitle && /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["3106940587", [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]]]) + " subtitle"
-    }, subtitle)), /* @__PURE__ */ Cn.createElement(expand_default, {
-      isExpanded: visible
-    }, /* @__PURE__ */ Cn.createElement("div", {
-      className: styled_jsx_es_default.dynamic([["3106940587", [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]]]) + " content"
-    }, children)), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "3106940587",
-      dynamic: [theme.palette.border, theme.palette.border, SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), theme.expressiveness.shadowSmall, theme.layout.radius, theme.layout.gap, theme.palette.foreground, theme.palette.accents_5, SCALES.pt(1.2), SCALES.pr(0), SCALES.pb(1.2), SCALES.pl(0)]
-    }, ".collapse.__jsx-style-dynamic-selector{border-top:1px solid ".concat(theme.palette.border, ";border-bottom:1px solid ").concat(theme.palette.border, ";font-size:").concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(1.2), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(1.2), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.shadow.__jsx-style-dynamic-selector{box-shadow:").concat(theme.expressiveness.shadowSmall, ";border:none;border-radius:").concat(theme.layout.radius, ";padding:").concat(theme.layout.gap, ";}.view.__jsx-style-dynamic-selector{cursor:pointer;outline:none;}.title.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-webkit-justify-content:space-between;-ms-flex-pack:justify;justify-content:space-between;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;color:").concat(theme.palette.foreground, ";}.title.__jsx-style-dynamic-selector h3.__jsx-style-dynamic-selector{margin:0;font-size:1.5em;}.subtitle.__jsx-style-dynamic-selector{color:").concat(theme.palette.accents_5, ";margin:0;}.subtitle.__jsx-style-dynamic-selector>*{margin:0;}.content.__jsx-style-dynamic-selector{font-size:inherit;line-height:1.6em;padding:").concat(SCALES.pt(1.2), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(1.2), " ").concat(SCALES.pl(0), ";}.content.__jsx-style-dynamic-selector>*:first-child{margin-top:0;}.content.__jsx-style-dynamic-selector>*:last-child{margin-bottom:0;}")));
-  };
-  CollapseComponent.defaultProps = defaultProps17;
-  CollapseComponent.displayName = "GeistCollapse";
-  var Collapse = with_scale_default(CollapseComponent);
-  var collapse_default = Collapse;
-
-  // node_modules/@geist-ui/core/esm/collapse/collapse-group.js
-  init_react();
-  var _excluded19 = ["children", "accordion", "className"];
-  var defaultProps18 = {
-    accordion: true,
-    className: ""
-  };
-  var CollapseGroupComponent = function CollapseGroupComponent2(_ref) {
-    var children = _ref.children, accordion = _ref.accordion, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded19);
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var _useCurrentState = use_current_state_default3([]), _useCurrentState2 = _slicedToArray(_useCurrentState, 3), state = _useCurrentState2[0], setState = _useCurrentState2[1], stateRef = _useCurrentState2[2];
-    var classes = use_classes_default2("collapse-group", className);
-    var updateValues = function updateValues2(currentIndex, nextState) {
-      var hasChild3 = stateRef.current.find(function(val) {
-        return val === currentIndex;
-      });
-      if (accordion) {
-        if (nextState)
-          return setState([currentIndex]);
-        return setState([]);
-      }
-      if (nextState) {
-        if (hasChild3)
-          return;
-        return setState([].concat(_toConsumableArray(stateRef.current), [currentIndex]));
-      }
-      setState(stateRef.current.filter(function(item) {
-        return item !== currentIndex;
-      }));
-    };
-    var initialValue = F2(function() {
-      return {
-        values: state,
-        updateValues
-      };
-    }, [state.join(",")]);
-    var hasIndexChildren = F2(function() {
-      return setChildrenIndex(children, [collapse_default]);
-    }, [children]);
-    return /* @__PURE__ */ Cn.createElement(CollapseContext.Provider, {
-      value: initialValue
-    }, /* @__PURE__ */ Cn.createElement("div", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["2415399140", [SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0.6), SCALES.pb(0), SCALES.pl(0.6), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]]]) + " " + (props && props.className != null && props.className || classes || "")
-    }), hasIndexChildren, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2415399140",
-      dynamic: [SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0.6), SCALES.pb(0), SCALES.pl(0.6), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]
-    }, ".collapse-group.__jsx-style-dynamic-selector{width:".concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0.6), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0.6), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.collapse-group.__jsx-style-dynamic-selector>div + div{border-top:none;}"))));
-  };
-  CollapseGroupComponent.defaultProps = defaultProps18;
-  CollapseGroupComponent.displayName = "GeistCollapseGroup";
-  var CollapseGroup = with_scale_default(CollapseGroupComponent);
-  var collapse_group_default = CollapseGroup;
-
-  // node_modules/@geist-ui/core/esm/collapse/index.js
-  collapse_default.Group = collapse_group_default;
-  var collapse_default2 = collapse_default;
-
   // node_modules/@geist-ui/core/esm/geist-provider/geist-provider.js
   init_react();
 
@@ -5570,7 +5230,7 @@
         });
       });
     }, [toasts, memoizedLayout]);
-    var classNames24 = F2(function() {
+    var classNames23 = F2(function() {
       return use_classes_default2("toasts", {
         top: isTopPlacement(toastLayout.placement),
         left: isLeftPlacement(toastLayout.placement)
@@ -5652,7 +5312,7 @@
       onMouseLeave: function onMouseLeave() {
         return hoverHandler(false);
       },
-      className: styled_jsx_es_default.dynamic([["622610754", [theme.layout.gap, theme.layout.gap, theme.layout.gap, theme.layout.gap]]]) + " " + (classNames24 || "")
+      className: styled_jsx_es_default.dynamic([["622610754", [theme.layout.gap, theme.layout.gap, theme.layout.gap, theme.layout.gap]]]) + " " + (classNames23 || "")
     }, toastElements, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
       id: "622610754",
       dynamic: [theme.layout.gap, theme.layout.gap, theme.layout.gap, theme.layout.gap]
@@ -5704,23 +5364,23 @@
 
   // node_modules/@geist-ui/core/esm/radio/radio-context.js
   init_react();
-  var defaultContext4 = {
+  var defaultContext3 = {
     disabledAll: false,
     inGroup: false
   };
-  var RadioContext = /* @__PURE__ */ Cn.createContext(defaultContext4);
+  var RadioContext = /* @__PURE__ */ Cn.createContext(defaultContext3);
   var useRadioContext = function useRadioContext2() {
     return Cn.useContext(RadioContext);
   };
 
   // node_modules/@geist-ui/core/esm/radio/radio-description.js
   init_react();
-  var _excluded20 = ["className", "children"];
-  var defaultProps19 = {
+  var _excluded17 = ["className", "children"];
+  var defaultProps15 = {
     className: ""
   };
   var RadioDescriptionComponent = function RadioDescriptionComponent2(_ref) {
-    var className = _ref.className, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded20);
+    var className = _ref.className, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded17);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     return /* @__PURE__ */ Cn.createElement("span", _extends({}, props, {
@@ -5730,7 +5390,7 @@
       dynamic: [theme.palette.accents_3, SCALES.font(0.85, "calc(var(--radio-size) * 0.85)"), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0, "calc(var(--radio-size) + var(--radio-size) * 0.375)")]
     }, "span.__jsx-style-dynamic-selector{color:".concat(theme.palette.accents_3, ";font-size:").concat(SCALES.font(0.85, "calc(var(--radio-size) * 0.85)"), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0, "calc(var(--radio-size) + var(--radio-size) * 0.375)"), ";}")));
   };
-  RadioDescriptionComponent.defaultProps = defaultProps19;
+  RadioDescriptionComponent.defaultProps = defaultProps15;
   RadioDescriptionComponent.displayName = "GeistRadioDescription";
   var RadioDescription = with_scale_default(RadioDescriptionComponent);
   var radio_description_default = RadioDescription;
@@ -5770,14 +5430,14 @@
   };
 
   // node_modules/@geist-ui/core/esm/radio/radio.js
-  var _excluded21 = ["className", "checked", "onChange", "disabled", "type", "value", "children"];
-  var defaultProps20 = {
+  var _excluded18 = ["className", "checked", "onChange", "disabled", "type", "value", "children"];
+  var defaultProps16 = {
     type: "default",
     disabled: false,
     className: ""
   };
   var RadioComponent = function RadioComponent2(_ref) {
-    var className = _ref.className, checked = _ref.checked, onChange = _ref.onChange, disabled = _ref.disabled, type4 = _ref.type, radioValue = _ref.value, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded21);
+    var className = _ref.className, checked = _ref.checked, onChange = _ref.onChange, disabled = _ref.disabled, type4 = _ref.type, radioValue = _ref.value, children = _ref.children, props = _objectWithoutProperties(_ref, _excluded18);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var _useState = h2(!!checked), _useState2 = _slicedToArray(_useState, 2), selfChecked = _useState2[0], setSelfChecked = _useState2[1];
@@ -5844,21 +5504,21 @@
       dynamic: [SCALES.font(1), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), isDisabled ? theme.palette.accents_4 : label, isDisabled ? "not-allowed" : "pointer", border, isDisabled ? theme.palette.accents_4 : bg]
     }, "input.__jsx-style-dynamic-selector{opacity:0;visibility:hidden;overflow:hidden;width:1px;height:1px;top:-1000px;right:-1000px;position:fixed;font-size:0;}.radio.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:flex-start;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;position:relative;--radio-size:".concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "initial"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}label.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:start;-webkit-justify-content:flex-start;-ms-flex-pack:start;justify-content:flex-start;color:").concat(isDisabled ? theme.palette.accents_4 : label, ";cursor:").concat(isDisabled ? "not-allowed" : "pointer", ";}.name.__jsx-style-dynamic-selector{font-size:var(--radio-size);font-weight:bold;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}.point.__jsx-style-dynamic-selector{height:var(--radio-size);width:var(--radio-size);border-radius:50%;border:1px solid ").concat(border, ";-webkit-transition:all 0.2s ease 0s;transition:all 0.2s ease 0s;position:relative;display:inline-block;-webkit-transform:scale(0.875);-ms-transform:scale(0.875);transform:scale(0.875);margin-right:calc(var(--radio-size) * 0.375);}.point.__jsx-style-dynamic-selector:before{content:'';position:absolute;left:-1px;top:-1px;-webkit-transform:scale(0);-ms-transform:scale(0);transform:scale(0);height:var(--radio-size);width:var(--radio-size);border-radius:50%;background-color:").concat(isDisabled ? theme.palette.accents_4 : bg, ";}.active.__jsx-style-dynamic-selector:before{-webkit-transform:scale(0.875);-ms-transform:scale(0.875);transform:scale(0.875);-webkit-transition:all 0.2s ease 0s;transition:all 0.2s ease 0s;}")));
   };
-  RadioComponent.defaultProps = defaultProps20;
+  RadioComponent.defaultProps = defaultProps16;
   RadioComponent.displayName = "GeistRadio";
   var Radio = with_scale_default(RadioComponent);
   var radio_default = Radio;
 
   // node_modules/@geist-ui/core/esm/radio/radio-group.js
   init_react();
-  var _excluded22 = ["disabled", "onChange", "value", "children", "className", "initialValue", "useRow"];
-  var defaultProps21 = {
+  var _excluded19 = ["disabled", "onChange", "value", "children", "className", "initialValue", "useRow"];
+  var defaultProps17 = {
     disabled: false,
     className: "",
     useRow: false
   };
   var RadioGroupComponent = function RadioGroupComponent2(_ref) {
-    var disabled = _ref.disabled, onChange = _ref.onChange, value = _ref.value, children = _ref.children, className = _ref.className, initialValue = _ref.initialValue, useRow = _ref.useRow, props = _objectWithoutProperties(_ref, _excluded22);
+    var disabled = _ref.disabled, onChange = _ref.onChange, value = _ref.value, children = _ref.children, className = _ref.className, initialValue = _ref.initialValue, useRow = _ref.useRow, props = _objectWithoutProperties(_ref, _excluded19);
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var _useState = h2(initialValue), _useState2 = _slicedToArray(_useState, 2), selfVal = _useState2[0], setSelfVal = _useState2[1];
     var updateState = function updateState2(nextValue) {
@@ -5887,7 +5547,7 @@
       dynamic: [useRow ? "col" : "column", SCALES.font(1), SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), useRow ? 0 : "var(--radio-group-gap)", useRow ? "var(--radio-group-gap)" : 0, SCALES.font(1)]
     }, ".radio-group.__jsx-style-dynamic-selector{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:".concat(useRow ? "col" : "column", ";-ms-flex-direction:").concat(useRow ? "col" : "column", ";flex-direction:").concat(useRow ? "col" : "column", ";--radio-group-gap:").concat(SCALES.font(1), ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.radio-group.__jsx-style-dynamic-selector .radio{margin-top:").concat(useRow ? 0 : "var(--radio-group-gap)", ";margin-left:").concat(useRow ? "var(--radio-group-gap)" : 0, ";--radio-size:").concat(SCALES.font(1), ";}.radio-group.__jsx-style-dynamic-selector .radio:first-of-type{margin:0;}")));
   };
-  RadioGroupComponent.defaultProps = defaultProps21;
+  RadioGroupComponent.defaultProps = defaultProps17;
   RadioGroupComponent.displayName = "GeistRadioGroup";
   var RadioGroup = with_scale_default(RadioGroupComponent);
   var radio_group_default = RadioGroup;
@@ -5897,132 +5557,6 @@
   radio_default.Description = radio_description_default;
   radio_default.Desc = radio_description_default;
   var radio_default2 = radio_default;
-
-  // node_modules/@geist-ui/core/esm/snippet/snippet.js
-  init_react();
-
-  // node_modules/@geist-ui/core/esm/snippet/styles.js
-  var getStyles3 = function getStyles4(type4, palette3, fill) {
-    var styles = {
-      "default": {
-        color: palette3.foreground,
-        border: palette3.border,
-        bgColor: palette3.background
-      },
-      success: {
-        color: palette3.success,
-        border: palette3.success,
-        bgColor: palette3.background
-      },
-      warning: {
-        color: palette3.warning,
-        border: palette3.warning,
-        bgColor: palette3.background
-      },
-      error: {
-        color: palette3.error,
-        border: palette3.error,
-        bgColor: palette3.background
-      },
-      secondary: {
-        color: palette3.secondary,
-        border: palette3.secondary,
-        bgColor: palette3.background
-      },
-      lite: {
-        color: palette3.foreground,
-        border: palette3.border,
-        bgColor: palette3.accents_1
-      },
-      dark: {
-        color: palette3.background,
-        border: palette3.foreground,
-        bgColor: palette3.foreground
-      }
-    };
-    var filledTypes = ["success", "warning", "error", "secondary"];
-    var style3 = styles[type4];
-    var shouldFilled = filledTypes.includes(type4);
-    if (!fill || !shouldFilled)
-      return style3;
-    return _extends({}, style3, {
-      color: style3.bgColor,
-      bgColor: style3.color
-    });
-  };
-
-  // node_modules/@geist-ui/core/esm/snippet/snippet-icon.js
-  init_react();
-  var SnippetIconComponent = function SnippetIconComponent2() {
-    return /* @__PURE__ */ Cn.createElement("svg", {
-      viewBox: "0 0 24 24",
-      stroke: "currentColor",
-      strokeWidth: "1.5",
-      strokeLinecap: "round",
-      strokeLinejoin: "round",
-      fill: "none",
-      shapeRendering: "geometricPrecision",
-      style: {
-        color: "currentcolor"
-      },
-      className: "jsx-418323402"
-    }, /* @__PURE__ */ Cn.createElement("path", {
-      d: "M8 17.929H6c-1.105 0-2-.912-2-2.036V5.036C4 3.91 4.895 3 6 3h8c1.105 0 2 .911 2 2.036v1.866m-6 .17h8c1.105 0 2 .91 2 2.035v10.857C20 21.09 19.105 22 18 22h-8c-1.105 0-2-.911-2-2.036V9.107c0-1.124.895-2.036 2-2.036z",
-      className: "jsx-418323402"
-    }), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "418323402"
-    }, "svg.jsx-418323402{width:calc(var(--snippet-font-size) * 1.69);height:calc(var(--snippet-font-size) * 1.69);}"));
-  };
-  SnippetIconComponent.displayName = "GeistSnippetIcon";
-  var SnippetIcon = /* @__PURE__ */ Cn.memo(SnippetIconComponent);
-  var snippet_icon_default = SnippetIcon;
-
-  // node_modules/@geist-ui/core/esm/use-clipboard/use-clipboard.js
-  init_react();
-  var defaultOptions = {
-    onError: function onError() {
-      return use_warning_default("Failed to copy.", "use-clipboard");
-    }
-  };
-  var useClipboard = function useClipboard2() {
-    var options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : defaultOptions;
-    var el = use_portal_default("clipboard");
-    var copyText = function copyText2(el2, text) {
-      if (!el2 || !text)
-        return;
-      var selection = window.getSelection();
-      if (!selection)
-        return;
-      el2.style.whiteSpace = "pre";
-      el2.textContent = text;
-      var range3 = window.document.createRange();
-      selection.removeAllRanges();
-      range3.selectNode(el2);
-      selection.addRange(range3);
-      try {
-        window.document.execCommand("copy");
-      } catch (e3) {
-        options.onError && options.onError();
-      }
-      selection.removeAllRanges();
-      if (el2) {
-        el2.textContent = "";
-      }
-    };
-    var copy = T2(function(text) {
-      copyText(el, text);
-    }, [el]);
-    return {
-      copy
-    };
-  };
-  var use_clipboard_default = useClipboard;
-
-  // node_modules/@geist-ui/core/esm/use-clipboard/index.js
-  var use_clipboard_default2 = use_clipboard_default;
-
-  // node_modules/@geist-ui/core/esm/utils/use-clipboard.js
-  var use_clipboard_default3 = use_clipboard_default2;
 
   // node_modules/@geist-ui/core/esm/use-toasts/use-toast.js
   init_react();
@@ -6133,92 +5667,10 @@
   // node_modules/@geist-ui/core/esm/use-toasts/index.js
   var use_toasts_default = use_toast_default;
 
-  // node_modules/@geist-ui/core/esm/snippet/snippet.js
-  var _excluded23 = ["type", "filled", "children", "symbol", "toastText", "toastType", "text", "copy", "className"];
-  var defaultProps22 = {
-    filled: false,
-    symbol: "$",
-    toastText: "Copied to clipboard!",
-    toastType: "success",
-    copy: "default",
-    type: "default",
-    className: ""
-  };
-  var textArrayToString = function textArrayToString2(text) {
-    return text.reduce(function(pre, current) {
-      if (!current)
-        return pre;
-      return pre ? "".concat(pre, "\n").concat(current) : current;
-    }, "");
-  };
-  var SnippetComponent = function SnippetComponent2(_ref) {
-    var type4 = _ref.type, filled = _ref.filled, children = _ref.children, symbol = _ref.symbol, toastText = _ref.toastText, toastType = _ref.toastType, text = _ref.text, copyType = _ref.copy, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded23);
-    var theme = use_theme_default();
-    var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
-    var _useClipboard = use_clipboard_default3(), copy = _useClipboard.copy;
-    var _useToasts = use_toasts_default(), setToast = _useToasts.setToast;
-    var ref = _2(null);
-    var isMultiLine = text && Array.isArray(text);
-    var style3 = F2(function() {
-      return getStyles3(type4, theme.palette, filled);
-    }, [type4, theme.palette, filled]);
-    var showCopyIcon = F2(function() {
-      return copyType !== "prevent";
-    }, [copyType]);
-    var childText = F2(function() {
-      if (isMultiLine)
-        return textArrayToString(text);
-      if (!children)
-        return text;
-      if (!ref.current)
-        return "";
-      return ref.current.textContent;
-    }, [ref.current, children, text]);
-    var symbolBefore = F2(function() {
-      var str = symbol.trim();
-      return str ? "".concat(str, " ") : "";
-    }, [symbol]);
-    var clickHandler = function clickHandler2() {
-      if (!childText || !showCopyIcon)
-        return;
-      copy(childText);
-      if (copyType === "silent")
-        return;
-      setToast({
-        text: toastText,
-        type: toastType
-      });
-    };
-    return /* @__PURE__ */ Cn.createElement("div", _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["2394272060", [style3.color, style3.bgColor, style3.border, theme.layout.radius, SCALES.font(0.8125), SCALES.pt(0.667), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(2.667), SCALES.pb(0.667), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), style3.color, symbolBefore, style3.bgColor, isMultiLine ? "flex-start" : "center", theme.layout.radius, isMultiLine ? "var(--snippet-padding-top)" : 0]]]) + " " + (props && props.className != null && props.className || use_classes_default2("snippet", className) || "")
-    }), isMultiLine ? text.map(function(t3, index2) {
-      return /* @__PURE__ */ Cn.createElement("pre", {
-        key: "snippet-".concat(index2, "-").concat(t3),
-        className: styled_jsx_es_default.dynamic([["2394272060", [style3.color, style3.bgColor, style3.border, theme.layout.radius, SCALES.font(0.8125), SCALES.pt(0.667), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(2.667), SCALES.pb(0.667), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), style3.color, symbolBefore, style3.bgColor, isMultiLine ? "flex-start" : "center", theme.layout.radius, isMultiLine ? "var(--snippet-padding-top)" : 0]]])
-      }, t3);
-    }) : /* @__PURE__ */ Cn.createElement("pre", {
-      ref,
-      className: styled_jsx_es_default.dynamic([["2394272060", [style3.color, style3.bgColor, style3.border, theme.layout.radius, SCALES.font(0.8125), SCALES.pt(0.667), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(2.667), SCALES.pb(0.667), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), style3.color, symbolBefore, style3.bgColor, isMultiLine ? "flex-start" : "center", theme.layout.radius, isMultiLine ? "var(--snippet-padding-top)" : 0]]])
-    }, children || text), showCopyIcon && /* @__PURE__ */ Cn.createElement("div", {
-      onClick: clickHandler,
-      className: styled_jsx_es_default.dynamic([["2394272060", [style3.color, style3.bgColor, style3.border, theme.layout.radius, SCALES.font(0.8125), SCALES.pt(0.667), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(2.667), SCALES.pb(0.667), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), style3.color, symbolBefore, style3.bgColor, isMultiLine ? "flex-start" : "center", theme.layout.radius, isMultiLine ? "var(--snippet-padding-top)" : 0]]]) + " copy"
-    }, /* @__PURE__ */ Cn.createElement(snippet_icon_default, null)), /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
-      id: "2394272060",
-      dynamic: [style3.color, style3.bgColor, style3.border, theme.layout.radius, SCALES.font(0.8125), SCALES.pt(0.667), SCALES.width(1, "initial"), SCALES.height(1, "auto"), SCALES.pt(0.667), SCALES.pr(2.667), SCALES.pb(0.667), SCALES.pl(0.667), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0), style3.color, symbolBefore, style3.bgColor, isMultiLine ? "flex-start" : "center", theme.layout.radius, isMultiLine ? "var(--snippet-padding-top)" : 0]
-    }, ".snippet.__jsx-style-dynamic-selector{position:relative;max-width:100%;color:".concat(style3.color, ";background-color:").concat(style3.bgColor, ";border:1px solid ").concat(style3.border, ";border-radius:").concat(theme.layout.radius, ";--snippet-font-size:").concat(SCALES.font(0.8125), ";--snippet-padding-top:").concat(SCALES.pt(0.667), ";font-size:var(--snippet-font-size);width:").concat(SCALES.width(1, "initial"), ";height:").concat(SCALES.height(1, "auto"), ";padding:").concat(SCALES.pt(0.667), " ").concat(SCALES.pr(2.667), " ").concat(SCALES.pb(0.667), " ").concat(SCALES.pl(0.667), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}pre.__jsx-style-dynamic-selector{margin:0;padding:0;border:none;background-color:transparent;color:").concat(style3.color, ";font-size:inherit;}pre.__jsx-style-dynamic-selector::before{content:'").concat(symbolBefore, "';-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}pre.__jsx-style-dynamic-selector *{margin:0;padding:0;font-size:inherit;color:inherit;}.copy.__jsx-style-dynamic-selector{position:absolute;right:0;top:0;bottom:0;height:calc(100% - 2px);background-color:").concat(style3.bgColor, ";display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;-webkit-align-items:").concat(isMultiLine ? "flex-start" : "center", ";-webkit-box-align:").concat(isMultiLine ? "flex-start" : "center", ";-ms-flex-align:").concat(isMultiLine ? "flex-start" : "center", ";align-items:").concat(isMultiLine ? "flex-start" : "center", ";width:calc(3.281 * var(--snippet-font-size));color:inherit;-webkit-transition:opacity 150ms ease 0s;transition:opacity 150ms ease 0s;border-radius:").concat(theme.layout.radius, ";cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;padding-top:").concat(isMultiLine ? "var(--snippet-padding-top)" : 0, ";opacity:0.65;}.copy.__jsx-style-dynamic-selector:hover{opacity:1;}")));
-  };
-  SnippetComponent.defaultProps = defaultProps22;
-  SnippetComponent.displayName = "GeistSnippet";
-  var Snippet = with_scale_default(SnippetComponent);
-  var snippet_default = Snippet;
-
-  // node_modules/@geist-ui/core/esm/snippet/index.js
-  var snippet_default2 = snippet_default;
-
   // node_modules/@geist-ui/core/esm/spinner/spinner.js
   init_react();
-  var _excluded24 = ["className"];
-  var defaultProps23 = {
+  var _excluded20 = ["className"];
+  var defaultProps18 = {
     className: ""
   };
   var getSpans = function getSpans2(theme) {
@@ -6233,7 +5685,7 @@
     });
   };
   var SpinnerComponent = function SpinnerComponent2(_ref) {
-    var className = _ref.className, props = _objectWithoutProperties(_ref, _excluded24);
+    var className = _ref.className, props = _objectWithoutProperties(_ref, _excluded20);
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES;
     var classes = use_classes_default2("spinner", className);
@@ -6246,7 +5698,7 @@
       dynamic: [SCALES.width(1.25), SCALES.height(1.25), SCALES.pt(0), SCALES.pr(0), SCALES.pb(0), SCALES.pl(0), SCALES.mt(0), SCALES.mr(0), SCALES.mb(0), SCALES.ml(0)]
     }, ".spinner.__jsx-style-dynamic-selector{display:block;box-sizing:border-box;width:".concat(SCALES.width(1.25), ";height:").concat(SCALES.height(1.25), ";padding:").concat(SCALES.pt(0), " ").concat(SCALES.pr(0), " ").concat(SCALES.pb(0), " ").concat(SCALES.pl(0), ";margin:").concat(SCALES.mt(0), " ").concat(SCALES.mr(0), " ").concat(SCALES.mb(0), " ").concat(SCALES.ml(0), ";}.container.__jsx-style-dynamic-selector{width:100%;height:100%;position:relative;left:50%;top:50%;}")));
   };
-  SpinnerComponent.defaultProps = defaultProps23;
+  SpinnerComponent.defaultProps = defaultProps18;
   SpinnerComponent.displayName = "GeistSpinner";
   var Spinner = with_scale_default(SpinnerComponent);
   var spinner_default = Spinner;
@@ -6295,8 +5747,8 @@
 
   // node_modules/@geist-ui/core/esm/text/child.js
   init_react();
-  var _excluded25 = ["children", "tag", "className", "type"];
-  var defaultProps24 = {
+  var _excluded21 = ["children", "tag", "className", "type"];
+  var defaultProps19 = {
     type: "default",
     className: ""
   };
@@ -6311,7 +5763,7 @@
     return colors[type4] || colors["default"];
   };
   var TextChild = function TextChild2(_ref) {
-    var children = _ref.children, tag = _ref.tag, className = _ref.className, type4 = _ref.type, props = _objectWithoutProperties(_ref, _excluded25);
+    var children = _ref.children, tag = _ref.tag, className = _ref.className, type4 = _ref.type, props = _objectWithoutProperties(_ref, _excluded21);
     var Component = tag;
     var theme = use_theme_default();
     var _useScale = use_scale_default(), SCALES = _useScale.SCALES, getScaleProps2 = _useScale.getScaleProps;
@@ -6323,7 +5775,7 @@
     var color = F2(function() {
       return getTypeColor(type4, theme.palette);
     }, [type4, theme.palette]);
-    var classNames24 = F2(function() {
+    var classNames23 = F2(function() {
       var keys = [{
         value: mx,
         className: "mx"
@@ -6348,19 +5800,19 @@
       return "".concat(scaleClassNames, " ").concat(className).trim();
     }, [mx, my, px, py, font3, className]);
     return /* @__PURE__ */ Cn.createElement(Component, _extends({}, props, {
-      className: styled_jsx_es_default.dynamic([["3155699851", [tag, color, SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.font(1, "inherit"), SCALES.ml(0, "revert"), SCALES.mr(0, "revert"), SCALES.mt(0, "revert"), SCALES.mb(0, "revert"), SCALES.pl(0, "revert"), SCALES.pr(0, "revert"), SCALES.pt(0, "revert"), SCALES.pb(0, "revert")]]]) + " " + (props && props.className != null && props.className || classNames24 || "")
+      className: styled_jsx_es_default.dynamic([["3155699851", [tag, color, SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.font(1, "inherit"), SCALES.ml(0, "revert"), SCALES.mr(0, "revert"), SCALES.mt(0, "revert"), SCALES.mb(0, "revert"), SCALES.pl(0, "revert"), SCALES.pr(0, "revert"), SCALES.pt(0, "revert"), SCALES.pb(0, "revert")]]]) + " " + (props && props.className != null && props.className || classNames23 || "")
     }), children, /* @__PURE__ */ Cn.createElement(styled_jsx_es_default, {
       id: "3155699851",
       dynamic: [tag, color, SCALES.width(1, "auto"), SCALES.height(1, "auto"), SCALES.font(1, "inherit"), SCALES.ml(0, "revert"), SCALES.mr(0, "revert"), SCALES.mt(0, "revert"), SCALES.mb(0, "revert"), SCALES.pl(0, "revert"), SCALES.pr(0, "revert"), SCALES.pt(0, "revert"), SCALES.pb(0, "revert")]
     }, "".concat(tag, ".__jsx-style-dynamic-selector{color:").concat(color, ";width:").concat(SCALES.width(1, "auto"), ";height:").concat(SCALES.height(1, "auto"), ";}.font.__jsx-style-dynamic-selector{font-size:").concat(SCALES.font(1, "inherit"), ";}.mx.__jsx-style-dynamic-selector{margin-left:").concat(SCALES.ml(0, "revert"), ";margin-right:").concat(SCALES.mr(0, "revert"), ";}.my.__jsx-style-dynamic-selector{margin-top:").concat(SCALES.mt(0, "revert"), ";margin-bottom:").concat(SCALES.mb(0, "revert"), ";}.px.__jsx-style-dynamic-selector{padding-left:").concat(SCALES.pl(0, "revert"), ";padding-right:").concat(SCALES.pr(0, "revert"), ";}.py.__jsx-style-dynamic-selector{padding-top:").concat(SCALES.pt(0, "revert"), ";padding-bottom:").concat(SCALES.pb(0, "revert"), ";}")));
   };
-  TextChild.defaultProps = defaultProps24;
+  TextChild.defaultProps = defaultProps19;
   TextChild.displayName = "GeistTextChild";
   var child_default = TextChild;
 
   // node_modules/@geist-ui/core/esm/text/text.js
-  var _excluded26 = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "b", "small", "i", "span", "del", "em", "blockquote", "children", "className"];
-  var defaultProps25 = {
+  var _excluded22 = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "b", "small", "i", "span", "del", "em", "blockquote", "children", "className"];
+  var defaultProps20 = {
     h1: false,
     h2: false,
     h3: false,
@@ -6387,7 +5839,7 @@
     }, getModifierChild2(nextTag, children));
   };
   var TextComponent = function TextComponent2(_ref) {
-    var h1 = _ref.h1, h22 = _ref.h2, h3 = _ref.h3, h4 = _ref.h4, h5 = _ref.h5, h6 = _ref.h6, p3 = _ref.p, b3 = _ref.b, small = _ref.small, i3 = _ref.i, span = _ref.span, del = _ref.del, em = _ref.em, blockquote = _ref.blockquote, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded26);
+    var h1 = _ref.h1, h22 = _ref.h2, h3 = _ref.h3, h4 = _ref.h4, h5 = _ref.h5, h6 = _ref.h6, p3 = _ref.p, b3 = _ref.b, small = _ref.small, i3 = _ref.i, span = _ref.span, del = _ref.del, em = _ref.em, blockquote = _ref.blockquote, children = _ref.children, className = _ref.className, props = _objectWithoutProperties(_ref, _excluded22);
     var elements = {
       h1,
       h2: h22,
@@ -6432,7 +5884,7 @@
       tag
     }, props), modifers);
   };
-  TextComponent.defaultProps = defaultProps25;
+  TextComponent.defaultProps = defaultProps20;
   TextComponent.displayName = "GeistText";
   var Text = with_scale_default(TextComponent);
   var text_default = Text;
@@ -12200,7 +11652,7 @@ https://www.viki.com
   }
 
   // node_modules/rc-field-form/es/Field.js
-  var _excluded27 = ["name"];
+  var _excluded23 = ["name"];
   var EMPTY_ERRORS = [];
   function requireUpdate(shouldUpdate, prev2, next2, prevValue, nextValue, info) {
     if (typeof shouldUpdate === "function") {
@@ -12595,7 +12047,7 @@ https://www.viki.com
     valuePropName: "value"
   };
   function WrapperField(_ref5) {
-    var name = _ref5.name, restProps = _objectWithoutProperties(_ref5, _excluded27);
+    var name = _ref5.name, restProps = _objectWithoutProperties(_ref5, _excluded23);
     var fieldContext = q2(FieldContext_default);
     var listContext = q2(ListContext_default);
     var namePath = name !== void 0 ? getNamePath(name) : void 0;
@@ -12841,7 +12293,7 @@ https://www.viki.com
   var NameMap_default = NameMap;
 
   // node_modules/rc-field-form/es/useForm.js
-  var _excluded28 = ["name"];
+  var _excluded24 = ["name"];
   var FormStore = /* @__PURE__ */ _createClass(function FormStore2(forceRootUpdate) {
     var _this = this;
     _classCallCheck(this, FormStore2);
@@ -13221,7 +12673,7 @@ https://www.viki.com
       var prevStore = _this.store;
       var namePathList = [];
       fields.forEach(function(fieldData) {
-        var name = fieldData.name, data = _objectWithoutProperties(fieldData, _excluded28);
+        var name = fieldData.name, data = _objectWithoutProperties(fieldData, _excluded24);
         var namePath = getNamePath(name);
         namePathList.push(namePath);
         if ("value" in data) {
@@ -13637,9 +13089,9 @@ https://www.viki.com
   var FormContext_default = FormContext;
 
   // node_modules/rc-field-form/es/Form.js
-  var _excluded29 = ["name", "initialValues", "fields", "form", "preserve", "children", "component", "validateMessages", "validateTrigger", "onValuesChange", "onFieldsChange", "onFinish", "onFinishFailed"];
+  var _excluded25 = ["name", "initialValues", "fields", "form", "preserve", "children", "component", "validateMessages", "validateTrigger", "onValuesChange", "onFieldsChange", "onFinish", "onFinishFailed"];
   var Form = function Form2(_ref, ref) {
-    var name = _ref.name, initialValues = _ref.initialValues, fields = _ref.fields, form = _ref.form, preserve = _ref.preserve, children = _ref.children, _ref$component = _ref.component, Component = _ref$component === void 0 ? "form" : _ref$component, validateMessages = _ref.validateMessages, _ref$validateTrigger = _ref.validateTrigger, validateTrigger = _ref$validateTrigger === void 0 ? "onChange" : _ref$validateTrigger, onValuesChange = _ref.onValuesChange, _onFieldsChange = _ref.onFieldsChange, _onFinish = _ref.onFinish, onFinishFailed = _ref.onFinishFailed, restProps = _objectWithoutProperties(_ref, _excluded29);
+    var name = _ref.name, initialValues = _ref.initialValues, fields = _ref.fields, form = _ref.form, preserve = _ref.preserve, children = _ref.children, _ref$component = _ref.component, Component = _ref$component === void 0 ? "form" : _ref$component, validateMessages = _ref.validateMessages, _ref$validateTrigger = _ref.validateTrigger, validateTrigger = _ref$validateTrigger === void 0 ? "onChange" : _ref$validateTrigger, onValuesChange = _ref.onValuesChange, _onFieldsChange = _ref.onFieldsChange, _onFinish = _ref.onFinish, onFinishFailed = _ref.onFinishFailed, restProps = _objectWithoutProperties(_ref, _excluded25);
     var formContext = q2(FormContext_default);
     var _useForm = useForm_default(form), _useForm2 = _slicedToArray(_useForm, 1), formInstance = _useForm2[0];
     var _formInstance$getInte = formInstance.getInternalHooks(HOOK_MARK), useSubscribe = _formInstance$getInte.useSubscribe, setInitialValues = _formInstance$getInte.setInitialValues, setCallbacks = _formInstance$getInte.setCallbacks, setValidateMessages = _formInstance$getInte.setValidateMessages, setPreserve = _formInstance$getInte.setPreserve, destroyForm = _formInstance$getInte.destroyForm;
@@ -16169,10 +15621,10 @@ https://www.viki.com
 
   // node_modules/rc-motion/es/context.js
   init_react();
-  var _excluded30 = ["children"];
+  var _excluded26 = ["children"];
   var Context2 = /* @__PURE__ */ G({});
   function MotionProvider(_ref) {
-    var children = _ref.children, props = _objectWithoutProperties(_ref, _excluded30);
+    var children = _ref.children, props = _objectWithoutProperties(_ref, _excluded26);
     return /* @__PURE__ */ y(Context2.Provider, {
       value: props
     }, children);
@@ -16785,8 +16237,8 @@ https://www.viki.com
   }
 
   // node_modules/rc-motion/es/CSSMotionList.js
-  var _excluded31 = ["component", "children", "onVisibleChanged", "onAllRemoved"];
-  var _excluded210 = ["status"];
+  var _excluded27 = ["component", "children", "onVisibleChanged", "onAllRemoved"];
+  var _excluded28 = ["status"];
   var MOTION_PROP_NAMES = ["eventProps", "visible", "children", "motionName", "motionAppear", "motionEnter", "motionLeave", "motionLeaveImmediately", "motionDeadline", "removeOnLeave", "leavedClassName", "onAppearStart", "onAppearActive", "onAppearEnd", "onEnterStart", "onEnterActive", "onEnterEnd", "onLeaveStart", "onLeaveActive", "onLeaveEnd"];
   function genCSSMotionList(transitionSupport) {
     var CSSMotion = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : CSSMotion_default;
@@ -16827,7 +16279,7 @@ https://www.viki.com
         value: function render() {
           var _this2 = this;
           var keyEntities = this.state.keyEntities;
-          var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, onAllRemoved = _this$props.onAllRemoved, restProps = _objectWithoutProperties(_this$props, _excluded31);
+          var _this$props = this.props, component = _this$props.component, children = _this$props.children, _onVisibleChanged = _this$props.onVisibleChanged, onAllRemoved = _this$props.onAllRemoved, restProps = _objectWithoutProperties(_this$props, _excluded27);
           var Component = component || k;
           var motionProps = {};
           MOTION_PROP_NAMES.forEach(function(prop) {
@@ -16836,7 +16288,7 @@ https://www.viki.com
           });
           delete restProps.keys;
           return /* @__PURE__ */ y(Component, restProps, keyEntities.map(function(_ref2) {
-            var status = _ref2.status, eventProps = _objectWithoutProperties(_ref2, _excluded210);
+            var status = _ref2.status, eventProps = _objectWithoutProperties(_ref2, _excluded28);
             var visible = status === STATUS_ADD || status === STATUS_KEEP;
             return /* @__PURE__ */ y(CSSMotion, _extends({}, motionProps, {
               key: eventProps.key,
@@ -17182,7 +16634,7 @@ https://www.viki.com
   };
 
   // node_modules/@ant-design/icons/es/components/IconBase.js
-  var _excluded32 = ["icon", "className", "onClick", "style", "primaryColor", "secondaryColor"];
+  var _excluded29 = ["icon", "className", "onClick", "style", "primaryColor", "secondaryColor"];
   var twoToneColorPalette = {
     primaryColor: "#333",
     secondaryColor: "#E6E6E6",
@@ -17198,7 +16650,7 @@ https://www.viki.com
     return _objectSpread2({}, twoToneColorPalette);
   }
   var IconBase = function IconBase2(props) {
-    var icon = props.icon, className = props.className, onClick = props.onClick, style3 = props.style, primaryColor = props.primaryColor, secondaryColor = props.secondaryColor, restProps = _objectWithoutProperties(props, _excluded32);
+    var icon = props.icon, className = props.className, onClick = props.onClick, style3 = props.style, primaryColor = props.primaryColor, secondaryColor = props.secondaryColor, restProps = _objectWithoutProperties(props, _excluded29);
     var colors = twoToneColorPalette;
     if (primaryColor) {
       colors = {
@@ -17250,11 +16702,11 @@ https://www.viki.com
   }
 
   // node_modules/@ant-design/icons/es/components/AntdIcon.js
-  var _excluded33 = ["className", "icon", "spin", "rotate", "tabIndex", "onClick", "twoToneColor"];
+  var _excluded30 = ["className", "icon", "spin", "rotate", "tabIndex", "onClick", "twoToneColor"];
   setTwoToneColor(blue.primary);
   var Icon = /* @__PURE__ */ k3(function(props, ref) {
     var _classNames;
-    var className = props.className, icon = props.icon, spin = props.spin, rotate = props.rotate, tabIndex = props.tabIndex, onClick = props.onClick, twoToneColor = props.twoToneColor, restProps = _objectWithoutProperties(props, _excluded33);
+    var className = props.className, icon = props.icon, spin = props.spin, rotate = props.rotate, tabIndex = props.tabIndex, onClick = props.onClick, twoToneColor = props.twoToneColor, restProps = _objectWithoutProperties(props, _excluded30);
     var _React$useContext = q2(Context_default), _React$useContext$pre = _React$useContext.prefixCls, prefixCls = _React$useContext$pre === void 0 ? "anticon" : _React$useContext$pre, rootClassName = _React$useContext.rootClassName;
     var classString = (0, import_classnames2.default)(rootClassName, prefixCls, (_classNames = {}, _defineProperty(_classNames, "".concat(prefixCls, "-").concat(icon.name), !!icon.name), _defineProperty(_classNames, "".concat(prefixCls, "-spin"), !!spin || icon.name === "loading"), _classNames), className);
     var iconTabIndex = tabIndex;
@@ -17914,81 +17366,6 @@ https://www.viki.com
   // node_modules/antd/es/space/Compact.js
   var import_classnames3 = __toESM(require_classnames());
   init_react();
-
-  // node_modules/antd/es/space/style/compact.js
-  var genSpaceCompactStyle = (token2) => {
-    const {
-      componentCls
-    } = token2;
-    return {
-      [componentCls]: {
-        display: "inline-flex",
-        "&-block": {
-          display: "flex",
-          width: "100%"
-        },
-        "&-vertical": {
-          flexDirection: "column"
-        }
-      }
-    };
-  };
-  var compact_default = genSpaceCompactStyle;
-
-  // node_modules/antd/es/space/style/index.js
-  var genSpaceStyle = (token2) => {
-    const {
-      componentCls
-    } = token2;
-    return {
-      [componentCls]: {
-        display: "inline-flex",
-        "&-rtl": {
-          direction: "rtl"
-        },
-        "&-vertical": {
-          flexDirection: "column"
-        },
-        "&-align": {
-          flexDirection: "column",
-          "&-center": {
-            alignItems: "center"
-          },
-          "&-start": {
-            alignItems: "flex-start"
-          },
-          "&-end": {
-            alignItems: "flex-end"
-          },
-          "&-baseline": {
-            alignItems: "baseline"
-          }
-        },
-        [`${componentCls}-item:empty`]: {
-          display: "none"
-        }
-      }
-    };
-  };
-  var style_default2 = genComponentStyleHook("Space", (token2) => [genSpaceStyle(token2), compact_default(token2)], () => ({}), {
-    // Space component don't apply extra font style
-    // https://github.com/ant-design/ant-design/issues/40315
-    resetStyle: false
-  });
-
-  // node_modules/antd/es/space/Compact.js
-  var __rest3 = function(s3, e3) {
-    var t3 = {};
-    for (var p3 in s3)
-      if (Object.prototype.hasOwnProperty.call(s3, p3) && e3.indexOf(p3) < 0)
-        t3[p3] = s3[p3];
-    if (s3 != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i3 = 0, p3 = Object.getOwnPropertySymbols(s3); i3 < p3.length; i3++) {
-        if (e3.indexOf(p3[i3]) < 0 && Object.prototype.propertyIsEnumerable.call(s3, p3[i3]))
-          t3[p3[i3]] = s3[p3[i3]];
-      }
-    return t3;
-  };
   var SpaceCompactItemContext = /* @__PURE__ */ G(null);
   var useCompactItemContext = (prefixCls, direction) => {
     const compactItemContext = q2(SpaceCompactItemContext);
@@ -18015,59 +17392,6 @@ https://www.viki.com
       compactItemClassnames
     };
   };
-  var CompactItem = (_a) => {
-    var {
-      children
-    } = _a, otherProps = __rest3(_a, ["children"]);
-    return /* @__PURE__ */ y(SpaceCompactItemContext.Provider, {
-      value: otherProps
-    }, children);
-  };
-  var Compact = (props) => {
-    const {
-      getPrefixCls,
-      direction: directionConfig
-    } = q2(ConfigContext);
-    const {
-      size,
-      direction,
-      block,
-      prefixCls: customizePrefixCls,
-      className,
-      rootClassName,
-      children
-    } = props, restProps = __rest3(props, ["size", "direction", "block", "prefixCls", "className", "rootClassName", "children"]);
-    const mergedSize = useSize_default((ctx) => {
-      var _a;
-      return (_a = size !== null && size !== void 0 ? size : ctx) !== null && _a !== void 0 ? _a : "middle";
-    });
-    const prefixCls = getPrefixCls("space-compact", customizePrefixCls);
-    const [wrapSSR, hashId] = style_default2(prefixCls);
-    const clx = (0, import_classnames3.default)(prefixCls, hashId, {
-      [`${prefixCls}-rtl`]: directionConfig === "rtl",
-      [`${prefixCls}-block`]: block,
-      [`${prefixCls}-vertical`]: direction === "vertical"
-    }, className, rootClassName);
-    const compactItemContext = q2(SpaceCompactItemContext);
-    const childNodes = toArray(children);
-    const nodes = F2(() => childNodes.map((child, i3) => {
-      const key = child && child.key || `${prefixCls}-item-${i3}`;
-      return /* @__PURE__ */ y(CompactItem, {
-        key,
-        compactSize: mergedSize,
-        compactDirection: direction,
-        isFirstItem: i3 === 0 && (!compactItemContext || (compactItemContext === null || compactItemContext === void 0 ? void 0 : compactItemContext.isFirstItem)),
-        isLastItem: i3 === childNodes.length - 1 && (!compactItemContext || (compactItemContext === null || compactItemContext === void 0 ? void 0 : compactItemContext.isLastItem))
-      }, child);
-    }), [size, childNodes, compactItemContext]);
-    if (childNodes.length === 0) {
-      return null;
-    }
-    return wrapSSR(/* @__PURE__ */ y("div", Object.assign({
-      className: clx
-    }, restProps), nodes));
-  };
-  var Compact_default = Compact;
 
   // node_modules/antd/es/style/compact-item.js
   function compactItemBorder(token2, parentCls, options) {
@@ -18443,28 +17767,6 @@ https://www.viki.com
   init_react();
   init_react();
   var FormItemInputContext = /* @__PURE__ */ G({});
-
-  // node_modules/antd/es/_util/styleChecker.js
-  var canUseDocElement = () => canUseDom() && window.document.documentElement;
-  var flexGapSupported;
-  var detectFlexGapSupported = () => {
-    if (!canUseDocElement()) {
-      return false;
-    }
-    if (flexGapSupported !== void 0) {
-      return flexGapSupported;
-    }
-    const flex = document.createElement("div");
-    flex.style.display = "flex";
-    flex.style.flexDirection = "column";
-    flex.style.rowGap = "1px";
-    flex.appendChild(document.createElement("div"));
-    flex.appendChild(document.createElement("div"));
-    document.body.appendChild(flex);
-    flexGapSupported = flex.scrollHeight === 1;
-    document.body.removeChild(flex);
-    return flexGapSupported;
-  };
 
   // node_modules/antd/es/style/motion/motion.js
   var initMotionCommon = (duration) => ({
@@ -19018,10 +18320,10 @@ https://www.viki.com
   // node_modules/rc-overflow/es/Item.js
   init_react();
   var import_classnames4 = __toESM(require_classnames());
-  var _excluded34 = ["prefixCls", "invalidate", "item", "renderItem", "responsive", "responsiveDisabled", "registerSize", "itemKey", "className", "style", "children", "display", "order", "component"];
+  var _excluded31 = ["prefixCls", "invalidate", "item", "renderItem", "responsive", "responsiveDisabled", "registerSize", "itemKey", "className", "style", "children", "display", "order", "component"];
   var UNDEFINED2 = void 0;
   function InternalItem(props, ref) {
-    var prefixCls = props.prefixCls, invalidate = props.invalidate, item = props.item, renderItem = props.renderItem, responsive = props.responsive, responsiveDisabled = props.responsiveDisabled, registerSize = props.registerSize, itemKey2 = props.itemKey, className = props.className, style3 = props.style, children = props.children, display = props.display, order = props.order, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, restProps = _objectWithoutProperties(props, _excluded34);
+    var prefixCls = props.prefixCls, invalidate = props.invalidate, item = props.item, renderItem = props.renderItem, responsive = props.responsive, responsiveDisabled = props.responsiveDisabled, registerSize = props.registerSize, itemKey2 = props.itemKey, className = props.className, style3 = props.style, children = props.children, display = props.display, order = props.order, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, restProps = _objectWithoutProperties(props, _excluded31);
     var mergedHidden = responsive && !display;
     function internalRegisterSize(width) {
       registerSize(itemKey2, width);
@@ -19116,19 +18418,19 @@ https://www.viki.com
   // node_modules/rc-overflow/es/RawItem.js
   init_react();
   var import_classnames5 = __toESM(require_classnames());
-  var _excluded35 = ["component"];
-  var _excluded211 = ["className"];
-  var _excluded36 = ["className"];
+  var _excluded32 = ["component"];
+  var _excluded210 = ["className"];
+  var _excluded33 = ["className"];
   var InternalRawItem = function InternalRawItem2(props, ref) {
     var context = q2(OverflowContext);
     if (!context) {
-      var _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, _restProps = _objectWithoutProperties(props, _excluded35);
+      var _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, _restProps = _objectWithoutProperties(props, _excluded32);
       return /* @__PURE__ */ y(Component, _extends({}, _restProps, {
         ref
       }));
     }
-    var contextClassName = context.className, restContext = _objectWithoutProperties(context, _excluded211);
-    var className = props.className, restProps = _objectWithoutProperties(props, _excluded36);
+    var contextClassName = context.className, restContext = _objectWithoutProperties(context, _excluded210);
+    var className = props.className, restProps = _objectWithoutProperties(props, _excluded33);
     return /* @__PURE__ */ y(OverflowContext.Provider, {
       value: null
     }, /* @__PURE__ */ y(Item_default, _extends({
@@ -19141,7 +18443,7 @@ https://www.viki.com
   var RawItem_default = RawItem;
 
   // node_modules/rc-overflow/es/Overflow.js
-  var _excluded37 = ["prefixCls", "data", "renderItem", "renderRawItem", "itemKey", "itemWidth", "ssr", "style", "className", "maxCount", "renderRest", "renderRawRest", "suffix", "component", "itemComponent", "onVisibleChange"];
+  var _excluded34 = ["prefixCls", "data", "renderItem", "renderRawItem", "itemKey", "itemWidth", "ssr", "style", "className", "maxCount", "renderRest", "renderRawRest", "suffix", "component", "itemComponent", "onVisibleChange"];
   var OverflowContext = /* @__PURE__ */ G(null);
   var RESPONSIVE = "responsive";
   var INVALIDATE = "invalidate";
@@ -19149,7 +18451,7 @@ https://www.viki.com
     return "+ ".concat(omittedItems.length, " ...");
   }
   function Overflow(props, ref) {
-    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-overflow" : _props$prefixCls, _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, renderItem = props.renderItem, renderRawItem = props.renderRawItem, itemKey2 = props.itemKey, _props$itemWidth = props.itemWidth, itemWidth = _props$itemWidth === void 0 ? 10 : _props$itemWidth, ssr = props.ssr, style3 = props.style, className = props.className, maxCount = props.maxCount, renderRest = props.renderRest, renderRawRest = props.renderRawRest, suffix = props.suffix, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, itemComponent = props.itemComponent, onVisibleChange = props.onVisibleChange, restProps = _objectWithoutProperties(props, _excluded37);
+    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-overflow" : _props$prefixCls, _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, renderItem = props.renderItem, renderRawItem = props.renderRawItem, itemKey2 = props.itemKey, _props$itemWidth = props.itemWidth, itemWidth = _props$itemWidth === void 0 ? 10 : _props$itemWidth, ssr = props.ssr, style3 = props.style, className = props.className, maxCount = props.maxCount, renderRest = props.renderRest, renderRawRest = props.renderRawRest, suffix = props.suffix, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, itemComponent = props.itemComponent, onVisibleChange = props.onVisibleChange, restProps = _objectWithoutProperties(props, _excluded34);
     var fullySSR = ssr === "full";
     var notifyEffectUpdate = useBatcher();
     var _useEffectState = useEffectState(notifyEffectUpdate, null), _useEffectState2 = _slicedToArray(_useEffectState, 2), containerWidth = _useEffectState2[0], setContainerWidth = _useEffectState2[1];
@@ -20585,11 +19887,11 @@ https://www.viki.com
   var TriggerWrapper_default = TriggerWrapper;
 
   // node_modules/@rc-component/trigger/es/index.js
-  var _excluded38 = ["prefixCls", "children", "action", "showAction", "hideAction", "popupVisible", "defaultPopupVisible", "onPopupVisibleChange", "afterPopupVisibleChange", "mouseEnterDelay", "mouseLeaveDelay", "focusDelay", "blurDelay", "mask", "maskClosable", "getPopupContainer", "forceRender", "autoDestroy", "destroyPopupOnHide", "popup", "popupClassName", "popupStyle", "popupPlacement", "builtinPlacements", "popupAlign", "zIndex", "stretch", "getPopupClassNameFromAlign", "alignPoint", "onPopupClick", "onPopupAlign", "arrow", "popupMotion", "maskMotion", "popupTransitionName", "popupAnimation", "maskTransitionName", "maskAnimation", "className", "getTriggerDOMNode"];
+  var _excluded35 = ["prefixCls", "children", "action", "showAction", "hideAction", "popupVisible", "defaultPopupVisible", "onPopupVisibleChange", "afterPopupVisibleChange", "mouseEnterDelay", "mouseLeaveDelay", "focusDelay", "blurDelay", "mask", "maskClosable", "getPopupContainer", "forceRender", "autoDestroy", "destroyPopupOnHide", "popup", "popupClassName", "popupStyle", "popupPlacement", "builtinPlacements", "popupAlign", "zIndex", "stretch", "getPopupClassNameFromAlign", "alignPoint", "onPopupClick", "onPopupAlign", "arrow", "popupMotion", "maskMotion", "popupTransitionName", "popupAnimation", "maskTransitionName", "maskAnimation", "className", "getTriggerDOMNode"];
   function generateTrigger() {
     var PortalComponent = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : es_default3;
     var Trigger = /* @__PURE__ */ k3(function(props, ref) {
-      var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-trigger-popup" : _props$prefixCls, children = props.children, _props$action = props.action, action = _props$action === void 0 ? "hover" : _props$action, showAction = props.showAction, hideAction = props.hideAction, popupVisible = props.popupVisible, defaultPopupVisible = props.defaultPopupVisible, onPopupVisibleChange = props.onPopupVisibleChange, afterPopupVisibleChange = props.afterPopupVisibleChange, mouseEnterDelay = props.mouseEnterDelay, _props$mouseLeaveDela = props.mouseLeaveDelay, mouseLeaveDelay = _props$mouseLeaveDela === void 0 ? 0.1 : _props$mouseLeaveDela, focusDelay = props.focusDelay, blurDelay = props.blurDelay, mask = props.mask, _props$maskClosable = props.maskClosable, maskClosable = _props$maskClosable === void 0 ? true : _props$maskClosable, getPopupContainer = props.getPopupContainer, forceRender = props.forceRender, autoDestroy = props.autoDestroy, destroyPopupOnHide = props.destroyPopupOnHide, popup = props.popup, popupClassName = props.popupClassName, popupStyle = props.popupStyle, popupPlacement = props.popupPlacement, _props$builtinPlaceme = props.builtinPlacements, builtinPlacements = _props$builtinPlaceme === void 0 ? {} : _props$builtinPlaceme, popupAlign = props.popupAlign, zIndex = props.zIndex, stretch = props.stretch, getPopupClassNameFromAlign = props.getPopupClassNameFromAlign, alignPoint = props.alignPoint, onPopupClick = props.onPopupClick, onPopupAlign = props.onPopupAlign, arrow = props.arrow, popupMotion = props.popupMotion, maskMotion = props.maskMotion, popupTransitionName = props.popupTransitionName, popupAnimation = props.popupAnimation, maskTransitionName = props.maskTransitionName, maskAnimation = props.maskAnimation, className = props.className, getTriggerDOMNode = props.getTriggerDOMNode, restProps = _objectWithoutProperties(props, _excluded38);
+      var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-trigger-popup" : _props$prefixCls, children = props.children, _props$action = props.action, action = _props$action === void 0 ? "hover" : _props$action, showAction = props.showAction, hideAction = props.hideAction, popupVisible = props.popupVisible, defaultPopupVisible = props.defaultPopupVisible, onPopupVisibleChange = props.onPopupVisibleChange, afterPopupVisibleChange = props.afterPopupVisibleChange, mouseEnterDelay = props.mouseEnterDelay, _props$mouseLeaveDela = props.mouseLeaveDelay, mouseLeaveDelay = _props$mouseLeaveDela === void 0 ? 0.1 : _props$mouseLeaveDela, focusDelay = props.focusDelay, blurDelay = props.blurDelay, mask = props.mask, _props$maskClosable = props.maskClosable, maskClosable = _props$maskClosable === void 0 ? true : _props$maskClosable, getPopupContainer = props.getPopupContainer, forceRender = props.forceRender, autoDestroy = props.autoDestroy, destroyPopupOnHide = props.destroyPopupOnHide, popup = props.popup, popupClassName = props.popupClassName, popupStyle = props.popupStyle, popupPlacement = props.popupPlacement, _props$builtinPlaceme = props.builtinPlacements, builtinPlacements = _props$builtinPlaceme === void 0 ? {} : _props$builtinPlaceme, popupAlign = props.popupAlign, zIndex = props.zIndex, stretch = props.stretch, getPopupClassNameFromAlign = props.getPopupClassNameFromAlign, alignPoint = props.alignPoint, onPopupClick = props.onPopupClick, onPopupAlign = props.onPopupAlign, arrow = props.arrow, popupMotion = props.popupMotion, maskMotion = props.maskMotion, popupTransitionName = props.popupTransitionName, popupAnimation = props.popupAnimation, maskTransitionName = props.maskTransitionName, maskAnimation = props.maskAnimation, className = props.className, getTriggerDOMNode = props.getTriggerDOMNode, restProps = _objectWithoutProperties(props, _excluded35);
       var mergedAutoDestroy = autoDestroy || destroyPopupOnHide || false;
       var _React$useState = h2(false), _React$useState2 = _slicedToArray(_React$useState, 2), mobile = _React$useState2[0], setMobile = _React$useState2[1];
       useLayoutEffect_default(function() {
@@ -20916,7 +20218,7 @@ https://www.viki.com
   // node_modules/rc-select/es/SelectTrigger.js
   var import_classnames14 = __toESM(require_classnames());
   init_react();
-  var _excluded39 = ["prefixCls", "disabled", "visible", "children", "popupElement", "containerWidth", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "direction", "placement", "builtinPlacements", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "getPopupContainer", "empty", "getTriggerDOMNode", "onPopupVisibleChange", "onPopupMouseEnter"];
+  var _excluded36 = ["prefixCls", "disabled", "visible", "children", "popupElement", "containerWidth", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "direction", "placement", "builtinPlacements", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "getPopupContainer", "empty", "getTriggerDOMNode", "onPopupVisibleChange", "onPopupMouseEnter"];
   var getBuiltInPlacements = function getBuiltInPlacements2(dropdownMatchSelectWidth) {
     var adjustX = dropdownMatchSelectWidth === true ? 0 : 1;
     return {
@@ -20959,7 +20261,7 @@ https://www.viki.com
     };
   };
   var SelectTrigger = function SelectTrigger2(props, ref) {
-    var prefixCls = props.prefixCls, disabled = props.disabled, visible = props.visible, children = props.children, popupElement = props.popupElement, containerWidth = props.containerWidth, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, _props$direction = props.direction, direction = _props$direction === void 0 ? "ltr" : _props$direction, placement2 = props.placement, builtinPlacements = props.builtinPlacements, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, getPopupContainer = props.getPopupContainer, empty = props.empty, getTriggerDOMNode = props.getTriggerDOMNode, onPopupVisibleChange = props.onPopupVisibleChange, onPopupMouseEnter = props.onPopupMouseEnter, restProps = _objectWithoutProperties(props, _excluded39);
+    var prefixCls = props.prefixCls, disabled = props.disabled, visible = props.visible, children = props.children, popupElement = props.popupElement, containerWidth = props.containerWidth, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, _props$direction = props.direction, direction = _props$direction === void 0 ? "ltr" : _props$direction, placement2 = props.placement, builtinPlacements = props.builtinPlacements, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, getPopupContainer = props.getPopupContainer, empty = props.empty, getTriggerDOMNode = props.getTriggerDOMNode, onPopupVisibleChange = props.onPopupVisibleChange, onPopupMouseEnter = props.onPopupMouseEnter, restProps = _objectWithoutProperties(props, _excluded36);
     var dropdownPrefixCls = "".concat(prefixCls, "-dropdown");
     var popupNode = popupElement;
     if (dropdownRender) {
@@ -21101,14 +20403,14 @@ https://www.viki.com
   }
 
   // node_modules/rc-select/es/BaseSelect.js
-  var _excluded40 = ["id", "prefixCls", "className", "showSearch", "tagRender", "direction", "omitDomProps", "displayValues", "onDisplayValuesChange", "emptyOptions", "notFoundContent", "onClear", "mode", "disabled", "loading", "getInputElement", "getRawInputElement", "open", "defaultOpen", "onDropdownVisibleChange", "activeValue", "onActiveValueChange", "activeDescendantId", "searchValue", "autoClearSearchValue", "onSearch", "onSearchSplit", "tokenSeparators", "allowClear", "showArrow", "inputIcon", "clearIcon", "OptionList", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "placement", "builtinPlacements", "getPopupContainer", "showAction", "onFocus", "onBlur", "onKeyUp", "onKeyDown", "onMouseDown"];
+  var _excluded37 = ["id", "prefixCls", "className", "showSearch", "tagRender", "direction", "omitDomProps", "displayValues", "onDisplayValuesChange", "emptyOptions", "notFoundContent", "onClear", "mode", "disabled", "loading", "getInputElement", "getRawInputElement", "open", "defaultOpen", "onDropdownVisibleChange", "activeValue", "onActiveValueChange", "activeDescendantId", "searchValue", "autoClearSearchValue", "onSearch", "onSearchSplit", "tokenSeparators", "allowClear", "showArrow", "inputIcon", "clearIcon", "OptionList", "animation", "transitionName", "dropdownStyle", "dropdownClassName", "dropdownMatchSelectWidth", "dropdownRender", "dropdownAlign", "placement", "builtinPlacements", "getPopupContainer", "showAction", "onFocus", "onBlur", "onKeyUp", "onKeyDown", "onMouseDown"];
   var DEFAULT_OMIT_PROPS = ["value", "onChange", "removeIcon", "placeholder", "autoFocus", "maxTagCount", "maxTagTextLength", "maxTagPlaceholder", "choiceTransitionName", "onInputKeyDown", "onPopupScroll", "tabIndex"];
   function isMultiple(mode) {
     return mode === "tags" || mode === "multiple";
   }
   var BaseSelect = /* @__PURE__ */ k3(function(props, ref) {
     var _customizeRawInputEle, _classNames2;
-    var id = props.id, prefixCls = props.prefixCls, className = props.className, showSearch = props.showSearch, tagRender = props.tagRender, direction = props.direction, omitDomProps = props.omitDomProps, displayValues = props.displayValues, onDisplayValuesChange = props.onDisplayValuesChange, emptyOptions = props.emptyOptions, _props$notFoundConten = props.notFoundContent, notFoundContent = _props$notFoundConten === void 0 ? "Not Found" : _props$notFoundConten, onClear = props.onClear, mode = props.mode, disabled = props.disabled, loading = props.loading, getInputElement = props.getInputElement, getRawInputElement = props.getRawInputElement, open = props.open, defaultOpen = props.defaultOpen, onDropdownVisibleChange = props.onDropdownVisibleChange, activeValue = props.activeValue, onActiveValueChange = props.onActiveValueChange, activeDescendantId = props.activeDescendantId, searchValue = props.searchValue, autoClearSearchValue = props.autoClearSearchValue, onSearch = props.onSearch, onSearchSplit = props.onSearchSplit, tokenSeparators = props.tokenSeparators, allowClear = props.allowClear, showArrow = props.showArrow, inputIcon = props.inputIcon, clearIcon = props.clearIcon, OptionList3 = props.OptionList, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, placement2 = props.placement, builtinPlacements = props.builtinPlacements, getPopupContainer = props.getPopupContainer, _props$showAction = props.showAction, showAction = _props$showAction === void 0 ? [] : _props$showAction, onFocus = props.onFocus, onBlur = props.onBlur, onKeyUp = props.onKeyUp, onKeyDown = props.onKeyDown, onMouseDown = props.onMouseDown, restProps = _objectWithoutProperties(props, _excluded40);
+    var id = props.id, prefixCls = props.prefixCls, className = props.className, showSearch = props.showSearch, tagRender = props.tagRender, direction = props.direction, omitDomProps = props.omitDomProps, displayValues = props.displayValues, onDisplayValuesChange = props.onDisplayValuesChange, emptyOptions = props.emptyOptions, _props$notFoundConten = props.notFoundContent, notFoundContent = _props$notFoundConten === void 0 ? "Not Found" : _props$notFoundConten, onClear = props.onClear, mode = props.mode, disabled = props.disabled, loading = props.loading, getInputElement = props.getInputElement, getRawInputElement = props.getRawInputElement, open = props.open, defaultOpen = props.defaultOpen, onDropdownVisibleChange = props.onDropdownVisibleChange, activeValue = props.activeValue, onActiveValueChange = props.onActiveValueChange, activeDescendantId = props.activeDescendantId, searchValue = props.searchValue, autoClearSearchValue = props.autoClearSearchValue, onSearch = props.onSearch, onSearchSplit = props.onSearchSplit, tokenSeparators = props.tokenSeparators, allowClear = props.allowClear, showArrow = props.showArrow, inputIcon = props.inputIcon, clearIcon = props.clearIcon, OptionList3 = props.OptionList, animation = props.animation, transitionName = props.transitionName, dropdownStyle = props.dropdownStyle, dropdownClassName = props.dropdownClassName, dropdownMatchSelectWidth = props.dropdownMatchSelectWidth, dropdownRender = props.dropdownRender, dropdownAlign = props.dropdownAlign, placement2 = props.placement, builtinPlacements = props.builtinPlacements, getPopupContainer = props.getPopupContainer, _props$showAction = props.showAction, showAction = _props$showAction === void 0 ? [] : _props$showAction, onFocus = props.onFocus, onBlur = props.onBlur, onKeyUp = props.onKeyUp, onKeyDown = props.onKeyDown, onMouseDown = props.onMouseDown, restProps = _objectWithoutProperties(props, _excluded37);
     var multiple = isMultiple(mode);
     var mergedShowSearch = (showSearch !== void 0 ? showSearch : multiple) || mode === "combobox";
     var domProps = _objectSpread2({}, restProps);
@@ -21611,10 +20913,10 @@ https://www.viki.com
 
   // node_modules/rc-select/es/utils/legacyUtil.js
   init_react();
-  var _excluded41 = ["children", "value"];
-  var _excluded212 = ["children"];
+  var _excluded38 = ["children", "value"];
+  var _excluded211 = ["children"];
   function convertNodeToOption(node2) {
-    var _ref = node2, key = _ref.key, _ref$props = _ref.props, children = _ref$props.children, value = _ref$props.value, restProps = _objectWithoutProperties(_ref$props, _excluded41);
+    var _ref = node2, key = _ref.key, _ref$props = _ref.props, children = _ref$props.children, value = _ref$props.value, restProps = _objectWithoutProperties(_ref$props, _excluded38);
     return _objectSpread2({
       key,
       value: value !== void 0 ? value : key,
@@ -21627,7 +20929,7 @@ https://www.viki.com
       if (!/* @__PURE__ */ an(node2) || !node2.type) {
         return null;
       }
-      var _ref2 = node2, isSelectOptGroup = _ref2.type.isSelectOptGroup, key = _ref2.key, _ref2$props = _ref2.props, children = _ref2$props.children, restProps = _objectWithoutProperties(_ref2$props, _excluded212);
+      var _ref2 = node2, isSelectOptGroup = _ref2.type.isSelectOptGroup, key = _ref2.key, _ref2$props = _ref2.props, children = _ref2$props.children, restProps = _objectWithoutProperties(_ref2$props, _excluded211);
       if (optionOnly || !isSelectOptGroup) {
         return convertNodeToOption(node2);
       }
@@ -22338,14 +21640,14 @@ https://www.viki.com
   }
 
   // node_modules/rc-virtual-list/es/List.js
-  var _excluded42 = ["prefixCls", "className", "height", "itemHeight", "fullHeight", "style", "data", "children", "itemKey", "virtual", "direction", "component", "onScroll", "onVisibleChange", "innerProps"];
+  var _excluded39 = ["prefixCls", "className", "height", "itemHeight", "fullHeight", "style", "data", "children", "itemKey", "virtual", "direction", "component", "onScroll", "onVisibleChange", "innerProps"];
   var EMPTY_DATA = [];
   var ScrollStyle = {
     overflowY: "auto",
     overflowAnchor: "none"
   };
   function RawList(props, ref) {
-    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-virtual-list" : _props$prefixCls, className = props.className, height = props.height, itemHeight = props.itemHeight, _props$fullHeight = props.fullHeight, fullHeight = _props$fullHeight === void 0 ? true : _props$fullHeight, style3 = props.style, data = props.data, children = props.children, itemKey2 = props.itemKey, virtual = props.virtual, direction = props.direction, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, onScroll = props.onScroll, onVisibleChange = props.onVisibleChange, innerProps = props.innerProps, restProps = _objectWithoutProperties(props, _excluded42);
+    var _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-virtual-list" : _props$prefixCls, className = props.className, height = props.height, itemHeight = props.itemHeight, _props$fullHeight = props.fullHeight, fullHeight = _props$fullHeight === void 0 ? true : _props$fullHeight, style3 = props.style, data = props.data, children = props.children, itemKey2 = props.itemKey, virtual = props.virtual, direction = props.direction, _props$component = props.component, Component = _props$component === void 0 ? "div" : _props$component, onScroll = props.onScroll, onVisibleChange = props.onVisibleChange, innerProps = props.innerProps, restProps = _objectWithoutProperties(props, _excluded39);
     var useVirtual = !!(virtual !== false && height && itemHeight);
     var inVirtual = useVirtual && data && itemHeight * data.length > height;
     var _useState = h2(0), _useState2 = _slicedToArray(_useState, 2), scrollTop = _useState2[0], setScrollTop = _useState2[1];
@@ -22581,7 +21883,7 @@ https://www.viki.com
   }
 
   // node_modules/rc-select/es/OptionList.js
-  var _excluded43 = ["disabled", "title", "children", "style", "className"];
+  var _excluded40 = ["disabled", "title", "children", "style", "className"];
   function isTitleType2(content) {
     return typeof content === "string" || typeof content === "number";
   }
@@ -22797,7 +22099,7 @@ https://www.viki.com
           title: groupTitle
         }, label !== void 0 ? label : key);
       }
-      var disabled = data.disabled, title = data.title, children = data.children, style3 = data.style, className = data.className, otherProps = _objectWithoutProperties(data, _excluded43);
+      var disabled = data.disabled, title = data.title, children = data.children, style3 = data.style, className = data.className, otherProps = _objectWithoutProperties(data, _excluded40);
       var passedProps = omit(otherProps, omitFieldNameList);
       var selected = isSelected(value);
       var optionPrefixCls = "".concat(itemPrefixCls, "-option");
@@ -22929,13 +22231,13 @@ https://www.viki.com
   var warningPropsUtil_default = warningProps;
 
   // node_modules/rc-select/es/Select.js
-  var _excluded44 = ["id", "mode", "prefixCls", "backfill", "fieldNames", "inputValue", "searchValue", "onSearch", "autoClearSearchValue", "onSelect", "onDeselect", "dropdownMatchSelectWidth", "filterOption", "filterSort", "optionFilterProp", "optionLabelProp", "options", "children", "defaultActiveFirstOption", "menuItemSelectedIcon", "virtual", "listHeight", "listItemHeight", "value", "defaultValue", "labelInValue", "onChange"];
+  var _excluded41 = ["id", "mode", "prefixCls", "backfill", "fieldNames", "inputValue", "searchValue", "onSearch", "autoClearSearchValue", "onSelect", "onDeselect", "dropdownMatchSelectWidth", "filterOption", "filterSort", "optionFilterProp", "optionLabelProp", "options", "children", "defaultActiveFirstOption", "menuItemSelectedIcon", "virtual", "listHeight", "listItemHeight", "value", "defaultValue", "labelInValue", "onChange"];
   var OMIT_DOM_PROPS = ["inputValue"];
   function isRawValue(value) {
     return !value || _typeof(value) !== "object";
   }
   var Select = /* @__PURE__ */ k3(function(props, ref) {
-    var id = props.id, mode = props.mode, _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-select" : _props$prefixCls, backfill = props.backfill, fieldNames = props.fieldNames, inputValue = props.inputValue, searchValue = props.searchValue, onSearch = props.onSearch, _props$autoClearSearc = props.autoClearSearchValue, autoClearSearchValue = _props$autoClearSearc === void 0 ? true : _props$autoClearSearc, onSelect = props.onSelect, onDeselect = props.onDeselect, _props$dropdownMatchS = props.dropdownMatchSelectWidth, dropdownMatchSelectWidth = _props$dropdownMatchS === void 0 ? true : _props$dropdownMatchS, filterOption = props.filterOption, filterSort = props.filterSort, optionFilterProp = props.optionFilterProp, optionLabelProp = props.optionLabelProp, options = props.options, children = props.children, defaultActiveFirstOption = props.defaultActiveFirstOption, menuItemSelectedIcon = props.menuItemSelectedIcon, virtual = props.virtual, _props$listHeight = props.listHeight, listHeight = _props$listHeight === void 0 ? 200 : _props$listHeight, _props$listItemHeight = props.listItemHeight, listItemHeight = _props$listItemHeight === void 0 ? 20 : _props$listItemHeight, value = props.value, defaultValue = props.defaultValue, labelInValue = props.labelInValue, onChange = props.onChange, restProps = _objectWithoutProperties(props, _excluded44);
+    var id = props.id, mode = props.mode, _props$prefixCls = props.prefixCls, prefixCls = _props$prefixCls === void 0 ? "rc-select" : _props$prefixCls, backfill = props.backfill, fieldNames = props.fieldNames, inputValue = props.inputValue, searchValue = props.searchValue, onSearch = props.onSearch, _props$autoClearSearc = props.autoClearSearchValue, autoClearSearchValue = _props$autoClearSearc === void 0 ? true : _props$autoClearSearc, onSelect = props.onSelect, onDeselect = props.onDeselect, _props$dropdownMatchS = props.dropdownMatchSelectWidth, dropdownMatchSelectWidth = _props$dropdownMatchS === void 0 ? true : _props$dropdownMatchS, filterOption = props.filterOption, filterSort = props.filterSort, optionFilterProp = props.optionFilterProp, optionLabelProp = props.optionLabelProp, options = props.options, children = props.children, defaultActiveFirstOption = props.defaultActiveFirstOption, menuItemSelectedIcon = props.menuItemSelectedIcon, virtual = props.virtual, _props$listHeight = props.listHeight, listHeight = _props$listHeight === void 0 ? 200 : _props$listHeight, _props$listItemHeight = props.listItemHeight, listItemHeight = _props$listItemHeight === void 0 ? 20 : _props$listItemHeight, value = props.value, defaultValue = props.defaultValue, labelInValue = props.labelInValue, onChange = props.onChange, restProps = _objectWithoutProperties(props, _excluded41);
     var mergedId = useId2(id);
     var multiple = isMultiple(mode);
     var childrenAsData = !!(!options && children);
@@ -23449,7 +22751,7 @@ https://www.viki.com
       }
     };
   };
-  var style_default3 = genComponentStyleHook("Empty", (token2) => {
+  var style_default2 = genComponentStyleHook("Empty", (token2) => {
     const {
       componentCls,
       controlHeightLG
@@ -23464,7 +22766,7 @@ https://www.viki.com
   });
 
   // node_modules/antd/es/empty/index.js
-  var __rest4 = function(s3, e3) {
+  var __rest3 = function(s3, e3) {
     var t3 = {};
     for (var p3 in s3)
       if (Object.prototype.hasOwnProperty.call(s3, p3) && e3.indexOf(p3) < 0)
@@ -23487,13 +22789,13 @@ https://www.viki.com
       description,
       children,
       imageStyle
-    } = _a, restProps = __rest4(_a, ["className", "rootClassName", "prefixCls", "image", "description", "children", "imageStyle"]);
+    } = _a, restProps = __rest3(_a, ["className", "rootClassName", "prefixCls", "image", "description", "children", "imageStyle"]);
     const {
       getPrefixCls,
       direction
     } = q2(ConfigContext);
     const prefixCls = getPrefixCls("empty", customizePrefixCls);
-    const [wrapSSR, hashId] = style_default3(prefixCls);
+    const [wrapSSR, hashId] = style_default2(prefixCls);
     const [locale4] = useLocale_default("Empty");
     const des = typeof description !== "undefined" ? description : locale4 === null || locale4 === void 0 ? void 0 : locale4.description;
     const alt = typeof des === "string" ? des : "empty";
@@ -24287,7 +23589,7 @@ https://www.viki.com
       })
     ];
   };
-  var style_default4 = genComponentStyleHook("Select", (token2, _ref) => {
+  var style_default3 = genComponentStyleHook("Select", (token2, _ref) => {
     let {
       rootPrefixCls
     } = _ref;
@@ -24460,7 +23762,7 @@ https://www.viki.com
   }
 
   // node_modules/antd/es/select/index.js
-  var __rest5 = function(s3, e3) {
+  var __rest4 = function(s3, e3) {
     var t3 = {};
     for (var p3 in s3)
       if (Object.prototype.hasOwnProperty.call(s3, p3) && e3.indexOf(p3) < 0)
@@ -24494,7 +23796,7 @@ https://www.viki.com
       builtinPlacements,
       dropdownMatchSelectWidth,
       popupMatchSelectWidth
-    } = _a, props = __rest5(_a, ["prefixCls", "bordered", "className", "rootClassName", "getPopupContainer", "popupClassName", "dropdownClassName", "listHeight", "placement", "listItemHeight", "size", "disabled", "notFoundContent", "status", "showArrow", "builtinPlacements", "dropdownMatchSelectWidth", "popupMatchSelectWidth"]);
+    } = _a, props = __rest4(_a, ["prefixCls", "bordered", "className", "rootClassName", "getPopupContainer", "popupClassName", "dropdownClassName", "listHeight", "placement", "listItemHeight", "size", "disabled", "notFoundContent", "status", "showArrow", "builtinPlacements", "dropdownMatchSelectWidth", "popupMatchSelectWidth"]);
     const {
       getPopupContainer: getContextPopupContainer,
       getPrefixCls,
@@ -24511,7 +23813,7 @@ https://www.viki.com
       compactSize,
       compactItemClassnames
     } = useCompactItemContext(prefixCls, direction);
-    const [wrapSSR, hashId] = style_default4(prefixCls);
+    const [wrapSSR, hashId] = style_default3(prefixCls);
     const mode = F2(() => {
       const {
         mode: m3
@@ -24621,182 +23923,12 @@ https://www.viki.com
   Select2._InternalPanelDoNotUseOrYouWillBeFired = PurePanel;
   var select_default = Select2;
 
-  // node_modules/antd/es/space/index.js
-  var import_classnames23 = __toESM(require_classnames());
-  init_react();
-
-  // node_modules/antd/es/_util/hooks/useFlexGapSupport.js
-  init_react();
-  var useFlexGapSupport_default = () => {
-    const [flexible, setFlexible] = h2(false);
-    p2(() => {
-      setFlexible(detectFlexGapSupported());
-    }, []);
-    return flexible;
-  };
-
-  // node_modules/antd/es/space/Item.js
-  init_react();
-  function Item3(_ref) {
-    let {
-      className,
-      direction,
-      index: index2,
-      marginDirection,
-      children,
-      split,
-      wrap
-    } = _ref;
-    const {
-      horizontalSize,
-      verticalSize,
-      latestIndex,
-      supportFlexGap
-    } = q2(SpaceContext);
-    let style3 = {};
-    if (!supportFlexGap) {
-      if (direction === "vertical") {
-        if (index2 < latestIndex) {
-          style3 = {
-            marginBottom: horizontalSize / (split ? 2 : 1)
-          };
-        }
-      } else {
-        style3 = Object.assign(Object.assign({}, index2 < latestIndex && {
-          [marginDirection]: horizontalSize / (split ? 2 : 1)
-        }), wrap && {
-          paddingBottom: verticalSize
-        });
-      }
-    }
-    if (children === null || children === void 0) {
-      return null;
-    }
-    return /* @__PURE__ */ y(k, null, /* @__PURE__ */ y("div", {
-      className,
-      style: style3
-    }, children), index2 < latestIndex && split && /* @__PURE__ */ y("span", {
-      className: `${className}-split`,
-      style: style3
-    }, split));
-  }
-
-  // node_modules/antd/es/space/index.js
-  var __rest6 = function(s3, e3) {
-    var t3 = {};
-    for (var p3 in s3)
-      if (Object.prototype.hasOwnProperty.call(s3, p3) && e3.indexOf(p3) < 0)
-        t3[p3] = s3[p3];
-    if (s3 != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i3 = 0, p3 = Object.getOwnPropertySymbols(s3); i3 < p3.length; i3++) {
-        if (e3.indexOf(p3[i3]) < 0 && Object.prototype.propertyIsEnumerable.call(s3, p3[i3]))
-          t3[p3[i3]] = s3[p3[i3]];
-      }
-    return t3;
-  };
-  var SpaceContext = /* @__PURE__ */ G({
-    latestIndex: 0,
-    horizontalSize: 0,
-    verticalSize: 0,
-    supportFlexGap: false
-  });
-  var spaceSize = {
-    small: 8,
-    middle: 16,
-    large: 24
-  };
-  function getNumberSize(size) {
-    return typeof size === "string" ? spaceSize[size] : size || 0;
-  }
-  var Space = /* @__PURE__ */ k3((props, ref) => {
-    const {
-      getPrefixCls,
-      space,
-      direction: directionConfig
-    } = q2(ConfigContext);
-    const {
-      size = (space === null || space === void 0 ? void 0 : space.size) || "small",
-      align,
-      className,
-      rootClassName,
-      children,
-      direction = "horizontal",
-      prefixCls: customizePrefixCls,
-      split,
-      style: style3,
-      wrap = false
-    } = props, otherProps = __rest6(props, ["size", "align", "className", "rootClassName", "children", "direction", "prefixCls", "split", "style", "wrap"]);
-    const supportFlexGap = useFlexGapSupport_default();
-    const [horizontalSize, verticalSize] = F2(() => (Array.isArray(size) ? size : [size, size]).map((item) => getNumberSize(item)), [size]);
-    const childNodes = toArray(children, {
-      keepEmpty: true
-    });
-    const mergedAlign = align === void 0 && direction === "horizontal" ? "center" : align;
-    const prefixCls = getPrefixCls("space", customizePrefixCls);
-    const [wrapSSR, hashId] = style_default2(prefixCls);
-    const cn2 = (0, import_classnames23.default)(prefixCls, hashId, `${prefixCls}-${direction}`, {
-      [`${prefixCls}-rtl`]: directionConfig === "rtl",
-      [`${prefixCls}-align-${mergedAlign}`]: mergedAlign
-    }, className, rootClassName);
-    const itemClassName = `${prefixCls}-item`;
-    const marginDirection = directionConfig === "rtl" ? "marginLeft" : "marginRight";
-    let latestIndex = 0;
-    const nodes = childNodes.map((child, i3) => {
-      if (child !== null && child !== void 0) {
-        latestIndex = i3;
-      }
-      const key = child && child.key || `${itemClassName}-${i3}`;
-      return /* @__PURE__ */ y(Item3, {
-        className: itemClassName,
-        key,
-        direction,
-        index: i3,
-        marginDirection,
-        split,
-        wrap
-      }, child);
-    });
-    const spaceContext = F2(() => ({
-      horizontalSize,
-      verticalSize,
-      latestIndex,
-      supportFlexGap
-    }), [horizontalSize, verticalSize, latestIndex, supportFlexGap]);
-    if (childNodes.length === 0) {
-      return null;
-    }
-    const gapStyle = {};
-    if (wrap) {
-      gapStyle.flexWrap = "wrap";
-      if (!supportFlexGap) {
-        gapStyle.marginBottom = -verticalSize;
-      }
-    }
-    if (supportFlexGap) {
-      gapStyle.columnGap = horizontalSize;
-      gapStyle.rowGap = verticalSize;
-    }
-    return wrapSSR(/* @__PURE__ */ y("div", Object.assign({
-      ref,
-      className: cn2,
-      style: Object.assign(Object.assign({}, gapStyle), style3)
-    }, otherProps), /* @__PURE__ */ y(SpaceContext.Provider, {
-      value: spaceContext
-    }, nodes)));
-  });
-  if (true) {
-    Space.displayName = "Space";
-  }
-  var CompoundedSpace = Space;
-  CompoundedSpace.Compact = Compact_default;
-  var space_default = CompoundedSpace;
-
   // src/utils/utils.ts
   var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
   var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  var AppName = "Glarity-Summary for Google/YouTube (ChatGPT)";
+  var AppName = "SummarAI (ChatGPT)";
   function detectSystemColorScheme() {
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
       return "dark" /* Dark */;
@@ -24806,10 +23938,6 @@ https://www.viki.com
   function getExtensionVersion() {
     return import_webextension_polyfill2.default.runtime.getManifest().version;
   }
-  var changeToast = {
-    text: "Changes saved",
-    type: "success"
-  };
 
   // node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js
   init_preact_module();
@@ -25002,9 +24130,6 @@ https://www.viki.com
   }
   var Header_default = Header;
 
-  // src/options/components/CustomizePrompt.tsx
-  init_hooks_module();
-
   // src/utils/prompt.ts
   var pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`;
   var videoSummaryPromptHightligt = `Instructions: Your output should use the following template:
@@ -25015,399 +24140,6 @@ https://www.viki.com
 Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`;
   var searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`;
   var commentSummaryPromptHightligt = `Give a concise summary of the review content (perhaps a video, topic, or product), including both positive and negative points. If the review is about an item, give the pros, cons, ratings, and recommendations for buying the item.`;
-  var customizePrompt = `Title: "{{Title}}"
-Transcript: "{{Transcript}}"`;
-  var customizePromptSearch = `Web search results: {{Search Results}}`;
-  var customizePromptPage = `Content: {{content}}`;
-  var customizePromptComment = `Comments: {{comments}}`;
-  var customizePrompt1 = `Your output should use the following template:
-#### Summary
-#### Highlights
-- [Emoji] Bulletpoint
-
-Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point. Use the text above: {{Title}} {{Transcript}}.
-`;
-  var customizePromptClickbait = `What is the clickbait likelihood of the title and transcript for this video? Please provide a score and a brief explanation for your score, the clickbait score is up to 10, if the clickbait score is less than 5 then answer: \u{1F44D} Clickbait Score : Low, otherwise answer: \u{1F44E} Clickbait Score : High.
-
-Example response:
-> The lower the Clickbait score, the better.
-#### Clickbait Score:
-\u{1F44D} Clickbait Score : Low or \u{1F44E} Clickbait Score : High
-#### Explanation:
-The title is a bit exaggerated.
-`;
-  var customizePromptCommentAmazon = `Give a summary of the reviews of this item according to the above, and pros, cons, ratings.Your output should use the following template:
-#### Rating
-#### Review Summary
-#### Pros
-#### Cons
-`;
-  var customizePromptCommentYoutube = `Give a summary of the comments for this video, including the different points of view.`;
-
-  // src/options/components/CustomizePrompt.tsx
-  function CustomizePrompt(props) {
-    const {
-      prompt,
-      setPrompt,
-      promptSearch,
-      setPromptSearch,
-      promptPage,
-      setPromptPage,
-      promptComment,
-      setPromptComment
-    } = props;
-    const { setToast } = use_toasts_default();
-    const onPromptChange = T2(
-      (e3, type4) => {
-        const prompt2 = e3.target.value || "";
-        switch (type4) {
-          case "search": {
-            setPromptSearch(prompt2);
-            break;
-          }
-          case "page": {
-            setPromptPage(prompt2);
-            break;
-          }
-          case "comment": {
-            setPromptComment(prompt2);
-            break;
-          }
-          default: {
-            setPrompt(prompt2);
-            break;
-          }
-        }
-      },
-      [setPrompt, setPromptSearch, setPromptPage, setPromptComment]
-    );
-    const onSetPrompt = T2(
-      (type4) => {
-        switch (type4) {
-          case "search": {
-            setPromptSearch(searchPromptHighlight);
-            updateUserConfig({ promptSearch: searchPromptHighlight });
-            break;
-          }
-          case "page": {
-            setPromptPage(pageSummaryPromptHighlight);
-            updateUserConfig({ promptPage: pageSummaryPromptHighlight });
-            break;
-          }
-          case "comment": {
-            setPromptComment(commentSummaryPromptHightligt);
-            updateUserConfig({ promptComment: commentSummaryPromptHightligt });
-            break;
-          }
-          default: {
-            setPrompt(videoSummaryPromptHightligt);
-            updateUserConfig({ prompt: videoSummaryPromptHightligt });
-            break;
-          }
-        }
-        setToast(changeToast);
-      },
-      [setPrompt, setPromptComment, setPromptPage, setPromptSearch, setToast]
-    );
-    const onSavePrompt = T2(
-      (type4) => {
-        switch (type4) {
-          case "search": {
-            setPromptSearch(promptSearch);
-            updateUserConfig({ promptSearch });
-            break;
-          }
-          case "page": {
-            setPromptPage(promptPage);
-            updateUserConfig({ promptPage });
-            break;
-          }
-          case "comment": {
-            setPromptPage(promptComment);
-            updateUserConfig({ promptComment });
-            break;
-          }
-          default: {
-            setPrompt(prompt);
-            updateUserConfig({ prompt });
-            break;
-          }
-        }
-        updateUserConfig({ prompt });
-        setToast(changeToast);
-      },
-      [
-        prompt,
-        setToast,
-        setPromptSearch,
-        promptSearch,
-        setPromptPage,
-        promptPage,
-        promptComment,
-        setPrompt
-      ]
-    );
-    return /* @__PURE__ */ o3(k, { children: !isIOS && /* @__PURE__ */ o3(k, { children: [
-      /* @__PURE__ */ o3(text_default2, { h3: true, className: "glarity--mt-5 glarity--mb-0", children: "Customize Prompt for Summary" }),
-      /* @__PURE__ */ o3(collapse_default2.Group, { children: [
-        /* @__PURE__ */ o3(
-          collapse_default2,
-          {
-            title: /* @__PURE__ */ o3(text_default2, { h4: true, className: "glarity--mt-5 glarity--mb-0", children: [
-              "YouTube / Bilibili",
-              " "
-            ] }),
-            children: [
-              /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: [
-                /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: /* @__PURE__ */ o3(code_default2, { block: true, my: 0, children: customizePrompt }) }),
-                /* @__PURE__ */ o3(
-                  textarea_default2,
-                  {
-                    placeholder: "Please enter a Prompt.",
-                    value: prompt,
-                    resize: "vertical",
-                    onChange: (e3) => {
-                      onPromptChange(e3);
-                    }
-                  }
-                ),
-                /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(space_default, { children: [
-                  /* @__PURE__ */ o3(button_default2, { type: "secondary", auto: true, scale: 1 / 3, onClick: onSavePrompt, children: "Save" }),
-                  " ",
-                  /* @__PURE__ */ o3(button_default2, { type: "secondary", ghost: true, auto: true, scale: 1 / 3, onClick: onSetPrompt, children: "Use default" })
-                ] }) })
-              ] }),
-              /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: "Example Prompts: " }),
-              /* @__PURE__ */ o3("ul", { className: "glarity--prompt__list", children: [
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: "Summarize the above content highlights." }) }),
-                /* @__PURE__ */ o3("li", { children: [
-                  " ",
-                  /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                    "Summarize the above in 3 bullet points.",
-                    " "
-                  ] })
-                ] }),
-                /* @__PURE__ */ o3("li", { children: [
-                  " ",
-                  /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: `What's key takeaways from the above?` })
-                ] }),
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: "Extract the gist of the above." }) }),
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: customizePrompt1 }) }),
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "success", children: customizePromptClickbait }) })
-              ] })
-            ]
-          }
-        ),
-        /* @__PURE__ */ o3(
-          collapse_default2,
-          {
-            title: /* @__PURE__ */ o3(text_default2, { h4: true, className: "glarity--mt-5 glarity--mb-0", children: "Google / Bing" }),
-            children: [
-              /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: [
-                /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: /* @__PURE__ */ o3(code_default2, { block: true, my: 0, children: customizePromptSearch }) }),
-                /* @__PURE__ */ o3(
-                  textarea_default2,
-                  {
-                    placeholder: "Please enter a Prompt.",
-                    value: promptSearch,
-                    resize: "vertical",
-                    onChange: (e3) => {
-                      onPromptChange(e3, "search");
-                    }
-                  }
-                ),
-                /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(space_default, { children: [
-                  /* @__PURE__ */ o3(
-                    button_default2,
-                    {
-                      type: "secondary",
-                      auto: true,
-                      scale: 1 / 3,
-                      onClick: () => {
-                        onSavePrompt("search");
-                      },
-                      children: "Save"
-                    }
-                  ),
-                  " ",
-                  /* @__PURE__ */ o3(
-                    button_default2,
-                    {
-                      type: "secondary",
-                      ghost: true,
-                      auto: true,
-                      scale: 1 / 3,
-                      onClick: () => {
-                        onSetPrompt("search");
-                      },
-                      children: "Use default"
-                    }
-                  )
-                ] }) })
-              ] }),
-              /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: "Example Prompts: " }),
-              /* @__PURE__ */ o3("ul", { className: "glarity--prompt__list", children: [
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                  "Summarize the above content highlights.",
-                  " "
-                ] }) }),
-                /* @__PURE__ */ o3("li", { children: [
-                  " ",
-                  /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                    "Summarize the above in 3 bullet points.",
-                    " "
-                  ] })
-                ] }),
-                /* @__PURE__ */ o3("li", { children: [
-                  " ",
-                  /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                    "What's key takeaways from the above?",
-                    " "
-                  ] })
-                ] }),
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: "Extract the gist of the above." }) })
-              ] })
-            ]
-          }
-        ),
-        /* @__PURE__ */ o3(
-          collapse_default2,
-          {
-            title: /* @__PURE__ */ o3(text_default2, { h4: true, className: "glarity--mt-5 glarity--mb-0", children: [
-              "Page Summary",
-              " "
-            ] }),
-            children: [
-              /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: [
-                /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: /* @__PURE__ */ o3(code_default2, { block: true, my: 0, children: customizePromptPage }) }),
-                /* @__PURE__ */ o3(
-                  textarea_default2,
-                  {
-                    placeholder: "Please enter a Prompt.",
-                    value: promptPage,
-                    resize: "vertical",
-                    onChange: (e3) => {
-                      onPromptChange(e3, "page");
-                    }
-                  }
-                ),
-                /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(space_default, { children: [
-                  /* @__PURE__ */ o3(
-                    button_default2,
-                    {
-                      type: "secondary",
-                      auto: true,
-                      scale: 1 / 3,
-                      onClick: () => {
-                        onSavePrompt("page");
-                      },
-                      children: "Save"
-                    }
-                  ),
-                  " ",
-                  /* @__PURE__ */ o3(
-                    button_default2,
-                    {
-                      type: "secondary",
-                      ghost: true,
-                      auto: true,
-                      scale: 1 / 3,
-                      onClick: () => {
-                        onSetPrompt("page");
-                      },
-                      children: "Use default"
-                    }
-                  )
-                ] }) })
-              ] }),
-              /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: "Example Prompts: " }),
-              /* @__PURE__ */ o3("ul", { className: "glarity--prompt__list", children: [
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                  "Summarize the above content highlights.",
-                  " "
-                ] }) }),
-                /* @__PURE__ */ o3("li", { children: [
-                  " ",
-                  /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                    "Summarize the above in 3 bullet points.",
-                    " "
-                  ] })
-                ] }),
-                /* @__PURE__ */ o3("li", { children: [
-                  " ",
-                  /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: [
-                    "What's key takeaways from the above?",
-                    " "
-                  ] })
-                ] }),
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: "Extract the gist of the above." }) })
-              ] })
-            ]
-          }
-        ),
-        /* @__PURE__ */ o3(
-          collapse_default2,
-          {
-            title: /* @__PURE__ */ o3(text_default2, { h4: true, className: "glarity--mt-5 glarity--mb-0", children: [
-              "Comment Summary",
-              " ",
-              /* @__PURE__ */ o3(text_default2, { span: true, font: "12px", className: "glarity--subtitle", children: "Summary of support for Amazon products and YouTube video comments." })
-            ] }),
-            children: [
-              /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: [
-                /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: /* @__PURE__ */ o3(code_default2, { block: true, my: 0, children: customizePromptComment }) }),
-                /* @__PURE__ */ o3(
-                  textarea_default2,
-                  {
-                    placeholder: "Please enter a Prompt.",
-                    value: promptComment,
-                    resize: "vertical",
-                    onChange: (e3) => {
-                      onPromptChange(e3, "comment");
-                    }
-                  }
-                ),
-                /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(space_default, { children: [
-                  /* @__PURE__ */ o3(
-                    button_default2,
-                    {
-                      type: "secondary",
-                      auto: true,
-                      scale: 1 / 3,
-                      onClick: () => {
-                        onSavePrompt("comment");
-                      },
-                      children: "Save"
-                    }
-                  ),
-                  " ",
-                  /* @__PURE__ */ o3(
-                    button_default2,
-                    {
-                      type: "secondary",
-                      ghost: true,
-                      auto: true,
-                      scale: 1 / 3,
-                      onClick: () => {
-                        onSetPrompt("comment");
-                      },
-                      children: "Use default"
-                    }
-                  )
-                ] }) })
-              ] }),
-              /* @__PURE__ */ o3(text_default2, { className: "glarity--my-1", children: "Example Prompts: " }),
-              /* @__PURE__ */ o3("ul", { className: "glarity--prompt__list", children: [
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: customizePromptCommentAmazon }) }),
-                /* @__PURE__ */ o3("li", { children: /* @__PURE__ */ o3(snippet_default2, { symbol: "", type: "secondary", children: customizePromptCommentYoutube }) })
-              ] })
-            ]
-          }
-        )
-      ] })
-    ] }) });
-  }
-  var CustomizePrompt_default = CustomizePrompt;
 
   // src/options/App.tsx
   function OptionsPage(props) {
@@ -25477,20 +24209,7 @@ The title is a bit exaggerated.
           return /* @__PURE__ */ o3(radio_default2, { value: v3, children: k4 }, v3);
         }) }),
         /* @__PURE__ */ o3(text_default2, { h3: true, className: "glarity--mt-5 glarity--mb-0", children: "AI Provider" }),
-        /* @__PURE__ */ o3(ProviderSelect_default, {}),
-        /* @__PURE__ */ o3(
-          CustomizePrompt_default,
-          {
-            prompt,
-            promptSearch,
-            setPrompt,
-            setPromptSearch,
-            promptPage,
-            setPromptPage,
-            promptComment,
-            setPromptComment
-          }
-        )
+        /* @__PURE__ */ o3(ProviderSelect_default, {})
       ] })
     ] });
   }

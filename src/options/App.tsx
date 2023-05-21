@@ -136,7 +136,7 @@ function OptionsPage(
         </Text>
         <ProviderSelect />
 
-        <CustomizePrompt
+        {/* <CustomizePrompt
           prompt={prompt}
           promptSearch={promptSearch}
           setPrompt={setPrompt}
@@ -145,7 +145,7 @@ function OptionsPage(
           setPromptPage={setPromptPage}
           promptComment={promptComment}
           setPromptComment={setPromptComment}
-        />
+        /> */}
 
         {/* <Divider /> */}
       </main>

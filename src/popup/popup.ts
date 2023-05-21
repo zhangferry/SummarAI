@@ -246,7 +246,6 @@ ${question}`
   function injectContentScriptAndFetchData() {
 
     Browser.tabs.query({active: true, currentWindow: true}).then((tabs) => {
-      console.log(`tabs: ${JSON.stringify(tabs)}`)
       Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"}).then(results => {
         const question = results && results.textContent ? results.textContent : ""
         fetchData(question)
@@ -254,59 +253,26 @@ ${question}`
         console.log(`sendmessage: ${error}`)
       })
     })
-
-    // const tabs = Browser.tabs.query({active: true, currentWindow: true})
-    // Browser.runtime.sendMessage({action: "getTextContent"}).then(results => {
-    //   const question = results && results.textContent ? results.textContent : ""
-    //   fetchData(question)
-    // }).catch( error => {
-    //   console.log(`sendmessage: ${error}`)
-    // })
-
-
-    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    //   chrome.scripting.executeScript(
-    //     {
-    //       target: { tabId: tabs[0].id },
-    //       files: ["content.js"],
-    //     },
-    //     () => {
-    //       if (chrome.runtime.lastError) {
-    //         console.log(chrome.runtime.lastError)
-    //         return
-    //       }
-    //       chrome.tabs.sendMessage(tabs[0].id, { action: "getTextContent" }, (response) => {
-    //         if (chrome.runtime.lastError) {
-    //           console.error(chrome.runtime.lastError.message)
-    //         } else {
-    //           const question = response && response.textContent ? response.textContent : ""
-    //           fetchData(question)
-    //         }
-    //       })
-    //     }
-    //   )
-    // })
   }
 
   function setupEventListeners() {
     // copy content
-    const copyButton = document.getElementsByClassName("copy-btn")[0]
-    if (copyButton) {
-      copyButton.addEventListener("click", () => {
-        const response = document.getElementById("response").textContent
-        if (response) {
-          copyToClipboard(response)
-        } else {
-          console.log("No response to copy")
-        }
-      })
-    } else {
-      console.error("Copy button not found")
-    }
+    // const copyButton = document.getElementsByClassName("copy-btn")[0]
+    // if (copyButton) {
+    //   copyButton.addEventListener("click", () => {
+    //     const response = document.getElementById("response").textContent
+    //     if (response) {
+    //       copyToClipboard(response)
+    //     } else {
+    //       console.log("No response to copy")
+    //     }
+    //   })
+    // } else {
+    //   console.error("Copy button not found")
+    // }
 
     document.getElementsByClassName("setting-btn")[0].addEventListener("click", function () {
       Browser.runtime.openOptionsPage()
-      // chrome.runtime.openOptionsPage()
     })
 
     document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function () {
@@ -314,19 +280,15 @@ ${question}`
     })
   }
 
-  function init() {
-    const triggerWay = Browser.storage.local.get("triggerMode")
-    console.log(triggerWay)
+  async function init() {
+    const triggerKey = "triggerMode"
+    const triggerMode = await Browser.storage.local.get(triggerKey)
+    const modeValue = triggerMode[triggerKey]
+    if (modeValue != "manually") {
+      injectContentScriptAndFetchData()
+    }
 
-    // chrome.storage.sync.get(["trigger-way"], function (result) {
-    //   const optionValue = result["trigger-way"]
-    //   if (optionValue == "auto") {
-    //     injectContentScriptAndFetchData()
-    //   } else {
-    //     // manual
-    //     console.log("manual trigger")
-    //   }
-    // })
+    console.log(`trigger: ${JSON.stringify(triggerMode)}`)
   }
 
   init()

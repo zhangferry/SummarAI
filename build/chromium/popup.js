@@ -1113,9 +1113,6 @@ ${question}`;
       const configKey = `${providerKey}:` + provider;
       let providerConfig = await import_webextension_polyfill.default.storage.local.get(configKey);
       providerConfig = providerConfig[configKey];
-      console.log("!!!!");
-      console.log(JSON.stringify(provider));
-      console.log(JSON.stringify(providerConfig));
       if (providerConfig["apiHost"]) {
         host = providerConfig["apiHost"];
       }
@@ -1159,6 +1156,8 @@ ${question}`;
       } catch (error) {
         throw new Error(`Fetch error: ${error}`);
       }
+    }
+    function getAccessToken() {
     }
     function parseChunkContent(decodeText) {
       const array = decodeText.split("\n");
@@ -1210,7 +1209,6 @@ ${question}`;
     }
     function injectContentScriptAndFetchData() {
       import_webextension_polyfill.default.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
-        console.log(`tabs: ${JSON.stringify(tabs)}`);
         import_webextension_polyfill.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" }).then((results) => {
           const question = results && results.textContent ? results.textContent : "";
           fetchData(question);
@@ -1220,19 +1218,6 @@ ${question}`;
       });
     }
     function setupEventListeners() {
-      const copyButton = document.getElementsByClassName("copy-btn")[0];
-      if (copyButton) {
-        copyButton.addEventListener("click", () => {
-          const response = document.getElementById("response").textContent;
-          if (response) {
-            copyToClipboard(response);
-          } else {
-            console.log("No response to copy");
-          }
-        });
-      } else {
-        console.error("Copy button not found");
-      }
       document.getElementsByClassName("setting-btn")[0].addEventListener("click", function() {
         import_webextension_polyfill.default.runtime.openOptionsPage();
       });
@@ -1240,9 +1225,14 @@ ${question}`;
         injectContentScriptAndFetchData();
       });
     }
-    function init() {
-      const triggerWay = import_webextension_polyfill.default.storage.local.get("triggerMode");
-      console.log(triggerWay);
+    async function init() {
+      const triggerKey = "triggerMode";
+      const triggerMode = await import_webextension_polyfill.default.storage.local.get(triggerKey);
+      const modeValue = triggerMode[triggerKey];
+      if (modeValue != "manually") {
+        injectContentScriptAndFetchData();
+      }
+      console.log(`trigger: ${JSON.stringify(triggerMode)}`);
     }
     init();
     setupEventListeners();

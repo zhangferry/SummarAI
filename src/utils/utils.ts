@@ -7,7 +7,7 @@ export const isFirefox = navigator.userAgent.indexOf('Firefox') != -1
 
 export const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 
-export const AppName = 'Glarity-Summary for Google/YouTube (ChatGPT)'
+export const AppName = 'SummarAI (ChatGPT)'
 
 export function detectSystemColorScheme() {
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
