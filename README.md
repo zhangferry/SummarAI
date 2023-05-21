@@ -1,9 +1,8 @@
-![Project Logo](icons/icon128.png)
-
+![Project Logo](src/assets/img/logo.png)
 
 # SummarAI Chrome Extension
 
-![](https://cdn.zhangferry.com/Images/202305080041412.png)
+![](https://cdn.zhangferry.com/Images/202305212230312.png)
 
 This browser extension utilizes AI technology to analyze web pages and extract important information.
 
@@ -12,7 +11,12 @@ This browser extension utilizes AI technology to analyze web pages and extract i
 1. Download the repository to your local machine.
 2. Open Chrome and navigate to `chrome://extensions`.
 3. Enable Developer mode by toggling the switch in the top right corner.
-4. Click on "Load unpacked" and select the downloaded folder.
+4. Click on "Load unpacked" and select the `packages/chromium` folder.
+
+## Build from source
+
+1. install dependencies with `yarn` or `npm`
+2. build source code with `yarn build` or `npm run build`
 
 ## Usage
 
@@ -26,4 +30,5 @@ This browser extension utilizes AI technology to analyze web pages and extract i
 - API key is required, you can find it in [OpenAI API Key](https://platform.openai.com/account/api-keys)
 
 ## Support
+
 - For any issues or questions, please contact me.

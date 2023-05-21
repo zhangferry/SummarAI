@@ -252,19 +252,19 @@ ${question}`
 
   function setupEventListeners() {
     // copy content
-    // const copyButton = document.getElementsByClassName("copy-btn")[0]
-    // if (copyButton) {
-    //   copyButton.addEventListener("click", () => {
-    //     const response = document.getElementById("response").textContent
-    //     if (response) {
-    //       copyToClipboard(response)
-    //     } else {
-    //       console.log("No response to copy")
-    //     }
-    //   })
-    // } else {
-    //   console.error("Copy button not found")
-    // }
+    const copyButton = document.getElementsByClassName("copy-btn")[0]
+    if (copyButton) {
+      copyButton.addEventListener("click", () => {
+        const response = document.getElementById("response").textContent
+        if (response) {
+          copyToClipboard(response)
+        } else {
+          console.log("No response to copy")
+        }
+      })
+    } else {
+      console.error("Copy button not found")
+    }
 
     document.getElementsByClassName("setting-btn")[0].addEventListener("click", function () {
       Browser.runtime.openOptionsPage()

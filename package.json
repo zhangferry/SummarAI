@@ -1,7 +1,7 @@
 {
   "name": "summarai",
   "scripts": {
-    "dev": "node build.mjs",
+    "build": "node build.mjs",
     "lint": "eslint --ext .js,.mjs,.jsx ."
   },
   "author": "zhangferry",
