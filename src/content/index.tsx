@@ -25,6 +25,4 @@ async function Run() {
     })
   }
 
-console.log('内容脚本注入成功!');
-
 Run()

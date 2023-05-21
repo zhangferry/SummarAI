@@ -1,5 +1,4 @@
 import Browser from 'webextension-polyfill'
-// import { getStorage } from "./tool.js"
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
