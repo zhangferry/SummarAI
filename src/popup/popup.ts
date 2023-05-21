@@ -242,16 +242,12 @@ ${question}`
     document.body.removeChild(el)
   }
 
-  function injectContentScriptAndFetchData() {
-
-    Browser.tabs.query({active: true, currentWindow: true}).then((tabs) => {
-      Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"}).then(results => {
-        const question = results && results.textContent ? results.textContent : ""
-        fetchData(question)
-      }).catch( error => {
-        console.log(`sendmessage: ${error}`)
-      })
-    })
+  async function injectContentScriptAndFetchData() {
+    const tabs = await Browser.tabs.query({active: true, currentWindow: true})
+    await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
+    const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
+    const question = results && results.textContent ? results.textContent : ""
+    fetchData(question)
   }
 
   function setupEventListeners() {
@@ -284,7 +280,7 @@ ${question}`
     const triggerMode = await Browser.storage.local.get(triggerKey)
     const modeValue = triggerMode[triggerKey]
     if (modeValue != "manually") {
-      injectContentScriptAndFetchData()
+      await injectContentScriptAndFetchData()
     }
 
     console.log(`trigger: ${JSON.stringify(triggerMode)}`)

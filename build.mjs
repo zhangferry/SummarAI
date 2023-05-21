@@ -71,7 +71,6 @@ async function build() {
     { src: "src/popup/styles.css", dst: "popup.css" },
     { src: "src/popup/popup.html", dst: "popup.html" },
     { src: "src/options/index.html", dst: "options.html" },
-    { src: "src/config/tool.js", dst: "tool.js" },
     { src: "src/assets/img/logo-16.png", dst: "logo-16.png" },
     { src: "src/assets/img/logo-32.png", dst: "logo-32.png" },
     { src: "src/assets/img/logo-48.png", dst: "logo-48.png" },

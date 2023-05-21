@@ -1207,15 +1207,12 @@ ${question}`;
       document.execCommand("copy");
       document.body.removeChild(el);
     }
-    function injectContentScriptAndFetchData() {
-      import_webextension_polyfill.default.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
-        import_webextension_polyfill.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" }).then((results) => {
-          const question = results && results.textContent ? results.textContent : "";
-          fetchData(question);
-        }).catch((error) => {
-          console.log(`sendmessage: ${error}`);
-        });
-      });
+    async function injectContentScriptAndFetchData() {
+      const tabs = await import_webextension_polyfill.default.tabs.query({ active: true, currentWindow: true });
+      await import_webextension_polyfill.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
+      const results = await import_webextension_polyfill.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
+      const question = results && results.textContent ? results.textContent : "";
+      fetchData(question);
     }
     function setupEventListeners() {
       document.getElementsByClassName("setting-btn")[0].addEventListener("click", function() {
@@ -1230,7 +1227,7 @@ ${question}`;
       const triggerMode = await import_webextension_polyfill.default.storage.local.get(triggerKey);
       const modeValue = triggerMode[triggerKey];
       if (modeValue != "manually") {
-        injectContentScriptAndFetchData();
+        await injectContentScriptAndFetchData();
       }
       console.log(`trigger: ${JSON.stringify(triggerMode)}`);
     }
