@@ -1,4 +1,5 @@
-import { getStorage } from "./tool.js"
+import Browser from 'webextension-polyfill'
+// import { getStorage } from "./tool.js"
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
@@ -10,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loadingElement = document.getElementById("loading")
     const triggerButtonElement = document.getElementsByClassName("analyze-btn")[0]
     loadingElement.style.display = "block"
-    triggerButtonElement.disabled = true
+    // triggerButtonElement.disabled = true
 
     try {
       const contentType = "article"
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       displayError(error.message)
     } finally {
       loadingElement.style.display = "none"
-      triggerButtonElement.disabled = false
+      // triggerButtonElement.disabled = false
     }
   }
 
@@ -115,9 +116,12 @@ ${question}`
     console.log(data)
 
     var host = "api.openai.com"
-
-    let provider = await getStorage("provider")
-    const providerConfig = await getStorage("provider:" + provider)
+    const providerKey = "provider"
+    let provider = await Browser.storage.local.get(providerKey)
+    provider = provider[providerKey]
+    const configKey = `${providerKey}:` + provider
+    let providerConfig = await Browser.storage.local.get(configKey)
+    providerConfig = providerConfig[configKey]
 
     if (providerConfig["apiHost"]) {
       host = providerConfig["apiHost"]
@@ -174,6 +178,10 @@ ${question}`
     }
   }
 
+  function getAccessToken() {
+
+  }
+
   function parseChunkContent(decodeText) {
     const array = decodeText.split("\n")
     let res = []
@@ -215,10 +223,10 @@ ${question}`
 
     // responseElement.textContent = '';
     errorElement.textContent = ""
-    copyButtonElement.disabled = true
+    // copyButtonElement.disabled = true
 
     // responseElement.textContent = data;
-    copyButtonElement.disabled = false
+    // copyButtonElement.disabled = false
   }
 
   function displayError(errorMessage) {
@@ -236,30 +244,48 @@ ${question}`
   }
 
   function injectContentScriptAndFetchData() {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.scripting.executeScript(
-        {
-          target: { tabId: tabs[0].id },
-          files: ["content.js"],
-        },
-        () => {
-          if (chrome.runtime.lastError) {
-            console.log(chrome.runtime.lastError)
-            console.error("Error injecting content script")
-            console.error(chrome.runtime.lastError.message)
-            return
-          }
-          chrome.tabs.sendMessage(tabs[0].id, { action: "getTextContent" }, (response) => {
-            if (chrome.runtime.lastError) {
-              console.error(chrome.runtime.lastError.message)
-            } else {
-              const question = response && response.textContent ? response.textContent : ""
-              fetchData(question)
-            }
-          })
-        }
-      )
+
+    Browser.tabs.query({active: true, currentWindow: true}).then((tabs) => {
+      console.log(`tabs: ${JSON.stringify(tabs)}`)
+      Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"}).then(results => {
+        const question = results && results.textContent ? results.textContent : ""
+        fetchData(question)
+      }).catch( error => {
+        console.log(`sendmessage: ${error}`)
+      })
     })
+
+    // const tabs = Browser.tabs.query({active: true, currentWindow: true})
+    // Browser.runtime.sendMessage({action: "getTextContent"}).then(results => {
+    //   const question = results && results.textContent ? results.textContent : ""
+    //   fetchData(question)
+    // }).catch( error => {
+    //   console.log(`sendmessage: ${error}`)
+    // })
+
+
+    // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //   chrome.scripting.executeScript(
+    //     {
+    //       target: { tabId: tabs[0].id },
+    //       files: ["content.js"],
+    //     },
+    //     () => {
+    //       if (chrome.runtime.lastError) {
+    //         console.log(chrome.runtime.lastError)
+    //         return
+    //       }
+    //       chrome.tabs.sendMessage(tabs[0].id, { action: "getTextContent" }, (response) => {
+    //         if (chrome.runtime.lastError) {
+    //           console.error(chrome.runtime.lastError.message)
+    //         } else {
+    //           const question = response && response.textContent ? response.textContent : ""
+    //           fetchData(question)
+    //         }
+    //       })
+    //     }
+    //   )
+    // })
   }
 
   function setupEventListeners() {
@@ -279,31 +305,28 @@ ${question}`
     }
 
     document.getElementsByClassName("setting-btn")[0].addEventListener("click", function () {
-      chrome.runtime.openOptionsPage()
+      Browser.runtime.openOptionsPage()
+      // chrome.runtime.openOptionsPage()
     })
 
     document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function () {
-      injectContentScriptAndFetchData()
+     injectContentScriptAndFetchData();
     })
   }
 
   function init() {
-    chrome.storage.sync.get(["trigger-way"], function (result) {
-      const optionValue = result["trigger-way"]
-      if (optionValue == "auto") {
-        injectContentScriptAndFetchData()
-      } else {
-        // manual
-        console.log("manual trigger")
-      }
-    })
+    const triggerWay = Browser.storage.local.get("triggerMode")
+    console.log(triggerWay)
 
-    chrome.storage.local.get(null, function (items) {
-      console.log(`all local items: ${JSON.stringify(items)}`)
-    })
-    chrome.storage.sync.get(null, function (items) {
-      console.log(`all sync items: ${JSON.stringify(items)}`)
-    })
+    // chrome.storage.sync.get(["trigger-way"], function (result) {
+    //   const optionValue = result["trigger-way"]
+    //   if (optionValue == "auto") {
+    //     injectContentScriptAndFetchData()
+    //   } else {
+    //     // manual
+    //     console.log("manual trigger")
+    //   }
+    // })
   }
 
   init()

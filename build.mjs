@@ -9,7 +9,7 @@ const packagesDir = "packages"
 const appName = "SummarAI-"
 
 let buildConfig = {
-  entryPoints: ["src/content/index.tsx", "src/options/index.tsx"],
+  entryPoints: ["src/content/index.tsx", "src/options/index.tsx", "src/popup/popup.ts"],
   bundle: true,
   treeShaking: true,
   outdir: outdir,
@@ -67,7 +67,7 @@ async function build() {
     { src: "build/content/index.js", dst: "content.js" },
     { src: "build/options/index.js", dst: "options.js" },
     { src: "build/options/index.css", dst: "options.css" },
-    { src: "src/popup/popup.js", dst: "popup.js" },
+    { src: "build/popup/popup.js", dst: "popup.js" },
     { src: "src/popup/styles.css", dst: "popup.css" },
     { src: "src/popup/popup.html", dst: "popup.html" },
     { src: "src/options/index.html", dst: "options.html" },
