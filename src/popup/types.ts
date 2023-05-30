@@ -24,3 +24,7 @@ export interface GenerateAnswerParams {
     onEvent: (event: Event) => void
     signal?: AbortSignal
   }
+
+export interface Provider {
+    generateAnswer(params: GenerateAnswerParams): Promise<{ cleanup?: () => void }>
+}

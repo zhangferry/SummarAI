@@ -1176,9 +1176,9 @@
   });
 
   // src/popup/popup.ts
-  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+  var import_webextension_polyfill4 = __toESM(require_browser_polyfill());
 
-  // src/popup/providers.ts
+  // src/popup/ChatGPTProvider.ts
   var import_expiry_map = __toESM(require_dist2());
 
   // node_modules/eventsource-parser/dist/index.mjs
@@ -1373,7 +1373,7 @@
     }
   }
 
-  // src/popup/providers.ts
+  // src/popup/ChatGPTProvider.ts
   var KEY_ACCESS_TOKEN = "accessToken";
   var cache = new import_expiry_map.default(10 * 1e3);
   async function request(token, method, path, data) {
@@ -1469,7 +1469,6 @@
           const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
           if (text) {
             conversationId = data.conversation_id;
-            console.log(`text: ${text}`);
             params.onEvent({
               type: "answer",
               data: {
@@ -1503,6 +1502,122 @@
     }
   }
 
+  // src/popup/OpenAIProvider.ts
+  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+  var OpenAIProvider = class {
+    constructor(token, model) {
+      this.token = token;
+      this.model = model;
+      this.token = token;
+      this.model = model;
+    }
+    async generateAnswer(params) {
+      console.log(params);
+      const providerKey = "provider";
+      let provider = await import_webextension_polyfill3.default.storage.local.get(providerKey);
+      provider = provider[providerKey];
+      const configKey = `${providerKey}:` + provider;
+      let providerConfig = await import_webextension_polyfill3.default.storage.local.get(configKey);
+      providerConfig = providerConfig[configKey];
+      console.log(`provider config: ${providerConfig}`);
+      const data = {
+        model: this.model,
+        stream: true,
+        temperature: 0.1,
+        // more focused and deterministic.
+        messages: [
+          {
+            role: "system",
+            content: "You are a professional writer. You can use smooth and accurate language to describe the content"
+          },
+          {
+            role: "user",
+            content: params.prompt
+          }
+        ]
+      };
+      var host = "api.openai.com";
+      if (providerConfig["apiHost"]) {
+        host = providerConfig["apiHost"];
+      }
+      const url = `https://${host}/v1/chat/completions`;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + this.token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
+        if (response.status >= 200 && response.status < 300) {
+          const reader = response.body.getReader();
+          let result = "";
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done)
+              break;
+            let chunk = new TextDecoder("utf-8").decode(value);
+            let res = this.parseChunkContent(chunk);
+            if (res === -1) {
+              params.onEvent({ type: "done" });
+              break;
+            }
+            result += res;
+            params.onEvent({
+              type: "answer",
+              data: {
+                text: result,
+                messageId: "",
+                conversationId: ""
+              }
+            });
+            console.log(result);
+          }
+          return {};
+        } else {
+          console.log(response.status);
+          throw new Error(
+            `Failed to fetch data from server: ${response.status}, error message: ${await response.text()}`
+          );
+        }
+      } catch (error) {
+        throw new Error(`Fetch error: ${error}`);
+      }
+    }
+    parseChunkContent(decodeText) {
+      const array = decodeText.split("\n");
+      let res = [];
+      let stop = false;
+      array.forEach((element) => {
+        if (!element) {
+          return;
+        }
+        element = element.replace("data: ", "");
+        try {
+          const json = JSON.parse(element);
+          const choice = json.choices[0];
+          const content = choice.delta.content;
+          if (choice.finish_reason === "stop") {
+            stop = true;
+            return;
+          }
+          if (!content) {
+            return;
+          }
+          res.push(content);
+        } catch (error) {
+          console.log("not valid JSON");
+        }
+      });
+      if (stop) {
+        return -1;
+      } else {
+        return res.join("");
+      }
+    }
+  };
+
   // src/popup/popup.ts
   document.addEventListener("DOMContentLoaded", () => {
     const tokenLimit = 4096;
@@ -1510,7 +1625,6 @@
       question = truncateText(question, tokenLimit);
       console.log(`truncateText question: `, question);
       const loadingElement = document.getElementById("loading");
-      const triggerButtonElement = document.getElementsByClassName("analyze-btn")[0];
       loadingElement.style.display = "block";
       try {
         const contentType = "article";
@@ -1550,28 +1664,34 @@
       const additionalText = getAdditionalText(contentType);
       const combinedQuestion = `${additionalText}
 ${question}`;
-      const data = {
-        model: "gpt-3.5-turbo",
-        stream: true,
-        temperature: 0.1,
-        // more focused and deterministic.
-        messages: [
-          {
-            role: "system",
-            content: "You are a professional writer. You can use smooth and accurate language to describe the content"
-          },
-          {
-            role: "user",
-            content: combinedQuestion
-          }
-        ]
-      };
       const controller = new AbortController();
-      const token = await getChatGPTAccessToken();
-      console.log(`token: ${token}`);
-      const provider = new ChatGPTProvider(token);
+      let allValue = await import_webextension_polyfill4.default.storage.local.get(null);
+      console.log(`allvalue: ${JSON.stringify(allValue)}`);
+      const providerKey = "provider";
+      let providerValue = await import_webextension_polyfill4.default.storage.local.get(providerKey);
+      providerValue = providerValue[providerKey];
+      const configKey = `${providerKey}:` + providerValue;
+      let providerConfig = await import_webextension_polyfill4.default.storage.local.get(configKey);
+      providerConfig = providerConfig[configKey];
+      console.log(JSON.stringify(providerConfig));
+      let provider;
+      if (`${providerValue}` == "chatgpt") {
+        const token = await getChatGPTAccessToken();
+        console.log(`token: ${token}`);
+        provider = new ChatGPTProvider(token);
+      } else {
+        const apiKey = providerConfig["apiKey"];
+        if (!apiKey) {
+          throw new Error(`You should config API Key first`);
+        }
+        var model = "gpt-3.5-turbo";
+        if (providerConfig["model"]) {
+          model = providerConfig["model"];
+        }
+        provider = new OpenAIProvider(apiKey, model);
+      }
       const res = await provider.generateAnswer({
-        prompt: question,
+        prompt: combinedQuestion,
         signal: controller.signal,
         onEvent(event) {
           if (event.type === "done") {
@@ -1581,7 +1701,6 @@ ${question}`;
           callback(event.data);
         }
       });
-      console.log(`===> res: ${res}`);
       return res;
     }
     function getAdditionalText(contentType) {
@@ -1598,92 +1717,6 @@ ${question}`;
       2. Give me a summary of the web content
 
       here is the web content:`;
-      }
-    }
-    async function makeAPICall(data) {
-      console.log(data);
-      var host = "api.openai.com";
-      const providerKey = "provider";
-      let provider = await import_webextension_polyfill3.default.storage.local.get(providerKey);
-      provider = provider[providerKey];
-      const configKey = `${providerKey}:` + provider;
-      let providerConfig = await import_webextension_polyfill3.default.storage.local.get(configKey);
-      providerConfig = providerConfig[configKey];
-      if (providerConfig["apiHost"]) {
-        host = providerConfig["apiHost"];
-      }
-      const url = `https://${host}/v1/chat/completions`;
-      const apiKey = providerConfig["apiKey"];
-      if (!apiKey) {
-        throw new Error(`You should config API Key first`);
-      }
-      const responseElement = document.getElementById("response");
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + apiKey,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-        if (response.status >= 200 && response.status < 300) {
-          const reader = response.body.getReader();
-          let result = "";
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done)
-              break;
-            let chunk = new TextDecoder("utf-8").decode(value);
-            let res = parseChunkContent(chunk);
-            if (res === -1) {
-              break;
-            }
-            result += res;
-            responseElement.textContent += res;
-          }
-          return result;
-        } else {
-          console.log(response.status);
-          throw new Error(
-            `Failed to fetch data from server: ${response.status}, error message: ${await response.text()}`
-          );
-        }
-      } catch (error) {
-        throw new Error(`Fetch error: ${error}`);
-      }
-    }
-    function getAccessToken() {
-    }
-    function parseChunkContent(decodeText) {
-      const array = decodeText.split("\n");
-      let res = [];
-      let stop = false;
-      array.forEach((element) => {
-        if (!element) {
-          return;
-        }
-        element = element.replace("data: ", "");
-        try {
-          const json = JSON.parse(element);
-          const choice = json.choices[0];
-          const content = choice.delta.content;
-          if (choice.finish_reason === "stop") {
-            stop = true;
-            return;
-          }
-          if (!content) {
-            return;
-          }
-          res.push(content);
-        } catch (error) {
-          console.log("not valid JSON");
-        }
-      });
-      if (stop) {
-        return -1;
-      } else {
-        return res.join("");
       }
     }
     function displayAnswer(data) {
@@ -1705,9 +1738,9 @@ ${question}`;
       document.body.removeChild(el);
     }
     async function injectContentScriptAndFetchData() {
-      const tabs = await import_webextension_polyfill3.default.tabs.query({ active: true, currentWindow: true });
-      await import_webextension_polyfill3.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
-      const results = await import_webextension_polyfill3.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
+      const tabs = await import_webextension_polyfill4.default.tabs.query({ active: true, currentWindow: true });
+      await import_webextension_polyfill4.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
+      const results = await import_webextension_polyfill4.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
       const question = results && results.textContent ? results.textContent : "";
       fetchData(question);
     }
@@ -1726,7 +1759,7 @@ ${question}`;
         console.error("Copy button not found");
       }
       document.getElementsByClassName("setting-btn")[0].addEventListener("click", function() {
-        import_webextension_polyfill3.default.runtime.openOptionsPage();
+        import_webextension_polyfill4.default.runtime.openOptionsPage();
       });
       document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function() {
         injectContentScriptAndFetchData();
@@ -1734,7 +1767,7 @@ ${question}`;
     }
     async function init() {
       const triggerKey = "triggerMode";
-      const triggerMode = await import_webextension_polyfill3.default.storage.local.get(triggerKey);
+      const triggerMode = await import_webextension_polyfill4.default.storage.local.get(triggerKey);
       const modeValue = triggerMode[triggerKey];
       if (modeValue != "manually") {
         await injectContentScriptAndFetchData();

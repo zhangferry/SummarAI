@@ -23990,64 +23990,73 @@ https://www.viki.com
       console.log("models", models);
     }, [config, models]);
     return /* @__PURE__ */ o3(k, { children: /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-col glarity--gap-3", children: [
-      /* @__PURE__ */ o3(radio_default2.Group, { value: tab, onChange: (v3) => setTab(v3), children: /* @__PURE__ */ o3(radio_default2, { value: "gpt3" /* GPT3 */, children: [
-        "OpenAI API",
-        /* @__PURE__ */ o3(radio_default2.Desc, { children: /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-col glarity--gap-2", children: [
-          /* @__PURE__ */ o3("span", { children: [
-            "OpenAI official API, more stable,",
+      /* @__PURE__ */ o3(radio_default2.Group, { value: tab, onChange: (v3) => setTab(v3), children: [
+        !isSafari && /* @__PURE__ */ o3(k, { children: /* @__PURE__ */ o3(radio_default2, { value: "chatgpt" /* ChatGPT */, children: [
+          "ChatGPT webapp",
+          /* @__PURE__ */ o3(radio_default2.Desc, { children: [
             " ",
-            /* @__PURE__ */ o3("span", { className: "glarity--font-semibold", children: "charge by usage" })
-          ] }),
-          /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select", children: [
-            /* @__PURE__ */ o3(
-              input_default2,
-              {
-                htmlType: "text",
-                placeholder: "api.openai.com",
-                label: "API Host",
-                scale: 2 / 3,
-                clearable: true,
-                ...apiHostBindings
-              }
-            ),
-            /* @__PURE__ */ o3(
-              select_default,
-              {
-                defaultValue: model,
-                onChange: (v3) => setModel(v3),
-                placeholder: "model",
-                optionLabelProp: "label",
-                style: { width: "170px" },
-                children: models.map((m3) => /* @__PURE__ */ o3(Option3, { value: m3, label: m3, children: m3 }, m3))
-              }
-            ),
-            /* @__PURE__ */ o3(
-              input_default2,
-              {
-                htmlType: "password",
-                placeholder: "sk-********",
-                label: "API key",
-                scale: 2 / 3,
-                clearable: true,
-                ...apiKeyBindings
-              }
-            )
-          ] }),
-          /* @__PURE__ */ o3("span", { className: "glarity--italic glarity--text-xs", children: [
-            "You can find or create your API key",
-            " ",
-            /* @__PURE__ */ o3(
-              "a",
-              {
-                href: "https://platform.openai.com/account/api-keys",
-                target: "_blank",
-                rel: "noreferrer",
-                children: "here"
-              }
-            )
+            "The API that powers ChatGPT webapp, free, but sometimes unstable"
           ] })
-        ] }) })
-      ] }) }),
+        ] }) }),
+        /* @__PURE__ */ o3(radio_default2, { value: "gpt3" /* GPT3 */, children: [
+          "OpenAI API",
+          /* @__PURE__ */ o3(radio_default2.Desc, { children: /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-col glarity--gap-2", children: [
+            /* @__PURE__ */ o3("span", { children: [
+              "OpenAI official API, more stable,",
+              " ",
+              /* @__PURE__ */ o3("span", { className: "glarity--font-semibold", children: "charge by usage" })
+            ] }),
+            /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select", children: [
+              /* @__PURE__ */ o3(
+                input_default2,
+                {
+                  htmlType: "text",
+                  placeholder: "api.openai.com",
+                  label: "API Host",
+                  scale: 2 / 3,
+                  clearable: true,
+                  ...apiHostBindings
+                }
+              ),
+              /* @__PURE__ */ o3(
+                select_default,
+                {
+                  defaultValue: model,
+                  onChange: (v3) => setModel(v3),
+                  placeholder: "model",
+                  optionLabelProp: "label",
+                  style: { width: "170px" },
+                  children: models.map((m3) => /* @__PURE__ */ o3(Option3, { value: m3, label: m3, children: m3 }, m3))
+                }
+              ),
+              /* @__PURE__ */ o3(
+                input_default2,
+                {
+                  htmlType: "password",
+                  placeholder: "sk-********",
+                  label: "API key",
+                  scale: 2 / 3,
+                  clearable: true,
+                  ...apiKeyBindings
+                }
+              )
+            ] }),
+            /* @__PURE__ */ o3("span", { className: "glarity--italic glarity--text-xs", children: [
+              "You can find or create your API key",
+              " ",
+              /* @__PURE__ */ o3(
+                "a",
+                {
+                  href: "https://platform.openai.com/account/api-keys",
+                  target: "_blank",
+                  rel: "noreferrer",
+                  children: "here"
+                }
+              )
+            ] })
+          ] }) })
+        ] })
+      ] }),
       /* @__PURE__ */ o3(card_default2.Footer, { children: /* @__PURE__ */ o3(button_default2, { scale: 2 / 3, style: { width: 20 }, type: "success", onClick: save, children: "Save" }) })
     ] }) }) });
   };

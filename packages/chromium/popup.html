@@ -17,15 +17,15 @@
         <p>This browser extension utilizes AI technology to analyze web pages and extract important information.</p>
         <div class="button-container"> 
           <button class="analyze-btn">Analyze</button>
+          <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <!-- <p>Analyzing...</p> -->
+          </div>
           <div class="edit-container"> 
             <button class="copy-btn" disabled></button>
             <button class="setting-btn"></button>
           </div>
         </div>
-      </div>
-      <div id="loading" class="loading">
-        <!-- <div class="spinner"></div> -->
-        <p>Analyzing...</p>
       </div>
       <pre id="response"></pre>
       <!-- <button id="copyButton" disabled>Copy Content</button> -->

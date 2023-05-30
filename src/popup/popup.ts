@@ -1,6 +1,7 @@
 import Browser from 'webextension-polyfill'
-import {ChatGPTProvider, getChatGPTAccessToken} from './providers'
-import { Answer } from './types'
+import {ChatGPTProvider, getChatGPTAccessToken} from './ChatGPTProvider'
+import { Answer, Provider } from './types'
+import { OpenAIProvider } from './OpenAIProvider'
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
@@ -10,20 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`truncateText question: `, question)
 
     const loadingElement = document.getElementById("loading")
-    const triggerButtonElement = document.getElementsByClassName("analyze-btn")[0]
     loadingElement.style.display = "block"
-    // triggerButtonElement.disabled = true
 
     try {
       const contentType = "article"
       await getContentBasedOnType(contentType, question, displayAnswer)
-      // const responseText = await finalResponse
-      // displayAnswer(responseText)
     } catch (error) {
       displayError(error.message)
     } finally {
       loadingElement.style.display = "none"
-      // triggerButtonElement.disabled = false
     }
   }
 
@@ -73,31 +69,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const combinedQuestion = `${additionalText}
 ${question}`
 
-    const data = {
-      model: "gpt-3.5-turbo",
-      stream: true,
-      temperature: 0.1, // more focused and deterministic.
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a professional writer. You can use smooth and accurate language to describe the content",
-        },
-        {
-          role: "user",
-          content: combinedQuestion,
-        },
-      ],
-    }
-
     const controller = new AbortController()
 
-    // debug code
-    const token = await getChatGPTAccessToken()
-    console.log(`token: ${token}`)
-    const provider = new ChatGPTProvider(token)
+    let allValue = await Browser.storage.local.get(null)
+    console.log(`allvalue: ${JSON.stringify(allValue)}`)
+
+    const providerKey = "provider"
+    let providerValue = await Browser.storage.local.get(providerKey)
+    providerValue = providerValue[providerKey]
+    const configKey = `${providerKey}:` + providerValue
+    let providerConfig = await Browser.storage.local.get(configKey)
+    providerConfig = providerConfig[configKey]
+    console.log(JSON.stringify(providerConfig))
+
+    let provider: Provider
+    if (`${providerValue}` == "chatgpt") {
+      // debug code
+      const token = await getChatGPTAccessToken()
+      console.log(`token: ${token}`)
+      provider = new ChatGPTProvider(token)
+    } else {
+      const apiKey = providerConfig["apiKey"]
+      if (!apiKey) {
+        throw new Error(`You should config API Key first`)
+      }
+      var model = "gpt-3.5-turbo" // default model
+      if (providerConfig["model"]) {
+          model = providerConfig["model"]
+      }
+      provider = new OpenAIProvider(apiKey, model)
+    }
     const res = await provider.generateAnswer({
-      prompt: question,
+      prompt: combinedQuestion,
       signal: controller.signal,
       onEvent(event) {
         if (event.type === 'done') {
@@ -107,9 +110,6 @@ ${question}`
         callback(event.data)
       }
     })
-    console.log(`===> res: ${res}`)
-
-    // const response = await makeAPICall(data)
     return res
   }
 
@@ -129,110 +129,6 @@ ${question}`
       2. Give me a summary of the web content
 
       here is the web content:`
-    }
-  }
-
-  async function makeAPICall(data) {
-    console.log(data)
-
-    var host = "api.openai.com"
-    const providerKey = "provider"
-    let provider = await Browser.storage.local.get(providerKey)
-    provider = provider[providerKey]
-    const configKey = `${providerKey}:` + provider
-    let providerConfig = await Browser.storage.local.get(configKey)
-    providerConfig = providerConfig[configKey]
-
-    if (providerConfig["apiHost"]) {
-      host = providerConfig["apiHost"]
-    }
-    const url = `https://${host}/v1/chat/completions`
-
-    const apiKey = providerConfig["apiKey"]
-    if (!apiKey) {
-      throw new Error(`You should config API Key first`)
-    }
-
-    const responseElement = document.getElementById("response")
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + apiKey,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (response.status >= 200 && response.status < 300) {
-        const reader = response.body.getReader()
-
-        let result = ""
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-          // Convert ArrayBuffer to string
-          let chunk = new TextDecoder("utf-8").decode(value)
-          let res = parseChunkContent(chunk)
-          if (res === -1) {
-            // stop
-            break
-          }
-          result += res
-          responseElement.textContent += res
-        }
-        return result
-        // const jsonRes = await response.json();
-        // return jsonRes.choices[0].message.content;
-      } else {
-        console.log(response.status)
-        throw new Error(
-          `Failed to fetch data from server: ${
-            response.status
-          }, error message: ${await response.text()}`
-        )
-      }
-    } catch (error) {
-      throw new Error(`Fetch error: ${error}`)
-    }
-  }
-
-  function getAccessToken() {
-
-  }
-
-  function parseChunkContent(decodeText) {
-    const array = decodeText.split("\n")
-    let res = []
-    let stop = false
-    array.forEach((element) => {
-      if (!element) {
-        return
-      }
-      element = element.replace("data: ", "")
-      try {
-        const json = JSON.parse(element)
-        const choice = json.choices[0]
-        const content = choice.delta.content
-
-        if (choice.finish_reason === "stop") {
-          stop = true
-          return
-        }
-
-        if (!content) {
-          return
-        }
-        res.push(content)
-      } catch (error) {
-        console.log("not valid JSON")
-      }
-    })
-    if (stop) {
-      return -1
-    } else {
-      return res.join("")
     }
   }
 

@@ -54,7 +54,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
       <Card className="glarity--card">
         <div className="glarity--flex glarity--flex-col glarity--gap-3">
           <Radio.Group value={tab} onChange={(v) => setTab(v as ProviderType)}>
-            {/* {!isSafari && (
+            { !isSafari && (
               <>
                 <Radio value={ProviderType.ChatGPT}>
                   ChatGPT webapp
@@ -64,7 +64,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                   </Radio.Desc>
                 </Radio>
               </>
-            )} */}
+            ) }
 
             <Radio value={ProviderType.GPT3}>
               OpenAI API

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 const KEY_ACCESS_TOKEN = 'accessToken'
 import { BASE_URL } from '@/config'
 import { streamAsyncIterable } from '@/utils/utils'
-import { GenerateAnswerParams } from './types'
+import { GenerateAnswerParams, Provider } from './types'
 
 const cache = new ExpiryMap(10 * 1000)
 
@@ -37,7 +37,7 @@ export async function getChatGPTAccessToken(): Promise<string> {
     return data.accessToken
   }
 
-  export class ChatGPTProvider {
+  export class ChatGPTProvider implements Provider {
     constructor(private token: string) {
       this.token = token
     }
@@ -88,8 +88,8 @@ export async function getChatGPTAccessToken(): Promise<string> {
             content: {
               content_type: 'text',
               parts: [params["prompt"]],
-            },
-          },
+            }
+          }
         ],
         model: modelName,
         parent_message_id: uuidv4(),
@@ -112,7 +112,6 @@ export async function getChatGPTAccessToken(): Promise<string> {
         const text = data.message?.content?.parts?.[0]
         if (text) {
           conversationId = data.conversation_id
-          console.log(`text: ${text}`)
           params.onEvent({
             type: 'answer',
             data: {
@@ -126,7 +125,6 @@ export async function getChatGPTAccessToken(): Promise<string> {
     })
     return { cleanup }
   }
-
 }
 
 
