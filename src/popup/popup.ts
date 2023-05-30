@@ -1,4 +1,6 @@
 import Browser from 'webextension-polyfill'
+import {ChatGPTProvider, getChatGPTAccessToken} from './providers'
+import { Answer } from './types'
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
@@ -14,9 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const contentType = "article"
-      const finalResponse = await getContentBasedOnType(contentType, question)
-      const responseText = await finalResponse
-      displayData(responseText)
+      await getContentBasedOnType(contentType, question, displayAnswer)
+      // const responseText = await finalResponse
+      // displayAnswer(responseText)
     } catch (error) {
       displayError(error.message)
     } finally {
@@ -65,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return truncatedText
   }
 
-  async function getContentBasedOnType(contentType, question) {
+  async function getContentBasedOnType(contentType: string, question: string, callback) {
     const additionalText = getAdditionalText(contentType)
 
     const combinedQuestion = `${additionalText}
@@ -88,8 +90,27 @@ ${question}`
       ],
     }
 
-    const response = await makeAPICall(data)
-    return response
+    const controller = new AbortController()
+
+    // debug code
+    const token = await getChatGPTAccessToken()
+    console.log(`token: ${token}`)
+    const provider = new ChatGPTProvider(token)
+    const res = await provider.generateAnswer({
+      prompt: question,
+      signal: controller.signal,
+      onEvent(event) {
+        if (event.type === 'done') {
+          console.log("展示结束")
+          return
+        }
+        callback(event.data)
+      }
+    })
+    console.log(`===> res: ${res}`)
+
+    // const response = await makeAPICall(data)
+    return res
   }
 
   function getAdditionalText(contentType) {
@@ -125,7 +146,7 @@ ${question}`
     if (providerConfig["apiHost"]) {
       host = providerConfig["apiHost"]
     }
-    const url = "https://" + host + "/v1/chat/completions"
+    const url = `https://${host}/v1/chat/completions`
 
     const apiKey = providerConfig["apiKey"]
     if (!apiKey) {
@@ -215,16 +236,16 @@ ${question}`
     }
   }
 
-  function displayData(data) {
-    // const responseElement = document.getElementById('response');
+  function displayAnswer(data: Answer) {
+    const responseElement = document.getElementById("response")
+    responseElement.textContent = data.text;
+
     const errorElement = document.getElementById("error")
-    const copyButtonElement = document.getElementsByClassName("copy-btn")[0]
-
-    // responseElement.textContent = '';
     errorElement.textContent = ""
-    // copyButtonElement.disabled = true
 
-    // responseElement.textContent = data;
+    // const copyButtonElement = document.getElementsByClassName("copy-btn")[0]
+    // responseElement.textContent = '';
+    // copyButtonElement.disabled = true
     // copyButtonElement.disabled = false
   }
 

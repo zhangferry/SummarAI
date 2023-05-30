@@ -1414,6 +1414,11 @@ esutils@^2.0.2:
   resolved "https://registry.npmmirror.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
+eventsource-parser@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.npmmirror.com/eventsource-parser/-/eventsource-parser-0.0.5.tgz#6041bf765ebced8ac83de9dc78754b7b919b7342"
+  integrity sha512-BAq82bC3ZW9fPYYZlofXBOAfbpmDzXIOsj+GOehQwgTUYsQZ6HtHs6zuRtge7Ph8OhS6lNH1kJF8q9dj17RcmA==
+
 execa@^7.0.0:
   version "7.1.1"
   resolved "https://registry.npmmirror.com/execa/-/execa-7.1.1.tgz#3eb3c83d239488e7b409d48e8813b76bb55c9c43"
@@ -1428,6 +1433,13 @@ execa@^7.0.0:
     onetime "^6.0.0"
     signal-exit "^3.0.7"
     strip-final-newline "^3.0.0"
+
+expiry-map@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmmirror.com/expiry-map/-/expiry-map-2.0.0.tgz#b441ee8e8865291ad9a542783076d33bae0f3582"
+  integrity sha512-K1I5wJe2fiqjyUZf/xhxwTpaopw3F+19DsO7Oggl20+3SVTXDIevVRJav0aBMfposQdkl2E4+gnuOKd3j2X0sA==
+  dependencies:
+    map-age-cleaner "^0.2.0"
 
 extend@^3.0.0:
   version "3.0.2"
@@ -2186,6 +2198,13 @@ lru-cache@^9.1.1:
   resolved "https://registry.npmmirror.com/lru-cache/-/lru-cache-9.1.1.tgz#c58a93de58630b688de39ad04ef02ef26f1902f1"
   integrity sha512-65/Jky17UwSb0BuB9V+MyDpsOtXKmYwzhyl+cOa9XUiI4uV2Ouy/2voFP3+al0BjZbJgMBD8FojMpAf+Z+qn4A==
 
+map-age-cleaner@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmmirror.com/map-age-cleaner/-/map-age-cleaner-0.2.0.tgz#0196bc278f7244ddeb7ca0cb3df329b06241a44b"
+  integrity sha512-AvxTC6id0fzSf6OyNBTp1syyCuKO7nOJvHgYlhT0Qkkjvk40zZo+av3ayVgXlxnF/DxEzEfY9mMdd7FHsd+wKQ==
+  dependencies:
+    p-defer "^1.0.0"
+
 mdast-util-definitions@^5.0.0:
   version "5.1.2"
   resolved "https://registry.npmmirror.com/mdast-util-definitions/-/mdast-util-definitions-5.1.2.tgz#9910abb60ac5d7115d6819b57ae0bcef07a3f7a7"
@@ -2626,6 +2645,11 @@ optionator@^0.9.1:
     prelude-ls "^1.2.1"
     type-check "^0.4.0"
     word-wrap "^1.2.3"
+
+p-defer@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
+  integrity sha512-wB3wfAxZpk2AzOfUMJNL+d36xothRSyj8EXOa4f6GMqYDN9BJaaSISbsk+wS9abmnebVw95C2Kb5t85UmpCxuw==
 
 p-limit@^3.0.2:
   version "3.1.0"
@@ -3924,6 +3948,11 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.npmmirror.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+uuid@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.npmmirror.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 uvu@^0.5.0:
   version "0.5.6"

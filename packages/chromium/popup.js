@@ -793,14 +793,14 @@
             };
             let hasOwnProperty = Function.call.bind(Object.prototype.hasOwnProperty);
             const wrapObject = (target, wrappers = {}, metadata = {}) => {
-              let cache = /* @__PURE__ */ Object.create(null);
+              let cache2 = /* @__PURE__ */ Object.create(null);
               let handlers = {
                 has(proxyTarget2, prop) {
-                  return prop in target || prop in cache;
+                  return prop in target || prop in cache2;
                 },
                 get(proxyTarget2, prop, receiver) {
-                  if (prop in cache) {
-                    return cache[prop];
+                  if (prop in cache2) {
+                    return cache2[prop];
                   }
                   if (!(prop in target)) {
                     return void 0;
@@ -820,7 +820,7 @@
                   } else if (hasOwnProperty(metadata, "*")) {
                     value = wrapObject(value, wrappers[prop], metadata["*"]);
                   } else {
-                    Object.defineProperty(cache, prop, {
+                    Object.defineProperty(cache2, prop, {
                       configurable: true,
                       enumerable: true,
                       get() {
@@ -832,22 +832,22 @@
                     });
                     return value;
                   }
-                  cache[prop] = value;
+                  cache2[prop] = value;
                   return value;
                 },
                 set(proxyTarget2, prop, value, receiver) {
-                  if (prop in cache) {
-                    cache[prop] = value;
+                  if (prop in cache2) {
+                    cache2[prop] = value;
                   } else {
                     target[prop] = value;
                   }
                   return true;
                 },
                 defineProperty(proxyTarget2, prop, desc) {
-                  return Reflect.defineProperty(cache, prop, desc);
+                  return Reflect.defineProperty(cache2, prop, desc);
                 },
                 deleteProperty(proxyTarget2, prop) {
-                  return Reflect.deleteProperty(cache, prop);
+                  return Reflect.deleteProperty(cache2, prop);
                 }
               };
               let proxyTarget = Object.create(target);
@@ -1019,8 +1019,491 @@
     }
   });
 
+  // node_modules/p-defer/index.js
+  var require_p_defer = __commonJS({
+    "node_modules/p-defer/index.js"(exports, module) {
+      "use strict";
+      module.exports = () => {
+        const ret = {};
+        ret.promise = new Promise((resolve, reject) => {
+          ret.resolve = resolve;
+          ret.reject = reject;
+        });
+        return ret;
+      };
+    }
+  });
+
+  // node_modules/map-age-cleaner/dist/index.js
+  var require_dist = __commonJS({
+    "node_modules/map-age-cleaner/dist/index.js"(exports, module) {
+      "use strict";
+      var pDefer = require_p_defer();
+      function mapAgeCleaner(map, property = "maxAge") {
+        let processingKey;
+        let processingTimer;
+        let processingDeferred;
+        const cleanup = async () => {
+          if (processingKey !== void 0) {
+            return;
+          }
+          const setupTimer = async (item) => {
+            processingDeferred = pDefer();
+            const delay = item[1][property] - Date.now();
+            if (delay <= 0) {
+              map.delete(item[0]);
+              processingDeferred.resolve();
+              return;
+            }
+            processingKey = item[0];
+            processingTimer = setTimeout(() => {
+              map.delete(item[0]);
+              if (processingDeferred) {
+                processingDeferred.resolve();
+              }
+            }, delay);
+            if (typeof processingTimer.unref === "function") {
+              processingTimer.unref();
+            }
+            return processingDeferred.promise;
+          };
+          try {
+            for (const entry of map) {
+              await setupTimer(entry);
+            }
+          } catch (_a) {
+          }
+          processingKey = void 0;
+        };
+        const reset = () => {
+          processingKey = void 0;
+          if (processingTimer !== void 0) {
+            clearTimeout(processingTimer);
+            processingTimer = void 0;
+          }
+          if (processingDeferred !== void 0) {
+            processingDeferred.reject(void 0);
+            processingDeferred = void 0;
+          }
+        };
+        const originalSet = map.set.bind(map);
+        map.set = (key, value) => {
+          if (map.has(key)) {
+            map.delete(key);
+          }
+          const result = originalSet(key, value);
+          if (processingKey && processingKey === key) {
+            reset();
+          }
+          cleanup();
+          return result;
+        };
+        cleanup();
+        return map;
+      }
+      module.exports = mapAgeCleaner;
+    }
+  });
+
+  // node_modules/expiry-map/dist/index.js
+  var require_dist2 = __commonJS({
+    "node_modules/expiry-map/dist/index.js"(exports, module) {
+      "use strict";
+      var mapAgeCleaner = require_dist();
+      var ExpiryMap2 = class {
+        constructor(maxAge, data) {
+          this.maxAge = maxAge;
+          this[Symbol.toStringTag] = "Map";
+          this.data = /* @__PURE__ */ new Map();
+          mapAgeCleaner(this.data);
+          if (data) {
+            for (const [key, value] of data) {
+              this.set(key, value);
+            }
+          }
+        }
+        get size() {
+          return this.data.size;
+        }
+        clear() {
+          this.data.clear();
+        }
+        delete(key) {
+          return this.data.delete(key);
+        }
+        has(key) {
+          return this.data.has(key);
+        }
+        get(key) {
+          const value = this.data.get(key);
+          if (value) {
+            return value.data;
+          }
+          return;
+        }
+        set(key, value) {
+          this.data.set(key, {
+            maxAge: Date.now() + this.maxAge,
+            data: value
+          });
+          return this;
+        }
+        values() {
+          return this.createIterator((item) => item[1].data);
+        }
+        keys() {
+          return this.data.keys();
+        }
+        entries() {
+          return this.createIterator((item) => [item[0], item[1].data]);
+        }
+        forEach(callbackfn, thisArg) {
+          for (const [key, value] of this.entries()) {
+            callbackfn.apply(thisArg, [value, key, this]);
+          }
+        }
+        [Symbol.iterator]() {
+          return this.entries();
+        }
+        *createIterator(projection) {
+          for (const item of this.data.entries()) {
+            yield projection(item);
+          }
+        }
+      };
+      module.exports = ExpiryMap2;
+    }
+  });
+
   // src/popup/popup.ts
+  var import_webextension_polyfill3 = __toESM(require_browser_polyfill());
+
+  // src/popup/providers.ts
+  var import_expiry_map = __toESM(require_dist2());
+
+  // node_modules/eventsource-parser/dist/index.mjs
+  function createParser(onParse) {
+    let isFirstChunk;
+    let buffer;
+    let startingPosition;
+    let startingFieldLength;
+    let eventId;
+    let eventName;
+    let data;
+    reset();
+    return {
+      feed,
+      reset
+    };
+    function reset() {
+      isFirstChunk = true;
+      buffer = "";
+      startingPosition = 0;
+      startingFieldLength = -1;
+      eventId = void 0;
+      eventName = void 0;
+      data = "";
+    }
+    function feed(chunk) {
+      buffer = buffer ? buffer + chunk : chunk;
+      if (isFirstChunk && hasBom(buffer)) {
+        buffer = buffer.slice(BOM.length);
+      }
+      isFirstChunk = false;
+      const length = buffer.length;
+      let position = 0;
+      let discardTrailingNewline = false;
+      while (position < length) {
+        if (discardTrailingNewline) {
+          if (buffer[position] === "\n") {
+            ++position;
+          }
+          discardTrailingNewline = false;
+        }
+        let lineLength = -1;
+        let fieldLength = startingFieldLength;
+        let character;
+        for (let index = startingPosition; lineLength < 0 && index < length; ++index) {
+          character = buffer[index];
+          if (character === ":" && fieldLength < 0) {
+            fieldLength = index - position;
+          } else if (character === "\r") {
+            discardTrailingNewline = true;
+            lineLength = index - position;
+          } else if (character === "\n") {
+            lineLength = index - position;
+          }
+        }
+        if (lineLength < 0) {
+          startingPosition = length - position;
+          startingFieldLength = fieldLength;
+          break;
+        } else {
+          startingPosition = 0;
+          startingFieldLength = -1;
+        }
+        parseEventStreamLine(buffer, position, fieldLength, lineLength);
+        position += lineLength + 1;
+      }
+      if (position === length) {
+        buffer = "";
+      } else if (position > 0) {
+        buffer = buffer.slice(position);
+      }
+    }
+    function parseEventStreamLine(lineBuffer, index, fieldLength, lineLength) {
+      if (lineLength === 0) {
+        if (data.length > 0) {
+          onParse({
+            type: "event",
+            id: eventId,
+            event: eventName || void 0,
+            data: data.slice(0, -1)
+          });
+          data = "";
+          eventId = void 0;
+        }
+        eventName = void 0;
+        return;
+      }
+      const noValue = fieldLength < 0;
+      const field = lineBuffer.slice(index, index + (noValue ? lineLength : fieldLength));
+      let step = 0;
+      if (noValue) {
+        step = lineLength;
+      } else if (lineBuffer[index + fieldLength + 1] === " ") {
+        step = fieldLength + 2;
+      } else {
+        step = fieldLength + 1;
+      }
+      const position = index + step;
+      const valueLength = lineLength - step;
+      const value = lineBuffer.slice(position, position + valueLength).toString();
+      if (field === "data") {
+        data += value ? "".concat(value, "\n") : "\n";
+      } else if (field === "event") {
+        eventName = value;
+      } else if (field === "id" && !value.includes("\0")) {
+        eventId = value;
+      } else if (field === "retry") {
+        const retry = parseInt(value, 10);
+        if (!Number.isNaN(retry)) {
+          onParse({
+            type: "reconnect-interval",
+            value: retry
+          });
+        }
+      }
+    }
+  }
+  var BOM = [239, 187, 191];
+  function hasBom(buffer) {
+    return BOM.every((charCode, index) => buffer.charCodeAt(index) === charCode);
+  }
+
+  // node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+
+  // node_modules/uuid/dist/esm-browser/stringify.js
+  var byteToHex = [];
+  for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 256).toString(16).slice(1));
+  }
+  function unsafeStringify(arr, offset = 0) {
+    return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+  }
+
+  // node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
+
+  // node_modules/uuid/dist/esm-browser/v4.js
+  function v4(options, buf, offset) {
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
+    }
+    options = options || {};
+    const rnds = options.random || (options.rng || rng)();
+    rnds[6] = rnds[6] & 15 | 64;
+    rnds[8] = rnds[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
+      return buf;
+    }
+    return unsafeStringify(rnds);
+  }
+  var v4_default = v4;
+
+  // src/config/index.ts
   var import_webextension_polyfill = __toESM(require_browser_polyfill());
+  var BASE_URL = "https://chat.openai.com";
+
+  // src/utils/utils.ts
+  var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  async function* streamAsyncIterable(stream) {
+    const reader = stream.getReader();
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          return;
+        }
+        yield value;
+      }
+    } finally {
+      reader.releaseLock();
+    }
+  }
+
+  // src/popup/providers.ts
+  var KEY_ACCESS_TOKEN = "accessToken";
+  var cache = new import_expiry_map.default(10 * 1e3);
+  async function request(token, method, path, data) {
+    return fetch(`${BASE_URL}/backend-api${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: data === void 0 ? void 0 : JSON.stringify(data)
+    });
+  }
+  async function getChatGPTAccessToken() {
+    if (cache.get(KEY_ACCESS_TOKEN)) {
+      console.log(`use cache token}`);
+      return cache.get(KEY_ACCESS_TOKEN);
+    }
+    const resp = await fetch(`${BASE_URL}/api/auth/session`);
+    console.log(`resp.headers: ${resp.headers}, ${resp.body}`);
+    if (resp.status === 403) {
+      throw new Error("CLOUDFLARE");
+    }
+    const data = await resp.json().catch(() => ({}));
+    if (!data.accessToken) {
+      throw new Error("UNAUTHORIZED");
+    }
+    cache.set(KEY_ACCESS_TOKEN, data.accessToken);
+    return data.accessToken;
+  }
+  var ChatGPTProvider = class {
+    constructor(token) {
+      this.token = token;
+      this.token = token;
+    }
+    async fetchModels() {
+      const resp = await request(this.token, "GET", "/models").then((r) => r.json());
+      return resp.models;
+    }
+    async getModelName() {
+      try {
+        const models = await this.fetchModels();
+        return models[0].slug;
+      } catch (err) {
+        console.error(err);
+        return "text-davinci-002-render-sha";
+      }
+    }
+    async generateAnswer(params) {
+      let conversationId;
+      const cleanup = () => {
+        if (conversationId) {
+        }
+      };
+      const modelName = await this.getModelName();
+      console.log(`modelName: ${modelName}`);
+      await fetchSSE(`${BASE_URL}/backend-api/conversation`, {
+        method: "POST",
+        signal: null,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.token}`
+        },
+        body: JSON.stringify({
+          action: "next",
+          messages: [
+            {
+              id: v4_default(),
+              role: "user",
+              content: {
+                content_type: "text",
+                parts: [params["prompt"]]
+              }
+            }
+          ],
+          model: modelName,
+          parent_message_id: v4_default()
+        }),
+        onMessage(message) {
+          var _a, _b, _c;
+          console.debug("sse message", message);
+          if (message === "[DONE]") {
+            params.onEvent({ type: "done" });
+            cleanup();
+            return;
+          }
+          let data;
+          try {
+            data = JSON.parse(message);
+          } catch (err) {
+            console.error(err);
+            return;
+          }
+          const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
+          if (text) {
+            conversationId = data.conversation_id;
+            console.log(`text: ${text}`);
+            params.onEvent({
+              type: "answer",
+              data: {
+                text,
+                messageId: data.message.id,
+                conversationId: data.conversation_id
+              }
+            });
+          }
+        }
+      });
+      return { cleanup };
+    }
+  };
+  async function fetchSSE(resource, options) {
+    const { onMessage, ...fetchOptions } = options;
+    const resp = await fetch(resource, fetchOptions);
+    if (!resp.ok) {
+      const error = await resp.json().catch(() => ({}));
+      throw new Error(JSON.stringify(error));
+    }
+    console.log(`fetchSSE: ${resp.body}`);
+    const parser = createParser((event) => {
+      if (event.type === "event") {
+        onMessage(event.data);
+      }
+    });
+    for await (const chunk of streamAsyncIterable(resp.body)) {
+      const str = new TextDecoder().decode(chunk);
+      parser.feed(str);
+    }
+  }
+
+  // src/popup/popup.ts
   document.addEventListener("DOMContentLoaded", () => {
     const tokenLimit = 4096;
     async function fetchData(question) {
@@ -1031,9 +1514,7 @@
       loadingElement.style.display = "block";
       try {
         const contentType = "article";
-        const finalResponse = await getContentBasedOnType(contentType, question);
-        const responseText = await finalResponse;
-        displayData(responseText);
+        await getContentBasedOnType(contentType, question, displayAnswer);
       } catch (error) {
         displayError(error.message);
       } finally {
@@ -1065,7 +1546,7 @@
       }
       return truncatedText;
     }
-    async function getContentBasedOnType(contentType, question) {
+    async function getContentBasedOnType(contentType, question, callback) {
       const additionalText = getAdditionalText(contentType);
       const combinedQuestion = `${additionalText}
 ${question}`;
@@ -1085,8 +1566,23 @@ ${question}`;
           }
         ]
       };
-      const response = await makeAPICall(data);
-      return response;
+      const controller = new AbortController();
+      const token = await getChatGPTAccessToken();
+      console.log(`token: ${token}`);
+      const provider = new ChatGPTProvider(token);
+      const res = await provider.generateAnswer({
+        prompt: question,
+        signal: controller.signal,
+        onEvent(event) {
+          if (event.type === "done") {
+            console.log("\u5C55\u793A\u7ED3\u675F");
+            return;
+          }
+          callback(event.data);
+        }
+      });
+      console.log(`===> res: ${res}`);
+      return res;
     }
     function getAdditionalText(contentType) {
       switch (contentType) {
@@ -1108,15 +1604,15 @@ ${question}`;
       console.log(data);
       var host = "api.openai.com";
       const providerKey = "provider";
-      let provider = await import_webextension_polyfill.default.storage.local.get(providerKey);
+      let provider = await import_webextension_polyfill3.default.storage.local.get(providerKey);
       provider = provider[providerKey];
       const configKey = `${providerKey}:` + provider;
-      let providerConfig = await import_webextension_polyfill.default.storage.local.get(configKey);
+      let providerConfig = await import_webextension_polyfill3.default.storage.local.get(configKey);
       providerConfig = providerConfig[configKey];
       if (providerConfig["apiHost"]) {
         host = providerConfig["apiHost"];
       }
-      const url = "https://" + host + "/v1/chat/completions";
+      const url = `https://${host}/v1/chat/completions`;
       const apiKey = providerConfig["apiKey"];
       if (!apiKey) {
         throw new Error(`You should config API Key first`);
@@ -1190,9 +1686,10 @@ ${question}`;
         return res.join("");
       }
     }
-    function displayData(data) {
+    function displayAnswer(data) {
+      const responseElement = document.getElementById("response");
+      responseElement.textContent = data.text;
       const errorElement = document.getElementById("error");
-      const copyButtonElement = document.getElementsByClassName("copy-btn")[0];
       errorElement.textContent = "";
     }
     function displayError(errorMessage) {
@@ -1208,9 +1705,9 @@ ${question}`;
       document.body.removeChild(el);
     }
     async function injectContentScriptAndFetchData() {
-      const tabs = await import_webextension_polyfill.default.tabs.query({ active: true, currentWindow: true });
-      await import_webextension_polyfill.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
-      const results = await import_webextension_polyfill.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
+      const tabs = await import_webextension_polyfill3.default.tabs.query({ active: true, currentWindow: true });
+      await import_webextension_polyfill3.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
+      const results = await import_webextension_polyfill3.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
       const question = results && results.textContent ? results.textContent : "";
       fetchData(question);
     }
@@ -1229,7 +1726,7 @@ ${question}`;
         console.error("Copy button not found");
       }
       document.getElementsByClassName("setting-btn")[0].addEventListener("click", function() {
-        import_webextension_polyfill.default.runtime.openOptionsPage();
+        import_webextension_polyfill3.default.runtime.openOptionsPage();
       });
       document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function() {
         injectContentScriptAndFetchData();
@@ -1237,7 +1734,7 @@ ${question}`;
     }
     async function init() {
       const triggerKey = "triggerMode";
-      const triggerMode = await import_webextension_polyfill.default.storage.local.get(triggerKey);
+      const triggerMode = await import_webextension_polyfill3.default.storage.local.get(triggerKey);
       const modeValue = triggerMode[triggerKey];
       if (modeValue != "manually") {
         await injectContentScriptAndFetchData();
