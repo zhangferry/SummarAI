@@ -15,8 +15,8 @@ This browser extension utilizes AI technology to analyze web pages and extract i
 
 ## Build from source
 
-1. install dependencies with `yarn` or `npm`
-2. build source code with `yarn build` or `npm run build`
+1. install dependencies with `yarn install`
+2. build source code with `yarn build`
 
 ## Usage
 
@@ -25,6 +25,14 @@ This browser extension utilizes AI technology to analyze web pages and extract i
 3. The extension will analyze the content of the page and display a summary in the popup.
 
 ## Setting
+
+![](https://cdn.zhangferry.com/Images/202305312325405.png)
+
+There are two AI modes available for you to choose from:
+
+1. Through the ChatGPT web app, which requires you to have successfully logged in to the ChatGPT web version to preserve the session.
+
+2. Through OpenAI's API, which requires you to provide the corresponding API Key.
 
 - The default host is https://api.openai.com, you can customize this value.
 - API key is required, you can find it in [OpenAI API Key](https://platform.openai.com/account/api-keys)
