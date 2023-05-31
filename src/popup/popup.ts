@@ -83,12 +83,7 @@ ${question}`
     console.log(JSON.stringify(providerConfig))
 
     let provider: Provider
-    if (`${providerValue}` == "chatgpt") {
-      // debug code
-      const token = await getChatGPTAccessToken()
-      console.log(`token: ${token}`)
-      provider = new ChatGPTProvider(token)
-    } else {
+    if (`${providerValue}` == "gpt") {
       const apiKey = providerConfig["apiKey"]
       if (!apiKey) {
         throw new Error(`You should config API Key first`)
@@ -98,19 +93,22 @@ ${question}`
           model = providerConfig["model"]
       }
       provider = new OpenAIProvider(apiKey, model)
+    } else {
+      const token = await getChatGPTAccessToken()
+      provider = new ChatGPTProvider(token)
     }
-    const res = await provider.generateAnswer({
+    const { cleanup } = await provider.generateAnswer({
       prompt: combinedQuestion,
       signal: controller.signal,
       onEvent(event) {
         if (event.type === 'done') {
-          console.log("展示结束")
           return
         }
         callback(event.data)
       }
     })
-    return res
+    
+    cleanup?.()
   }
 
   function getAdditionalText(contentType) {

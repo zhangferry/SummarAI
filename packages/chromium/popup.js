@@ -1403,6 +1403,9 @@
     cache.set(KEY_ACCESS_TOKEN, data.accessToken);
     return data.accessToken;
   }
+  async function setConversationProperty(token, conversationId, propertyObject) {
+    await request(token, "PATCH", `/conversation/${conversationId}`, propertyObject);
+  }
   var ChatGPTProvider = class {
     constructor(token) {
       this.token = token;
@@ -1423,8 +1426,13 @@
     }
     async generateAnswer(params) {
       let conversationId;
+      let prompt = `You are a professional writer. You can use smooth and accurate language to describe the content`;
+      prompt = `${prompt}. ${params["prompt"]}`;
       const cleanup = () => {
         if (conversationId) {
+          setConversationProperty(this.token, conversationId, { is_visible: false }).catch((error) => {
+            console.log(`setConverdation: ${error}`);
+          });
         }
       };
       const modelName = await this.getModelName();
@@ -1444,7 +1452,7 @@
               role: "user",
               content: {
                 content_type: "text",
-                parts: [params["prompt"]]
+                parts: [prompt]
               }
             }
           ],
@@ -1456,14 +1464,13 @@
           console.debug("sse message", message);
           if (message === "[DONE]") {
             params.onEvent({ type: "done" });
-            cleanup();
             return;
           }
           let data;
           try {
             data = JSON.parse(message);
           } catch (err) {
-            console.error(err);
+            console.log(err);
             return;
           }
           const text = (_c = (_b = (_a = data.message) == null ? void 0 : _a.content) == null ? void 0 : _b.parts) == null ? void 0 : _c[0];
@@ -1675,11 +1682,7 @@ ${question}`;
       providerConfig = providerConfig[configKey];
       console.log(JSON.stringify(providerConfig));
       let provider;
-      if (`${providerValue}` == "chatgpt") {
-        const token = await getChatGPTAccessToken();
-        console.log(`token: ${token}`);
-        provider = new ChatGPTProvider(token);
-      } else {
+      if (`${providerValue}` == "gpt") {
         const apiKey = providerConfig["apiKey"];
         if (!apiKey) {
           throw new Error(`You should config API Key first`);
@@ -1689,19 +1692,21 @@ ${question}`;
           model = providerConfig["model"];
         }
         provider = new OpenAIProvider(apiKey, model);
+      } else {
+        const token = await getChatGPTAccessToken();
+        provider = new ChatGPTProvider(token);
       }
-      const res = await provider.generateAnswer({
+      const { cleanup } = await provider.generateAnswer({
         prompt: combinedQuestion,
         signal: controller.signal,
         onEvent(event) {
           if (event.type === "done") {
-            console.log("\u5C55\u793A\u7ED3\u675F");
             return;
           }
           callback(event.data);
         }
       });
-      return res;
+      cleanup == null ? void 0 : cleanup();
     }
     function getAdditionalText(contentType) {
       switch (contentType) {
@@ -1776,5 +1781,11 @@ ${question}`;
     }
     init();
     setupEventListeners();
+  });
+  import_webextension_polyfill4.default.runtime.onInstalled.addListener(async (details) => {
+    console.log("onInstalled");
+    if (details.reason === "install") {
+      import_webextension_polyfill4.default.runtime.openOptionsPage();
+    }
   });
 })();

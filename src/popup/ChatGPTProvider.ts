@@ -20,22 +20,26 @@ async function request(token: string, method: string, path: string, data?: unkno
 }
 
 export async function getChatGPTAccessToken(): Promise<string> {
-    if (cache.get(KEY_ACCESS_TOKEN)) {
-      console.log(`use cache token}`)
-      return cache.get(KEY_ACCESS_TOKEN)
-    }
-    const resp = await fetch(`${BASE_URL}/api/auth/session`)
-    console.log(`resp.headers: ${resp.headers}, ${resp.body}`)
-    if (resp.status === 403) {
-      throw new Error('CLOUDFLARE')
-    }
-    const data = await resp.json().catch(() => ({}))
-    if (!data.accessToken) {
-      throw new Error('UNAUTHORIZED')
-    }
-    cache.set(KEY_ACCESS_TOKEN, data.accessToken)
-    return data.accessToken
+  if (cache.get(KEY_ACCESS_TOKEN)) {
+    console.log(`use cache token}`)
+    return cache.get(KEY_ACCESS_TOKEN)
   }
+  const resp = await fetch(`${BASE_URL}/api/auth/session`)
+  console.log(`resp.headers: ${resp.headers}, ${resp.body}`)
+  if (resp.status === 403) {
+    throw new Error('CLOUDFLARE')
+  }
+  const data = await resp.json().catch(() => ({}))
+  if (!data.accessToken) {
+    throw new Error('UNAUTHORIZED')
+  }
+  cache.set(KEY_ACCESS_TOKEN, data.accessToken)
+  return data.accessToken
+}
+
+async function setConversationProperty(token: string, conversationId: string, propertyObject: object) {
+  await request(token, 'PATCH', `/conversation/${conversationId}`, propertyObject)
+}
 
   export class ChatGPTProvider implements Provider {
     constructor(private token: string) {
@@ -59,13 +63,18 @@ export async function getChatGPTAccessToken(): Promise<string> {
     }
   }
 
-
   async generateAnswer(params: GenerateAnswerParams) {
     let conversationId: string | undefined
 
+    let prompt = `You are a professional writer. You can use smooth and accurate language to describe the content`
+    prompt = `${prompt}. ${params["prompt"]}`
     const cleanup = () => {
       if (conversationId) {
-        // setConversationProperty(this.token, conversationId, { is_visible: true })
+        // clean chatgpt conversation history
+        setConversationProperty(this.token, conversationId, { is_visible: false })
+        .catch((error)=> {
+          console.log(`setConverdation: ${error}`)
+        })
       }
     }
 
@@ -87,7 +96,7 @@ export async function getChatGPTAccessToken(): Promise<string> {
             role: 'user',
             content: {
               content_type: 'text',
-              parts: [params["prompt"]],
+              parts: [prompt],
             }
           }
         ],
@@ -99,14 +108,14 @@ export async function getChatGPTAccessToken(): Promise<string> {
         if (message === '[DONE]') {
 
           params.onEvent({ type: 'done' })
-          cleanup()
+          // cleanup()
           return
         }
         let data
         try {
           data = JSON.parse(message)
         } catch (err) {
-          console.error(err)
+          console.log(err)
           return
         }
         const text = data.message?.content?.parts?.[0]
