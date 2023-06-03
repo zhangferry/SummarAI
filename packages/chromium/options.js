@@ -24130,17 +24130,6 @@ https://www.viki.com
   }
   var Header_default = Header;
 
-  // src/utils/prompt.ts
-  var pageSummaryPromptHighlight = `Summarize the highlights of the content and output a useful summary in a few sentences.`;
-  var videoSummaryPromptHightligt = `Instructions: Your output should use the following template:
-### Summary
-### Highlights
-- [Emoji] Bulletpoint
-
-Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`;
-  var searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`;
-  var commentSummaryPromptHightligt = `Give a concise summary of the review content (perhaps a video, topic, or product), including both positive and negative points. If the review is about an item, give the pros, cons, ratings, and recommendations for buying the item.`;
-
   // src/options/App.tsx
   function OptionsPage(props) {
     const {
@@ -24154,10 +24143,6 @@ Use up to 3 brief bullet points to summarize the content below, Choose an approp
     const [triggerMode, setTriggerMode] = h2("always" /* Always */);
     const [language, setLanguage] = h2("auto" /* Auto */);
     const { setToast } = use_toasts_default();
-    const [prompt, setPrompt] = h2("");
-    const [promptSearch, setPromptSearch] = h2("");
-    const [promptPage, setPromptPage] = h2("");
-    const [promptComment, setPromptComment] = h2("");
     const onTriggerModeChange = T2(
       (mode) => {
         setTriggerMode(mode);
@@ -24178,10 +24163,6 @@ Use up to 3 brief bullet points to summarize the content below, Choose an approp
       getUserConfig().then((config) => {
         setTriggerMode(config.triggerMode);
         setLanguage(config.language);
-        setPrompt(config.prompt ? config.prompt : videoSummaryPromptHightligt);
-        setPromptSearch(config.promptSearch ? config.promptSearch : searchPromptHighlight);
-        setPromptPage(config.promptPage ? config.promptPage : pageSummaryPromptHighlight);
-        setPromptComment(config.promptComment ? config.promptComment : commentSummaryPromptHightligt);
       });
     }, []);
     return /* @__PURE__ */ o3("div", { className: "glarity--container glarity--mx-auto", children: [

@@ -9,7 +9,7 @@ const packagesDir = "packages"
 const appName = "SummarAI-"
 
 let buildConfig = {
-  entryPoints: ["src/content/index.tsx", "src/options/index.tsx", "src/popup/popup.ts"],
+  entryPoints: ["src/background/index.tsx", "src/options/index.tsx", "src/popup/popup.ts"],
   bundle: true,
   treeShaking: true,
   outdir: outdir,
@@ -64,7 +64,7 @@ async function build() {
   await runEsbuild()
 
   const commonFiles = [
-    { src: "build/content/index.js", dst: "content.js" },
+    { src: "build/background/index.js", dst: "background.js" },
     { src: "build/options/index.js", dst: "options.js" },
     { src: "build/options/index.css", dst: "options.css" },
     { src: "build/popup/popup.js", dst: "popup.js" },

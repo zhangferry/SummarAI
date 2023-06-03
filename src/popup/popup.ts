@@ -2,6 +2,7 @@ import Browser from 'webextension-polyfill'
 import {ChatGPTProvider, getChatGPTAccessToken} from './ChatGPTProvider'
 import { Answer, Provider } from './types'
 import { OpenAIProvider } from './OpenAIProvider'
+import { articlePrompt, summerDefaultPrompt, bulletpointPrompt } from './prompt'
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
@@ -63,11 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return truncatedText
   }
 
-  async function getContentBasedOnType(contentType: string, question: string, callback) {
-    const additionalText = getAdditionalText(contentType)
-
-    const combinedQuestion = `${additionalText}
-${question}`
+  async function getContentBasedOnType(contentType: string, contextInfo: string, callback) {
+    const combinedPrompt = articlePrompt({
+      content: contextInfo, 
+      prompt: summerDefaultPrompt})
 
     const controller = new AbortController()
 
@@ -98,7 +98,7 @@ ${question}`
       provider = new ChatGPTProvider(token)
     }
     const { cleanup } = await provider.generateAnswer({
-      prompt: combinedQuestion,
+      prompt: combinedPrompt,
       signal: controller.signal,
       onEvent(event) {
         if (event.type === 'done') {
@@ -111,36 +111,12 @@ ${question}`
     cleanup?.()
   }
 
-  function getAdditionalText(contentType) {
-    // Customize the additional text based on the contentType
-    // You can add more cases if necessary
-    switch (contentType) {
-      case "article":
-        return `Provide me the following overview in a nice format:
-      1. Give me the title of the article, start with '标题'
-      2. Give me a summary of the main points from the article in Chinese, start with ‘总结’
-
-      here is the article:`
-      default:
-        return `Provide me the following overview in a nice format:
-      1. Give me a header saying what type website this is and what the type of content is
-      2. Give me a summary of the web content
-
-      here is the web content:`
-    }
-  }
-
   function displayAnswer(data: Answer) {
     const responseElement = document.getElementById("response")
     responseElement.textContent = data.text;
 
     const errorElement = document.getElementById("error")
     errorElement.textContent = ""
-
-    // const copyButtonElement = document.getElementsByClassName("copy-btn")[0]
-    // responseElement.textContent = '';
-    // copyButtonElement.disabled = true
-    // copyButtonElement.disabled = false
   }
 
   function displayError(errorMessage) {
@@ -159,7 +135,7 @@ ${question}`
 
   async function injectContentScriptAndFetchData() {
     const tabs = await Browser.tabs.query({active: true, currentWindow: true})
-    await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
+    // await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
     const question = results && results.textContent ? results.textContent : ""
     fetchData(question)

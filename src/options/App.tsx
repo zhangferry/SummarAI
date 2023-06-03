@@ -23,15 +23,7 @@ import { PageSummaryProps } from './components/PageSummary'
 import ProviderSelect from './ProviderSelect'
 import { isIOS } from '@/utils/utils'
 import Header from './components/Header'
-import CustomizePrompt from './components/CustomizePrompt'
-import PageSummaryComponent from './components/PageSummary'
 import { detectSystemColorScheme } from '@/utils/utils'
-import {
-  videoSummaryPromptHightligt,
-  searchPromptHighlight,
-  pageSummaryPromptHighlight,
-  commentSummaryPromptHightligt,
-} from '@/utils/prompt'
 
 import './styles.scss'
 
@@ -52,10 +44,10 @@ function OptionsPage(
   const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
-  const [prompt, setPrompt] = useState<string>('')
-  const [promptSearch, setPromptSearch] = useState<string>('')
-  const [promptPage, setPromptPage] = useState<string>('')
-  const [promptComment, setPromptComment] = useState<string>('')
+  // const [prompt, setPrompt] = useState<string>('')
+  // const [promptSearch, setPromptSearch] = useState<string>('')
+  // const [promptPage, setPromptPage] = useState<string>('')
+  // const [promptComment, setPromptComment] = useState<string>('')
 
   const onTriggerModeChange = useCallback(
     (mode: TriggerMode) => {
@@ -79,11 +71,6 @@ function OptionsPage(
     getUserConfig().then((config) => {
       setTriggerMode(config.triggerMode)
       setLanguage(config.language)
-
-      setPrompt(config.prompt ? config.prompt : videoSummaryPromptHightligt)
-      setPromptSearch(config.promptSearch ? config.promptSearch : searchPromptHighlight)
-      setPromptPage(config.promptPage ? config.promptPage : pageSummaryPromptHighlight)
-      setPromptComment(config.promptComment ? config.promptComment : commentSummaryPromptHightligt)
     })
   }, [])
 

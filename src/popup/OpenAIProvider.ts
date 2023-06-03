@@ -1,5 +1,6 @@
 import Browser from 'webextension-polyfill'
 import { GenerateAnswerParams, Provider } from './types'
+import { summerSystemRole } from './prompt'
 
 export class OpenAIProvider implements Provider {
 
@@ -26,8 +27,7 @@ export class OpenAIProvider implements Provider {
             messages: [
               {
                 role: "system",
-                content:
-                  "You are a professional writer. You can use smooth and accurate language to describe the content",
+                content: summerSystemRole
               },
               {
                 role: "user",
