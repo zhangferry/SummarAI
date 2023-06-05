@@ -5,10 +5,15 @@ import { OpenAIProvider } from './OpenAIProvider'
 import { articlePrompt, summerDefaultPrompt, zettelkastenPrompt } from './prompt'
 import Parser from "@postlight/parser"
 
+enum PromptType {
+  Summary,
+  Zettelkasten
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
 
-  async function fetchData(response) {
+  async function fetchData(response, promptType: PromptType) {
     
     const loadingElement = document.getElementById("loading")
     loadingElement.style.display = "block"
@@ -18,8 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const question = truncateText(result.content, tokenLimit)
 
     try {
-      const contentType = "article"
-      await getContentBasedOnType(contentType, question, displayAnswer)
+
+      const promptTemplate = promptType === PromptType.Summary ? summerDefaultPrompt : zettelkastenPrompt
+
+      const combinedPrompt = articlePrompt({
+        content: question, 
+        prompt: promptTemplate})
+
+      await getContentBasedOnType(combinedPrompt, displayAnswer)
     } catch (error) {
       displayError(error.message)
     } finally {
@@ -67,10 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return truncatedText
   }
 
-  async function getContentBasedOnType(contentType: string, contextInfo: string, callback) {
-    const combinedPrompt = articlePrompt({
-      content: contextInfo, 
-      prompt: zettelkastenPrompt})
+  async function getContentBasedOnType(prompt: string, callback) {
 
     const controller = new AbortController()
 
@@ -101,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       provider = new ChatGPTProvider(token)
     }
     const { cleanup } = await provider.generateAnswer({
-      prompt: combinedPrompt,
+      prompt: prompt,
       signal: controller.signal,
       onEvent(event) {
         if (event.type === 'done') {
@@ -136,12 +144,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.removeChild(el)
   }
 
-  async function injectContentScriptAndFetchData() {
+  async function injectContentScriptAndFetchData(type: PromptType) {
     const tabs = await Browser.tabs.query({active: true, currentWindow: true})
     await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
     const response = results && results.textContent ? results.textContent : ""
-    await fetchData(response)
+    await fetchData(response, type)
   }
 
   function setupEventListeners() {
@@ -165,8 +173,12 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function () {
-     injectContentScriptAndFetchData();
+     injectContentScriptAndFetchData(PromptType.Summary);
     })
+
+    document.getElementsByClassName("zettelkasten-btn")[0].addEventListener("click", function () {
+      injectContentScriptAndFetchData(PromptType.Zettelkasten);
+     })
   }
 
   async function init() {
@@ -174,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const triggerMode = await Browser.storage.local.get(triggerKey)
     const modeValue = triggerMode[triggerKey]
     if (modeValue != "manually") {
-      await injectContentScriptAndFetchData()
+      await injectContentScriptAndFetchData(PromptType.Summary)
     }
 
     console.log(`trigger: ${JSON.stringify(triggerMode)}`)

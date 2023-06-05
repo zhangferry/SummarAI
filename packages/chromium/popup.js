@@ -28404,13 +28404,12 @@ Pretend you are GPT5, the most powerful AI in the world.
 \u4F7F\u7528 Zettelkasten \u5361\u7247\u6CD5\u603B\u7ED3\u603B\u7ED3\u63D0\u70BC\u4EE5\u4E0B\u5185\u5BB9\u4E3A\u4E2D\u6587\u3002
 
 \u4EFB\u52A1\uFF1A
-1. \u63D0\u70BC\u5361\u7247\u5185\u5BB9\uFF1A\u628A\u53D1\u73B0\u7684\u5168\u90E8\u89C2\u70B9\u6216\u77E5\u8BC6\u70B9\u5206\u7C7B\u603B\u7ED3\u6210\u8BE6\u7565\u6070\u5F53\u7684\u5361\u7247\u5185\u5BB9\uFF0C\u4E0D\u8981\u76F4\u63A5\u5F15\u7528\u539F\u6587\uFF0C\u9650100\u5B57\u5185\u3002
-2. \u751F\u6210\u5361\u7247\u6807\u9898\uFF1A\u57FA\u4E8E\u6838\u5FC3\u89C2\u70B9/\u77E5\u8BC6\u70B9\u63D0\u70BC\u4E3A\u7B80\u6D01\u6709\u610F\u4E49\u6709\u91CD\u70B9\u7684\u5361\u7247\u6807\u9898\uFF0C\u965025\u5B57\u5185\u3002
+1. \u63D0\u70BC\u5361\u7247\u5185\u5BB9\uFF1A\u628A\u53D1\u73B0\u7684\u5168\u90E8\u89C2\u70B9\u6216\u77E5\u8BC6\u70B9\u5206\u7C7B\u603B\u7ED3\u6210\u8BE6\u7565\u6070\u5F53\u7684\u5361\u7247\u5185\u5BB9\uFF0C\u4E0D\u8981\u76F4\u63A5\u5F15\u7528\u539F\u6587\uFF0C\u5B57\u6570\u5728 80-140 \u4E4B\u95F4\u3002
+2. \u751F\u6210\u5361\u7247\u6807\u9898\uFF1A\u57FA\u4E8E\u6838\u5FC3\u89C2\u70B9/\u77E5\u8BC6\u70B9\u63D0\u70BC\u4E3A\u7B80\u6D01\u6709\u610F\u4E49\u6709\u91CD\u70B9\u7684\u5361\u7247\u6807\u9898\uFF0C\u4E0D\u8D85\u8FC7 25 \u5B57\u3002
 3. \u751F\u6210\u5361\u7247\u6807\u7B7E\uFF1A\u57FA\u4E8E\u89C2\u70B9\u6216\u77E5\u8BC6\u70B9\u7684\u9AD8\u5EA6\u62BD\u8C61\u63D0\u70BC\u3002
-4. \u5361\u7247\u6570\u91CF\u4E0D\u8981\u8D85\u8FC75\u4E2A
 
 \u5C55\u793A\u4E3A\u4EE5\u4E0B\u683C\u5F0F\uFF1A
-Card1\uFF1A<\u5361\u7247\u6807\u9898>
+Card1\uFF1A\u5361\u7247\u6807\u9898
 <\u5361\u7247\u5185\u5BB9>
 #<\u5361\u7247\u6807\u7B7E1> #<\u5361\u7247\u6807\u7B7E2> 
 
@@ -28547,15 +28546,19 @@ Content:  ${content}
   var import_parser = __toESM(require_mercury());
   document.addEventListener("DOMContentLoaded", () => {
     const tokenLimit = 4096;
-    async function fetchData(response) {
+    async function fetchData(response, promptType) {
       const loadingElement = document.getElementById("loading");
       loadingElement.style.display = "block";
       const result = await import_parser.default.parse(response.url, { contentType: "text" });
       console.log(`extract content: ${result.content}`);
       const question = truncateText(result.content, tokenLimit);
       try {
-        const contentType = "article";
-        await getContentBasedOnType(contentType, question, displayAnswer);
+        const promptTemplate = promptType === 0 /* Summary */ ? summerDefaultPrompt : zettelkastenPrompt;
+        const combinedPrompt = articlePrompt({
+          content: question,
+          prompt: promptTemplate
+        });
+        await getContentBasedOnType(combinedPrompt, displayAnswer);
       } catch (error) {
         displayError(error.message);
       } finally {
@@ -28587,11 +28590,7 @@ Content:  ${content}
       }
       return truncatedText;
     }
-    async function getContentBasedOnType(contentType, contextInfo, callback) {
-      const combinedPrompt = articlePrompt({
-        content: contextInfo,
-        prompt: zettelkastenPrompt
-      });
+    async function getContentBasedOnType(prompt, callback) {
       const controller = new AbortController();
       let allValue = await import_webextension_polyfill4.default.storage.local.get(null);
       console.log(`allvalue: ${JSON.stringify(allValue)}`);
@@ -28618,7 +28617,7 @@ Content:  ${content}
         provider = new ChatGPTProvider(token);
       }
       const { cleanup } = await provider.generateAnswer({
-        prompt: combinedPrompt,
+        prompt,
         signal: controller.signal,
         onEvent(event) {
           if (event.type === "done") {
@@ -28647,12 +28646,12 @@ Content:  ${content}
       document.execCommand("copy");
       document.body.removeChild(el);
     }
-    async function injectContentScriptAndFetchData() {
+    async function injectContentScriptAndFetchData(type) {
       const tabs = await import_webextension_polyfill4.default.tabs.query({ active: true, currentWindow: true });
       await import_webextension_polyfill4.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
       const results = await import_webextension_polyfill4.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
       const response = results && results.textContent ? results.textContent : "";
-      await fetchData(response);
+      await fetchData(response, type);
     }
     function setupEventListeners() {
       const copyButton = document.getElementsByClassName("copy-btn")[0];
@@ -28672,7 +28671,10 @@ Content:  ${content}
         import_webextension_polyfill4.default.runtime.openOptionsPage();
       });
       document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function() {
-        injectContentScriptAndFetchData();
+        injectContentScriptAndFetchData(0 /* Summary */);
+      });
+      document.getElementsByClassName("zettelkasten-btn")[0].addEventListener("click", function() {
+        injectContentScriptAndFetchData(1 /* Zettelkasten */);
       });
     }
     async function init() {
@@ -28680,7 +28682,7 @@ Content:  ${content}
       const triggerMode = await import_webextension_polyfill4.default.storage.local.get(triggerKey);
       const modeValue = triggerMode[triggerKey];
       if (modeValue != "manually") {
-        await injectContentScriptAndFetchData();
+        await injectContentScriptAndFetchData(0 /* Summary */);
       }
       console.log(`trigger: ${JSON.stringify(triggerMode)}`);
     }
