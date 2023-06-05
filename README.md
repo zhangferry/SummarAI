@@ -2,7 +2,9 @@
 
 # SummarAI Chrome Extension
 
-![](https://cdn.zhangferry.com/Images/202305212230312.png)
+![](https://cdn.zhangferry.com/Images/202306052331039.png)
+
+![](https://cdn.zhangferry.com/Images/202306052334674.png)
 
 This browser extension utilizes AI technology to analyze web pages and extract important information.
 

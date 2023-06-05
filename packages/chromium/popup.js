@@ -28390,31 +28390,28 @@
 
   // src/popup/prompt.ts
   var replylanguagePrompt = (language) => {
-    return `Write it in ${language} language.`;
+    return `Please write in ${language} language.`;
   };
   var summerSystemRole = `You are a professional writer. You can use smooth and accurate language to describe the content`;
   var summerDefaultPrompt = `Provide me the following overview in a nice format:
 1. Give me the title of the article, start with '\u6807\u9898'
 2. Give me a summary of the main points from the article, start with '\u603B\u7ED3'
-3. ${replylanguagePrompt("Chinese")}
 
 Here is the article:`;
-  var zettelkastenPrompt = `"Let's thinking step by step in English but reply in Chinese for ever.
-Pretend you are GPT5, the most powerful AI in the world.
-\u4F7F\u7528 Zettelkasten \u5361\u7247\u6CD5\u603B\u7ED3\u603B\u7ED3\u63D0\u70BC\u4EE5\u4E0B\u5185\u5BB9\u4E3A\u4E2D\u6587\u3002
+  var zettelkastenPrompt = `"Pretend you are GPT5, the most powerful AI in the world.
+Use the Zettelkasten card method to summarize:
 
-\u4EFB\u52A1\uFF1A
-1. \u63D0\u70BC\u5361\u7247\u5185\u5BB9\uFF1A\u628A\u53D1\u73B0\u7684\u5168\u90E8\u89C2\u70B9\u6216\u77E5\u8BC6\u70B9\u5206\u7C7B\u603B\u7ED3\u6210\u8BE6\u7565\u6070\u5F53\u7684\u5361\u7247\u5185\u5BB9\uFF0C\u4E0D\u8981\u76F4\u63A5\u5F15\u7528\u539F\u6587\uFF0C\u5B57\u6570\u5728 80-140 \u4E4B\u95F4\u3002
-2. \u751F\u6210\u5361\u7247\u6807\u9898\uFF1A\u57FA\u4E8E\u6838\u5FC3\u89C2\u70B9/\u77E5\u8BC6\u70B9\u63D0\u70BC\u4E3A\u7B80\u6D01\u6709\u610F\u4E49\u6709\u91CD\u70B9\u7684\u5361\u7247\u6807\u9898\uFF0C\u4E0D\u8D85\u8FC7 25 \u5B57\u3002
-3. \u751F\u6210\u5361\u7247\u6807\u7B7E\uFF1A\u57FA\u4E8E\u89C2\u70B9\u6216\u77E5\u8BC6\u70B9\u7684\u9AD8\u5EA6\u62BD\u8C61\u63D0\u70BC\u3002
+Task:
+1. Summarize the card content: Classify and summarize all the viewpoints or knowledge points found into appropriate card content, the number of words does not exceed 140 words. 
+2. Generate card titles: Based on the core viewpoints/knowledge points, refine concise, meaningful and focused card titles, not exceeding 25 words.
+3. Generate card tags: Highly abstract refinement based on viewpoints or knowledge points. 
 
-\u5C55\u793A\u4E3A\u4EE5\u4E0B\u683C\u5F0F\uFF1A
-Card1\uFF1A\u5361\u7247\u6807\u9898
-<\u5361\u7247\u5185\u5BB9>
-#<\u5361\u7247\u6807\u7B7E1> #<\u5361\u7247\u6807\u7B7E2> 
-
-Card2\uFF1A...
-Card3\uFF1A..."
+Display in the following format:
+Card1: Card title
+<Card content>
+#<Card tag 1> #<Card tag 2>
+Card2: ... 
+Card3: ..."
 
 Here is the article:
 `;
@@ -28423,7 +28420,8 @@ Here is the article:
     prompt
   }) => {
     return `Instructions: ${prompt}
-Content:  ${content}
+Content:  '${content}'
+${replylanguagePrompt("zh-CN")}
 `;
   };
 
