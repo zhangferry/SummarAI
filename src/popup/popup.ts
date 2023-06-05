@@ -3,6 +3,7 @@ import {ChatGPTProvider, getChatGPTAccessToken} from './ChatGPTProvider'
 import { Answer, Provider } from './types'
 import { OpenAIProvider } from './OpenAIProvider'
 import { articlePrompt, summerDefaultPrompt, bulletpointPrompt } from './prompt'
+import { extract } from '@extractus/article-extractor'
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
@@ -135,10 +136,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function injectContentScriptAndFetchData() {
     const tabs = await Browser.tabs.query({active: true, currentWindow: true})
-    // await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
+    await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
-    const question = results && results.textContent ? results.textContent : ""
-    fetchData(question)
+    const response = results && results.textContent ? results.textContent : ""
+    let result = await extract(response.url)
+
+    const div = document.createElement('div');
+    div.innerHTML = result.content;
+    let content = div.innerText;
+
+    const innerText = response.innerText.replace(/\n/g, '')
+    if (!innerText.includes(content)) {
+      content = innerText
+    }
+    console.log(content)
+    fetchData(content)
   }
 
   function setupEventListeners() {

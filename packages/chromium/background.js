@@ -1019,30 +1019,9 @@
     }
   });
 
-  // src/background/index.tsx
+  // src/background/index.ts
   var import_webextension_polyfill = __toESM(require_browser_polyfill());
   async function Run() {
-    import_webextension_polyfill.default.runtime.onMessage.addListener((message, _, sendResponse) => {
-      var _a;
-      console.log(message.action);
-      console.log(message);
-      const { type, data } = message;
-      console.log(`type ${type}, data: ${data}, message: ${message}`);
-      switch (message.action) {
-        case "getTextContent": {
-          console.log("CHATGPT_TAB_CURRENT");
-          const textContent = document.body.innerText;
-          const url = window.location.href;
-          console.log(`URL: ${url}`);
-          sendResponse({ textContent });
-          break;
-        }
-        case "GET_DOM": {
-          sendResponse({ html: (_a = document.querySelector("html")) == null ? void 0 : _a.outerHTML });
-          break;
-        }
-      }
-    });
     import_webextension_polyfill.default.runtime.onInstalled.addListener(async (details) => {
       if (details.reason === "install") {
         import_webextension_polyfill.default.runtime.openOptionsPage();
