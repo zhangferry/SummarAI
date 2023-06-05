@@ -2,18 +2,20 @@ import Browser from 'webextension-polyfill'
 import {ChatGPTProvider, getChatGPTAccessToken} from './ChatGPTProvider'
 import { Answer, Provider } from './types'
 import { OpenAIProvider } from './OpenAIProvider'
-import { articlePrompt, summerDefaultPrompt, bulletpointPrompt } from './prompt'
-import { extract } from '@extractus/article-extractor'
+import { articlePrompt, summerDefaultPrompt, zettelkastenPrompt } from './prompt'
+import Parser from "@postlight/parser"
 
 document.addEventListener("DOMContentLoaded", () => {
   const tokenLimit = 4096 // for gpt-3.5-turbo
 
-  async function fetchData(question) {
-    question = truncateText(question, tokenLimit)
-    console.log(`truncateText question: `, question)
-
+  async function fetchData(response) {
+    
     const loadingElement = document.getElementById("loading")
     loadingElement.style.display = "block"
+
+    const result = await Parser.parse(response.url, { contentType: "text" });
+    console.log(`extract content: ${result.content}`)
+    const question = truncateText(result.content, tokenLimit)
 
     try {
       const contentType = "article"
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function getContentBasedOnType(contentType: string, contextInfo: string, callback) {
     const combinedPrompt = articlePrompt({
       content: contextInfo, 
-      prompt: summerDefaultPrompt})
+      prompt: zettelkastenPrompt})
 
     const controller = new AbortController()
 
@@ -139,18 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
     const response = results && results.textContent ? results.textContent : ""
-    let result = await extract(response.url)
-
-    const div = document.createElement('div');
-    div.innerHTML = result.content;
-    let content = div.innerText;
-
-    const innerText = response.innerText.replace(/\n/g, '')
-    if (!innerText.includes(content)) {
-      content = innerText
-    }
-    console.log(content)
-    fetchData(content)
+    await fetchData(response)
   }
 
   function setupEventListeners() {

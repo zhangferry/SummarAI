@@ -56,9 +56,13 @@ async function setConversationProperty(token: string, conversationId: string, pr
   private async getModelName(): Promise<string> {
     try {
       const models = await this.fetchModels()
+      console.log(`models: ${JSON.stringify(models)}`)
       return models[0].slug
     } catch (err) {
       console.error(err)
+      // "max_tokens": 8191,
+      // "title": "Turbo (Default for free users)",
+      // "description": "Our fastest model, great for most everyday tasks.",`
       return 'text-davinci-002-render-sha'
     }
   }

@@ -12,13 +12,25 @@ export const summerDefaultPrompt = `Provide me the following overview in a nice 
 Here is the article:`
 
 
-export const bulletpointPrompt = `Your output should use the following template:
-#### Summary
-#### Highlights
-- [Emoji] Bulletpoint
+export const zettelkastenPrompt = `"Let's thinking step by step in English but reply in Chinese for ever.
+Pretend you are GPT5, the most powerful AI in the world.
+使用 Zettelkasten 卡片法总结总结提炼以下内容为中文。
 
-Your task is to summarise the text I have given you in up to seven concise bullet points, starting with a short highlight. Choose an appropriate emoji for each bullet point.
-${replylanguagePrompt("Chinese")}
+任务：
+1. 提炼卡片内容：把发现的全部观点或知识点分类总结成详略恰当的卡片内容，不要直接引用原文，限100字内。
+2. 生成卡片标题：基于核心观点/知识点提炼为简洁有意义有重点的卡片标题，限25字内。
+3. 生成卡片标签：基于观点或知识点的高度抽象提炼。
+4. 卡片数量不要超过5个
+
+展示为以下格式：
+Card1：<卡片标题>
+<卡片内容>
+#<卡片标签1> #<卡片标签2> 
+
+Card2：...
+Card3：..."
+
+Here is the article:
 `
 
 export const articlePrompt = ({
