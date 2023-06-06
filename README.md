@@ -2,11 +2,14 @@
 
 # SummarAI Chrome Extension
 
-![](https://cdn.zhangferry.com/Images/202306052331039.png)
-
-![](https://cdn.zhangferry.com/Images/202306052334674.png)
-
 This browser extension utilizes AI technology to analyze web pages and extract important information.
+
+There are two ways to summarize:
+
+1. Click the `Analyze` button, use the title and summary to summarize the page content. This is the default method.
+   ![](https://cdn.zhangferry.com/Images/202306052334674.png)
+2. click the `Zettelkasten` button, use the [zettelkasten/卡片盒笔记](https://zettelkasten.de/introduction/zh/) method to summarize the page content
+   ![](https://cdn.zhangferry.com/Images/202306052331039.png)
 
 ## Installation
 
