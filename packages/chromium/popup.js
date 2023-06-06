@@ -28402,16 +28402,16 @@ Here is the article:`;
 Use the Zettelkasten card method to summarize:
 
 Task:
-1. Summarize the card content: Classify and summarize all the viewpoints or knowledge points found into appropriate card content, the number of words does not exceed 140 words. 
-2. Generate card titles: Based on the core viewpoints/knowledge points, refine concise, meaningful and focused card titles, not exceeding 25 words.
-3. Generate card tags: Highly abstract refinement based on viewpoints or knowledge points. 
+1. Summarize the card content: Categorize and extract important viewpoints/knowledge points in short and concise language. 
+2. Generate card titles: Based on the core viewpoints/knowledge points, refine concise, meaningful and focused card titles.
+3. Generate card tags: Highly abstract refinement based on viewpoints/knowledge points. 
 
 Display in the following format:
-Card1: Card title
+\u5361\u72471: Card title
 <Card content>
 #<Card tag 1> #<Card tag 2>
-Card2: ... 
-Card3: ..."
+\u5361\u72472: ... 
+\u5361\u72473: ..."
 
 Here is the article:
 `;
