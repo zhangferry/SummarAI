@@ -13,23 +13,21 @@ There are two ways to summarize:
 
 ## Installation
 
-1. Download the repository to your local machine.
+1. Clone the repository to your local machine or download the zip package in [Releases](https://github.com/zhangferry/SummarAI/releases).
 2. Open Chrome and navigate to `chrome://extensions`.
 3. Enable Developer mode by toggling the switch in the top right corner.
-4. Click on "Load unpacked" and select the `packages/chromium` folder.
+4. Click on "Load unpacked", select the `packages/chromium` folder if you are using clone or the unzip folder if you are using Release package.
 
-## Build from source
+## Build from source(Optional)
+
+If you want to change the code logic, you need to recompile the TypeScript file:
 
 1. install dependencies with `yarn install`
 2. build source code with `yarn build`
 
 ## Usage
 
-1. Navigate to the web page you want to summarize.
-2. Click on the SummerAI icon in the extension toolbar.
-3. The extension will analyze the content of the page and display a summary in the popup.
-
-## Setting
+### Setting
 
 ![](https://cdn.zhangferry.com/Images/202305312325405.png)
 
@@ -42,6 +40,28 @@ There are two AI modes available for you to choose from:
 - The default host is https://api.openai.com, you can customize this value.
 - API key is required, you can find it in [OpenAI API Key](https://platform.openai.com/account/api-keys)
 
+### Summary
+
+1. Pin the SummarAI button to the extension toolbar.
+2. Navigate to the web page you want to summarize and click on the SummerAI icon.
+3. The extension will analyze the content of the page and display a summary in the popup.
+
 ## Support
 
 - For any issues or questions, please contact me.
+
+## QA
+
+1. ErrCode: `CLOUDFLARE`
+
+   The openai server rejected the request, possible reasons:
+
+   - No permission to access the API
+   - The authentication credentials provided are invalid or incorrect
+   - Requests are too frequent, triggering traffic limiting
+
+2. ErrCode: `UNAUTHORIZED`
+
+   Failed to obtain `chat.openai.com` accesstoken, possible reasons:
+
+   - Your login credentials have expired, so you'll need to log back into `chat.openai.com` and try again
