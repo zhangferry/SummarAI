@@ -28494,7 +28494,6 @@ ${replylanguagePrompt("zh-CN")}
                 conversationId: ""
               }
             });
-            console.log(result);
           }
           return {};
         } else {
@@ -28600,7 +28599,7 @@ ${replylanguagePrompt("zh-CN")}
       providerConfig = providerConfig[configKey];
       console.log(JSON.stringify(providerConfig));
       let provider;
-      if (`${providerValue}` == "gpt") {
+      if (`${providerValue}` == "gpt3") {
         const apiKey = providerConfig["apiKey"];
         if (!apiKey) {
           throw new Error(`You should config API Key first`);
@@ -28649,6 +28648,7 @@ ${replylanguagePrompt("zh-CN")}
       await import_webextension_polyfill4.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
       const results = await import_webextension_polyfill4.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
       const response = results && results.textContent ? results.textContent : "";
+      console.log(JSON.stringify(response));
       await fetchData(response, type);
     }
     function setupEventListeners() {

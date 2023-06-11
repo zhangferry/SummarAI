@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(JSON.stringify(providerConfig))
 
     let provider: Provider
-    if (`${providerValue}` == "gpt") {
+    if (`${providerValue}` == "gpt3") {
       const apiKey = providerConfig["apiKey"]
       if (!apiKey) {
         throw new Error(`You should config API Key first`)
@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
     const response = results && results.textContent ? results.textContent : ""
+    console.log(JSON.stringify(response))
     await fetchData(response, type)
   }
 

@@ -75,7 +75,7 @@ export class OpenAIProvider implements Provider {
                     messageId: "",
                     conversationId: ""
                 } })
-              console.log(result)
+              // console.log(result)
             }
             return {}
           } else {
