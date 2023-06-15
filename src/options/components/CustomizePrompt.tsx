@@ -12,11 +12,6 @@ import {
   customizePrompt,
   customizePromptSearch,
   customizePrompt1,
-  customizePromptClickbait,
-  customizePromptPage,
-  customizePromptComment,
-  customizePromptCommentAmazon,
-  customizePromptCommentYoutube,
 } from '@/utils/prompt'
 
 interface Props {

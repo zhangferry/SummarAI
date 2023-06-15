@@ -1,6 +1,5 @@
 import React from 'react'
 import { useCallback, useEffect, useState } from 'preact/hooks'
-import { SearchEngine } from '@/content-script/search-engine-configs'
 import { Text, Card, Button, Spacer, useToasts, Checkbox } from '@geist-ui/core'
 import { updateUserConfig } from '@/config'
 import { changeToast, isIOS } from '@/utils/utils'
@@ -9,11 +8,10 @@ interface Props {
   enableSites: string[]
   setEnableSites: (site: string[]) => void
   allSites: string[]
-  supportSites: Record<string, SearchEngine>
 }
 
 function EnableGlarity(props: Props) {
-  const { enableSites, setEnableSites, allSites, supportSites } = props
+  const { enableSites, setEnableSites, allSites } = props
   const { setToast } = useToasts()
   const [allSelect, setAllSelect] = useState(true)
 
@@ -60,13 +58,6 @@ function EnableGlarity(props: Props) {
                 onChange={onChangeSites}
                 className="glarity--support__sites"
               >
-                {Object.entries(supportSites).map(([k, v]) => {
-                  return (
-                    <Checkbox key={k} value={v.siteValue} className="glarity--support__sites--item">
-                      {v.siteName}
-                    </Checkbox>
-                  )
-                })}
               </Checkbox.Group>
             </Card.Content>
             <Card.Footer>

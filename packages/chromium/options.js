@@ -23938,6 +23938,28 @@ https://www.viki.com
   function getExtensionVersion() {
     return import_webextension_polyfill2.default.runtime.getManifest().version;
   }
+  var availableModels = [
+    {
+      name: "gpt-3.5-turbo",
+      maxTokens: 4096
+    },
+    {
+      name: "gpt-3.5-turbo-16k",
+      maxTokens: 16384
+    },
+    {
+      name: "gpt-4",
+      maxTokens: 8192
+    },
+    {
+      name: "gpt-4-32k",
+      maxTokens: 32768
+    },
+    {
+      name: "text-davinci-003",
+      maxTokens: 4097
+    }
+  ];
 
   // node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js
   init_preact_module();
@@ -24065,15 +24087,7 @@ https://www.viki.com
       const [config] = await Promise.all([getProviderConfigs()]);
       return { config };
     });
-    const models = [
-      "gpt-3.5-turbo",
-      "gpt-3.5-turbo-0301",
-      "text-davinci-003"
-      // 'text-curie-001',
-      // 'text-babbage-001',
-      // 'text-ada-001',
-      // 'text-chat-davinci-002-20221122',
-    ];
+    const models = availableModels.map((model) => model.name);
     if (query.isLoading) {
       return /* @__PURE__ */ o3(spinner_default2, {});
     }
@@ -24087,13 +24101,13 @@ https://www.viki.com
   // src/options/components/Header.tsx
   function Header() {
     return /* @__PURE__ */ o3(k, { children: /* @__PURE__ */ o3("nav", { className: "glarity--flex glarity--flex-row glarity--justify-between glarity--items-center glarity--mt-5 glarity--px-2", children: [
-      /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--items-center glarity--gap-2", children: /* @__PURE__ */ o3("a", { href: "https://glarity.app/", target: "_blank", rel: "noreferrer", children: [
+      /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--items-center glarity--gap-2", children: /* @__PURE__ */ o3("a", { href: "https://github.com/zhangferry/SummarAI", target: "_blank", rel: "noreferrer", children: [
         /* @__PURE__ */ o3(
           "img",
           {
             src: logo_default,
             className: "glarity--w-10 glarity--h-10 glarity--rounded-lg",
-            style: { "vertical-align": "middle" }
+            style: { verticalAlign: "middle" }
           }
         ),
         /* @__PURE__ */ o3("span", { className: "font-semibold", children: [

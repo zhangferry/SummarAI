@@ -4,6 +4,8 @@ import { Answer, Provider } from './types'
 import { OpenAIProvider } from './OpenAIProvider'
 import { articlePrompt, summerDefaultPrompt, zettelkastenPrompt } from './prompt'
 import Parser from "@postlight/parser"
+import { availableModels } from '@/utils/utils'
+import { ProviderType, getProviderConfigs } from '@/config'
 
 enum PromptType {
   Summary,
@@ -11,7 +13,7 @@ enum PromptType {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const tokenLimit = 4096 // for gpt-3.5-turbo
+  const defaultTokenLimit = 4096 // for gpt-3.5-turbo
 
   async function fetchData(response, promptType: PromptType) {
     
@@ -20,17 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const result = await Parser.parse(response.url, { contentType: "text" });
     console.log(`extract content: ${result.content}`)
-    const question = truncateText(result.content, tokenLimit)
 
     try {
-
       const promptTemplate = promptType === PromptType.Summary ? summerDefaultPrompt : zettelkastenPrompt
-
       const combinedPrompt = articlePrompt({
-        content: question, 
+        content: result.content, 
         prompt: promptTemplate})
 
-      await getContentBasedOnType(combinedPrompt, displayAnswer)
+      await requestSummary(combinedPrompt, displayAnswer)
     } catch (error) {
       displayError(error.message)
     } finally {
@@ -74,40 +73,31 @@ document.addEventListener("DOMContentLoaded", () => {
       truncatedText += char
       tokenCount += charTokenCount
     }
-
     return truncatedText
   }
 
-  async function getContentBasedOnType(prompt: string, callback) {
-
+  async function requestSummary(content: string, callback) {
     const controller = new AbortController()
 
-    let allValue = await Browser.storage.local.get(null)
-    console.log(`allvalue: ${JSON.stringify(allValue)}`)
-
-    const providerKey = "provider"
-    let providerValue = await Browser.storage.local.get(providerKey)
-    providerValue = providerValue[providerKey]
-    const configKey = `${providerKey}:` + providerValue
-    let providerConfig = await Browser.storage.local.get(configKey)
-    providerConfig = providerConfig[configKey]
-    console.log(JSON.stringify(providerConfig))
-
+    const providerConfigs = await getProviderConfigs()
+    console.log(`providerConfigs: ${JSON.stringify(providerConfigs)}`)
+    
+    let prompt: string
     let provider: Provider
-    if (`${providerValue}` == "gpt3") {
-      const apiKey = providerConfig["apiKey"]
+    if (providerConfigs.provider == ProviderType.GPT3) {
+      const { apiKey, model } = providerConfigs.configs[ProviderType.GPT3]
       if (!apiKey) {
         throw new Error(`You should config API Key first`)
       }
-      var model = "gpt-3.5-turbo" // default model
-      if (providerConfig["model"]) {
-          model = providerConfig["model"]
-      }
+      const currentModel = availableModels.find(theModel => theModel.name === model);
+      prompt = truncateText(content, currentModel.maxTokens)
       provider = new OpenAIProvider(apiKey, model)
     } else {
+      prompt = truncateText(content, defaultTokenLimit)
       const token = await getChatGPTAccessToken()
       provider = new ChatGPTProvider(token)
     }
+    console.log(`prompt content: ${prompt}`)
     const { cleanup } = await provider.generateAnswer({
       prompt: prompt,
       signal: controller.signal,
@@ -118,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
         callback(event.data)
       }
     })
-    
     cleanup?.()
   }
 
@@ -149,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
     const response = results && results.textContent ? results.textContent : ""
-    console.log(JSON.stringify(response))
+    // console.log(JSON.stringify(response))
     await fetchData(response, type)
   }
 

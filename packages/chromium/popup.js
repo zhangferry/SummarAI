@@ -28226,6 +28226,17 @@
 
   // src/config/index.ts
   var import_webextension_polyfill = __toESM(require_browser_polyfill());
+  async function getProviderConfigs() {
+    const { provider = "chatgpt" /* ChatGPT */ } = await import_webextension_polyfill.default.storage.local.get("provider");
+    const configKey = `provider:${"gpt3" /* GPT3 */}`;
+    const result = await import_webextension_polyfill.default.storage.local.get(configKey);
+    return {
+      provider,
+      configs: {
+        ["gpt3" /* GPT3 */]: result[configKey]
+      }
+    };
+  }
   var BASE_URL = "https://chat.openai.com";
 
   // src/utils/utils.ts
@@ -28233,6 +28244,28 @@
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   var isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
   var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  var availableModels = [
+    {
+      name: "gpt-3.5-turbo",
+      maxTokens: 4096
+    },
+    {
+      name: "gpt-3.5-turbo-16k",
+      maxTokens: 16384
+    },
+    {
+      name: "gpt-4",
+      maxTokens: 8192
+    },
+    {
+      name: "gpt-4-32k",
+      maxTokens: 32768
+    },
+    {
+      name: "text-davinci-003",
+      maxTokens: 4097
+    }
+  ];
   async function* streamAsyncIterable(stream) {
     const reader = stream.getReader();
     try {
@@ -28542,20 +28575,19 @@ ${replylanguagePrompt("zh-CN")}
   // src/popup/popup.ts
   var import_parser = __toESM(require_mercury());
   document.addEventListener("DOMContentLoaded", () => {
-    const tokenLimit = 4096;
+    const defaultTokenLimit = 4096;
     async function fetchData(response, promptType) {
       const loadingElement = document.getElementById("loading");
       loadingElement.style.display = "block";
       const result = await import_parser.default.parse(response.url, { contentType: "text" });
       console.log(`extract content: ${result.content}`);
-      const question = truncateText(result.content, tokenLimit);
       try {
         const promptTemplate = promptType === 0 /* Summary */ ? summerDefaultPrompt : zettelkastenPrompt;
         const combinedPrompt = articlePrompt({
-          content: question,
+          content: result.content,
           prompt: promptTemplate
         });
-        await getContentBasedOnType(combinedPrompt, displayAnswer);
+        await requestSummary(combinedPrompt, displayAnswer);
       } catch (error) {
         displayError(error.message);
       } finally {
@@ -28587,32 +28619,26 @@ ${replylanguagePrompt("zh-CN")}
       }
       return truncatedText;
     }
-    async function getContentBasedOnType(prompt, callback) {
+    async function requestSummary(content, callback) {
       const controller = new AbortController();
-      let allValue = await import_webextension_polyfill4.default.storage.local.get(null);
-      console.log(`allvalue: ${JSON.stringify(allValue)}`);
-      const providerKey = "provider";
-      let providerValue = await import_webextension_polyfill4.default.storage.local.get(providerKey);
-      providerValue = providerValue[providerKey];
-      const configKey = `${providerKey}:` + providerValue;
-      let providerConfig = await import_webextension_polyfill4.default.storage.local.get(configKey);
-      providerConfig = providerConfig[configKey];
-      console.log(JSON.stringify(providerConfig));
+      const providerConfigs = await getProviderConfigs();
+      console.log(`providerConfigs: ${JSON.stringify(providerConfigs)}`);
+      let prompt;
       let provider;
-      if (`${providerValue}` == "gpt3") {
-        const apiKey = providerConfig["apiKey"];
+      if (providerConfigs.provider == "gpt3" /* GPT3 */) {
+        const { apiKey, model } = providerConfigs.configs["gpt3" /* GPT3 */];
         if (!apiKey) {
           throw new Error(`You should config API Key first`);
         }
-        var model = "gpt-3.5-turbo";
-        if (providerConfig["model"]) {
-          model = providerConfig["model"];
-        }
+        const currentModel = availableModels.find((theModel) => theModel.name === model);
+        prompt = truncateText(content, currentModel.maxTokens);
         provider = new OpenAIProvider(apiKey, model);
       } else {
+        prompt = truncateText(content, defaultTokenLimit);
         const token = await getChatGPTAccessToken();
         provider = new ChatGPTProvider(token);
       }
+      console.log(`prompt content: ${prompt}`);
       const { cleanup } = await provider.generateAnswer({
         prompt,
         signal: controller.signal,
@@ -28648,7 +28674,6 @@ ${replylanguagePrompt("zh-CN")}
       await import_webextension_polyfill4.default.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ["content.js"] });
       const results = await import_webextension_polyfill4.default.tabs.sendMessage(tabs[0].id, { action: "getTextContent" });
       const response = results && results.textContent ? results.textContent : "";
-      console.log(JSON.stringify(response));
       await fetchData(response, type);
     }
     function setupEventListeners() {

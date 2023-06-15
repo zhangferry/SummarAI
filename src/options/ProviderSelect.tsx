@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
 import { Select as Aselect } from 'antd'
 const { Option } = Aselect
-import { isSafari } from '@/utils/utils'
+import { isSafari, availableModels } from '@/utils/utils'
 
 interface ConfigProps {
   config: ProviderConfigs
@@ -137,15 +137,7 @@ function ProviderSelect() {
     return { config }
   })
 
-  const models = [
-    'gpt-3.5-turbo',
-    'gpt-3.5-turbo-0301',
-    'text-davinci-003',
-    // 'text-curie-001',
-    // 'text-babbage-001',
-    // 'text-ada-001',
-    // 'text-chat-davinci-002-20221122',
-  ]
+  const models = availableModels.map(model => model.name)
 
   if (query.isLoading) {
     return <Spinner />

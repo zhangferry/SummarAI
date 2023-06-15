@@ -20,6 +20,30 @@ export function getExtensionVersion() {
   return Browser.runtime.getManifest().version
 }
 
+// https://platform.openai.com/docs/models/overview
+export const availableModels = [
+  {
+    name: "gpt-3.5-turbo",
+    maxTokens: 4096
+  },
+  {
+    name: "gpt-3.5-turbo-16k",
+    maxTokens: 16384
+  },
+  {
+    name: "gpt-4",
+    maxTokens: 8192
+  },
+  {
+    name: "gpt-4-32k",
+    maxTokens: 32768
+  },
+  {
+    name: "text-davinci-003",
+    maxTokens: 4097
+  }
+]
+
 export const changeToast: { type: 'success'; text: string } = {
   text: 'Changes saved',
   type: 'success',
