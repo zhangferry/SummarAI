@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SummarAI",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "homepage_url": "https://zhangferry.com",
   "description": "This browser extension utilizes AI technology to analyze web pages and extract important information.",
   "icons": {
