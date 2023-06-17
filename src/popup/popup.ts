@@ -6,16 +6,20 @@ import { articlePrompt, summerDefaultPrompt, zettelkastenPrompt } from './prompt
 import Parser from "@postlight/parser"
 import { availableModels } from '@/utils/utils'
 import { ProviderType, getProviderConfigs } from '@/config'
+import GPT3Tokenizer from 'gpt3-tokenizer'
+const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
 enum PromptType {
   Summary,
   Zettelkasten
 }
 
+let promptType = PromptType.Summary
+
 document.addEventListener("DOMContentLoaded", () => {
   const defaultTokenLimit = 4096 // for gpt-3.5-turbo
 
-  async function fetchData(response, promptType: PromptType) {
+  async function fetchData(response) {
     
     const loadingElement = document.getElementById("loading")
     loadingElement.style.display = "block"
@@ -24,12 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`extract content: ${result.content}`)
 
     try {
-      const promptTemplate = promptType === PromptType.Summary ? summerDefaultPrompt : zettelkastenPrompt
-      const combinedPrompt = articlePrompt({
-        content: result.content, 
-        prompt: promptTemplate})
-
-      await requestSummary(combinedPrompt, displayAnswer)
+      await requestSummary(result.content, displayAnswer)
     } catch (error) {
       displayError(error.message)
     } finally {
@@ -37,43 +36,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function truncateText(text, maxTokens) {
-    // 判断text的语言类型，这里以中文和英文为例
-    const isChinese = /[\u4e00-\u9fa5]/.test(text)
-    const isEnglish = /^[a-zA-Z]/.test(text)
+  function truncateToken(content, maxTokens) {
+    // Reserve tokens count for answers
+    const maxPromptTokens = maxTokens - 500
 
-    // 根据不同语言的规则计算每个字符的token数
-    const getTokenCount = (char) => {
-      if (isChinese) {
-        // 中文字符算作2个token
-        return /\p{Unified_Ideograph}/u.test(char) ? 2 : 1
-      } else if (isEnglish) {
-        // 英文字符算作1个token
-        return /[a-zA-Z]/.test(char) ? 1 : 0
-      } else {
-        // 其他语言按照1个字符算作1个token处理
-        return 1
-      }
+    const promptTemplate = promptType === PromptType.Summary ? summerDefaultPrompt : zettelkastenPrompt
+    const combinedPrompt = articlePrompt({
+      content: content, 
+      prompt: promptTemplate})
+
+    const promptEncoded: { bpe: number[]; text: string[] } = tokenizer.encode(combinedPrompt)
+    if (promptEncoded.bpe.length > maxPromptTokens) {
+      // 仅移除原始内容
+      const contentEncoded: { bpe: number[]; text: string[] } = tokenizer.encode(content)
+      const contentLength = contentEncoded.bpe.length - (promptEncoded.bpe.length - maxPromptTokens)
+      const subEncoded = contentEncoded.bpe.slice(0, contentLength)
+      return articlePrompt({
+        content: tokenizer.decode(subEncoded),
+        prompt: promptTemplate
+      })
+    } else {
+      return combinedPrompt
     }
-
-    let tokenCount = 0
-    let truncatedText = ""
-
-    // 逐字符遍历原始文本
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i]
-      const charTokenCount = getTokenCount(char)
-
-      // 当前字符的token数超出最大限制，直接返回截断的字符串
-      if (tokenCount + charTokenCount > maxTokens) {
-        break
-      }
-
-      // 当前字符的token数未超出最大限制，将其添加到截断的字符串中
-      truncatedText += char
-      tokenCount += charTokenCount
-    }
-    return truncatedText
   }
 
   async function requestSummary(content: string, callback) {
@@ -90,10 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(`You should config API Key first`)
       }
       const currentModel = availableModels.find(theModel => theModel.name === model);
-      prompt = truncateText(content, currentModel.maxTokens)
+      prompt = truncateToken(content, currentModel.maxTokens)
       provider = new OpenAIProvider(apiKey, model)
     } else {
-      prompt = truncateText(content, defaultTokenLimit)
+      prompt = truncateToken(content, defaultTokenLimit)
       const token = await getChatGPTAccessToken()
       provider = new ChatGPTProvider(token)
     }
@@ -133,13 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.removeChild(el)
   }
 
-  async function injectContentScriptAndFetchData(type: PromptType) {
+  async function injectContentScriptAndFetchData() {
     const tabs = await Browser.tabs.query({active: true, currentWindow: true})
     await Browser.scripting.executeScript({target: {tabId: tabs[0].id}, files: ['content.js']})
     const results = await Browser.tabs.sendMessage(tabs[0].id, {action: "getTextContent"})
     const response = results && results.textContent ? results.textContent : ""
     // console.log(JSON.stringify(response))
-    await fetchData(response, type)
+    await fetchData(response)
   }
 
   function setupEventListeners() {
@@ -163,11 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     document.getElementsByClassName("analyze-btn")[0].addEventListener("click", function () {
-     injectContentScriptAndFetchData(PromptType.Summary);
+      promptType = PromptType.Summary
+     injectContentScriptAndFetchData();
     })
 
     document.getElementsByClassName("zettelkasten-btn")[0].addEventListener("click", function () {
-      injectContentScriptAndFetchData(PromptType.Zettelkasten);
+      promptType = PromptType.Zettelkasten
+      injectContentScriptAndFetchData();
      })
   }
 
@@ -176,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const triggerMode = await Browser.storage.local.get(triggerKey)
     const modeValue = triggerMode[triggerKey]
     if (modeValue != "manually") {
-      await injectContentScriptAndFetchData(PromptType.Summary)
+      await injectContentScriptAndFetchData()
     }
 
     console.log(`trigger: ${JSON.stringify(triggerMode)}`)
