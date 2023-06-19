@@ -37,8 +37,10 @@ There are two AI modes available for you to choose from:
 
 2. Through OpenAI's API, which requires you to provide the corresponding API Key.
 
-- The default host is https://api.openai.com, you can customize this value.
+- The default host is https://api.openai.com.
 - API key is required, you can find it in [OpenAI API Key](https://platform.openai.com/account/api-keys)
+
+If you don't have access to OpenAI, you can purchase ApiKeys at [API2D](https://api2d.com/r/187046). Update the host and API Key to use it.
 
 ### Summary
 
