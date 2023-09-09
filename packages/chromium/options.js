@@ -23923,6 +23923,9 @@ https://www.viki.com
   Select2._InternalPanelDoNotUseOrYouWillBeFired = PurePanel;
   var select_default = Select2;
 
+  // src/options/ProviderSelect.tsx
+  var import_classnames23 = __toESM(require_classnames());
+
   // src/utils/utils.ts
   var import_webextension_polyfill2 = __toESM(require_browser_polyfill());
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
@@ -24011,6 +24014,8 @@ https://www.viki.com
       console.log("config", config);
       console.log("models", models);
     }, [config, models]);
+    const isMobile = window.innerWidth < 768;
+    const flexClass = isMobile ? "glarity--flex-col" : "glarity--flex-row";
     return /* @__PURE__ */ o3(k, { children: /* @__PURE__ */ o3(card_default2, { className: "glarity--card", children: /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-col glarity--gap-3", children: [
       /* @__PURE__ */ o3(radio_default2.Group, { value: tab, onChange: (v3) => setTab(v3), children: [
         !isSafari && /* @__PURE__ */ o3(k, { children: /* @__PURE__ */ o3(radio_default2, { value: "chatgpt" /* ChatGPT */, children: [
@@ -24028,7 +24033,7 @@ https://www.viki.com
               " ",
               /* @__PURE__ */ o3("span", { className: "glarity--font-semibold", children: "charge by usage" })
             ] }),
-            /* @__PURE__ */ o3("div", { className: "glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select", children: [
+            /* @__PURE__ */ o3("div", { className: (0, import_classnames23.default)("glarity--flex", flexClass, "glarity--gap-2", "glarity--geist--select"), children: [
               /* @__PURE__ */ o3(
                 input_default2,
                 {

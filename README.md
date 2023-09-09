@@ -1,6 +1,6 @@
 ![Project Logo](src/assets/img/logo.png)
 
-# SummarAI Chrome Extension
+# SummarAI Browser Extension
 
 This browser extension utilizes AI technology to analyze web pages and extract important information.
 
@@ -47,6 +47,33 @@ If you don't have access to OpenAI, you can purchase API Key at [API2D](https://
 1. Pin the SummarAI button to the extension toolbar.
 2. Navigate to the web page you want to summarize and click on the SummerAI icon.
 3. The extension will analyze the content of the page and display a summary in the popup.
+
+## Safari
+
+Safari plug-ins are typically used for macOS/iOS systems, you should compile SummarAI.xcodeproj with Xcode.
+
+### macOS
+
+- Check the Allow unsigned extensions option in Safari's developer options.
+
+![](https://cdn.zhangferry.com/Images/202309092301123.png)
+
+### iOS
+
+- Change the developer certificate to yours.
+
+<div style="display: flex;justify-content: space-between;">
+<span style="width:40%;display:inline-block">
+
+![长图一 alt](https://cdn.zhangferry.com/Images/WechatIMG553.jpeg)
+
+</span>
+<span style="width:40%;display:inline-block">
+
+![图二](https://cdn.zhangferry.com/Images/202309092304234.png)
+
+</span>
+</div>
 
 ## Support
 

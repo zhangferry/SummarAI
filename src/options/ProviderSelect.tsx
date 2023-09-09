@@ -3,6 +3,7 @@ import { FC, useCallback, useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
 import { Select as Aselect } from 'antd'
+import cn from 'classnames';
 const { Option } = Aselect
 import { isSafari, availableModels } from '@/utils/utils'
 
@@ -49,6 +50,9 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
     console.log('models', models)
   }, [config, models])
 
+  const isMobile = window.innerWidth < 768; // 假设小于768px为移动端
+  const flexClass = isMobile ? 'glarity--flex-col' : 'glarity--flex-row';
+
   return (
     <>
       <Card className="glarity--card">
@@ -74,7 +78,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                     OpenAI official API, more stable,{' '}
                     <span className="glarity--font-semibold">charge by usage</span>
                   </span>
-                  <div className="glarity--flex glarity--flex-row glarity--gap-2 glarity--geist--select">
+                  <div className={cn("glarity--flex", flexClass, "glarity--gap-2", "glarity--geist--select")}>
                     <Input
                       htmlType="text"
                       placeholder="api.openai.com"

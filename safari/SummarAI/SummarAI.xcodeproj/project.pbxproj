@@ -1,0 +1,1015 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8EE106F52A624AA6002FBD68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE106F42A624AA6002FBD68 /* AppDelegate.swift */; };
+		8EE106F72A624AA6002FBD68 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE106F62A624AA6002FBD68 /* SceneDelegate.swift */; };
+		8EE106FA2A624AA6002FBD68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106F82A624AA6002FBD68 /* LaunchScreen.storyboard */; };
+		8EE106FD2A624AA6002FBD68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106FB2A624AA6002FBD68 /* Main.storyboard */; };
+		8EE107062A624AA6002FBD68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE107052A624AA6002FBD68 /* AppDelegate.swift */; };
+		8EE107092A624AA6002FBD68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107072A624AA6002FBD68 /* Main.storyboard */; };
+		8EE107112A624AA6002FBD68 /* SummarAI Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8EE107102A624AA6002FBD68 /* SummarAI Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8EE1071B2A624AA6002FBD68 /* SummarAI Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8EE1071A2A624AA6002FBD68 /* SummarAI Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8EE107212A624AA6002FBD68 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E42A624AA4002FBD68 /* Main.html */; };
+		8EE107222A624AA6002FBD68 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E42A624AA4002FBD68 /* Main.html */; };
+		8EE107232A624AA6002FBD68 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E62A624AA4002FBD68 /* Icon.png */; };
+		8EE107242A624AA6002FBD68 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E62A624AA4002FBD68 /* Icon.png */; };
+		8EE107252A624AA6002FBD68 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E72A624AA4002FBD68 /* Style.css */; };
+		8EE107262A624AA6002FBD68 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E72A624AA4002FBD68 /* Style.css */; };
+		8EE107272A624AA6002FBD68 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E82A624AA4002FBD68 /* Script.js */; };
+		8EE107282A624AA6002FBD68 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106E82A624AA4002FBD68 /* Script.js */; };
+		8EE107292A624AA6002FBD68 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE106E92A624AA4002FBD68 /* ViewController.swift */; };
+		8EE1072A2A624AA6002FBD68 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE106E92A624AA4002FBD68 /* ViewController.swift */; };
+		8EE1072B2A624AA6002FBD68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106EA2A624AA6002FBD68 /* Assets.xcassets */; };
+		8EE1072C2A624AA6002FBD68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE106EA2A624AA6002FBD68 /* Assets.xcassets */; };
+		8EE1072D2A624AA6002FBD68 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE106EC2A624AA6002FBD68 /* SafariWebExtensionHandler.swift */; };
+		8EE1072E2A624AA6002FBD68 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE106EC2A624AA6002FBD68 /* SafariWebExtensionHandler.swift */; };
+		8EE107502A624AA6002FBD68 /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107402A624AA6002FBD68 /* logo-128.png */; };
+		8EE107512A624AA6002FBD68 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107412A624AA6002FBD68 /* popup.js */; };
+		8EE107522A624AA6002FBD68 /* logo-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107422A624AA6002FBD68 /* logo-16.png */; };
+		8EE107532A624AA6002FBD68 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107432A624AA6002FBD68 /* background.js */; };
+		8EE107542A624AA6002FBD68 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107442A624AA6002FBD68 /* popup.html */; };
+		8EE107552A624AA6002FBD68 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107452A624AA6002FBD68 /* options.js */; };
+		8EE107562A624AA6002FBD68 /* logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107462A624AA6002FBD68 /* logo-48.png */; };
+		8EE107572A624AA6002FBD68 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107472A624AA6002FBD68 /* logo.png */; };
+		8EE107582A624AA6002FBD68 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107482A624AA6002FBD68 /* manifest.json */; };
+		8EE107592A624AA6002FBD68 /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107492A624AA6002FBD68 /* logo-32.png */; };
+		8EE1075A2A624AA6002FBD68 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074A2A624AA6002FBD68 /* options.html */; };
+		8EE1075B2A624AA6002FBD68 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074B2A624AA6002FBD68 /* popup.css */; };
+		8EE1075C2A624AA6002FBD68 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074C2A624AA6002FBD68 /* content.js */; };
+		8EE1075D2A624AA6002FBD68 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074D2A624AA6002FBD68 /* setting.png */; };
+		8EE1075E2A624AA6002FBD68 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074E2A624AA6002FBD68 /* options.css */; };
+		8EE1075F2A624AA6002FBD68 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074F2A624AA6002FBD68 /* copy.png */; };
+		8EE107602A624AA6002FBD68 /* logo-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107402A624AA6002FBD68 /* logo-128.png */; };
+		8EE107612A624AA6002FBD68 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107412A624AA6002FBD68 /* popup.js */; };
+		8EE107622A624AA6002FBD68 /* logo-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107422A624AA6002FBD68 /* logo-16.png */; };
+		8EE107632A624AA6002FBD68 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107432A624AA6002FBD68 /* background.js */; };
+		8EE107642A624AA6002FBD68 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107442A624AA6002FBD68 /* popup.html */; };
+		8EE107652A624AA6002FBD68 /* options.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107452A624AA6002FBD68 /* options.js */; };
+		8EE107662A624AA6002FBD68 /* logo-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107462A624AA6002FBD68 /* logo-48.png */; };
+		8EE107672A624AA6002FBD68 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107472A624AA6002FBD68 /* logo.png */; };
+		8EE107682A624AA6002FBD68 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107482A624AA6002FBD68 /* manifest.json */; };
+		8EE107692A624AA6002FBD68 /* logo-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE107492A624AA6002FBD68 /* logo-32.png */; };
+		8EE1076A2A624AA6002FBD68 /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074A2A624AA6002FBD68 /* options.html */; };
+		8EE1076B2A624AA6002FBD68 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074B2A624AA6002FBD68 /* popup.css */; };
+		8EE1076C2A624AA6002FBD68 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074C2A624AA6002FBD68 /* content.js */; };
+		8EE1076D2A624AA6002FBD68 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074D2A624AA6002FBD68 /* setting.png */; };
+		8EE1076E2A624AA6002FBD68 /* options.css in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074E2A624AA6002FBD68 /* options.css */; };
+		8EE1076F2A624AA6002FBD68 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE1074F2A624AA6002FBD68 /* copy.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8EE107122A624AA6002FBD68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EE106DE2A624AA4002FBD68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EE1070F2A624AA6002FBD68;
+			remoteInfo = "SummarAI Extension (iOS)";
+		};
+		8EE1071C2A624AA6002FBD68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EE106DE2A624AA4002FBD68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EE107192A624AA6002FBD68;
+			remoteInfo = "SummarAI Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8EE107342A624AA6002FBD68 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8EE107112A624AA6002FBD68 /* SummarAI Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE1073B2A624AA6002FBD68 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8EE1071B2A624AA6002FBD68 /* SummarAI Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8EE106E52A624AA4002FBD68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		8EE106E62A624AA4002FBD68 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		8EE106E72A624AA4002FBD68 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		8EE106E82A624AA4002FBD68 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		8EE106E92A624AA4002FBD68 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8EE106EA2A624AA6002FBD68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8EE106EC2A624AA6002FBD68 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		8EE106F12A624AA6002FBD68 /* SummarAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SummarAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE106F42A624AA6002FBD68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8EE106F62A624AA6002FBD68 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		8EE106F92A624AA6002FBD68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8EE106FC2A624AA6002FBD68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8EE106FE2A624AA6002FBD68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EE107032A624AA6002FBD68 /* SummarAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SummarAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE107052A624AA6002FBD68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8EE107082A624AA6002FBD68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8EE1070A2A624AA6002FBD68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EE1070B2A624AA6002FBD68 /* SummarAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummarAI.entitlements; sourceTree = "<group>"; };
+		8EE107102A624AA6002FBD68 /* SummarAI Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SummarAI Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE107152A624AA6002FBD68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EE1071A2A624AA6002FBD68 /* SummarAI Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SummarAI Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE1071F2A624AA6002FBD68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8EE107202A624AA6002FBD68 /* SummarAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummarAI.entitlements; sourceTree = "<group>"; };
+		8EE107402A624AA6002FBD68 /* logo-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-128.png"; path = "../../../packages/chromium/logo-128.png"; sourceTree = "<group>"; };
+		8EE107412A624AA6002FBD68 /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../packages/chromium/popup.js; sourceTree = "<group>"; };
+		8EE107422A624AA6002FBD68 /* logo-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-16.png"; path = "../../../packages/chromium/logo-16.png"; sourceTree = "<group>"; };
+		8EE107432A624AA6002FBD68 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../packages/chromium/background.js; sourceTree = "<group>"; };
+		8EE107442A624AA6002FBD68 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../packages/chromium/popup.html; sourceTree = "<group>"; };
+		8EE107452A624AA6002FBD68 /* options.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = options.js; path = ../../../packages/chromium/options.js; sourceTree = "<group>"; };
+		8EE107462A624AA6002FBD68 /* logo-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-48.png"; path = "../../../packages/chromium/logo-48.png"; sourceTree = "<group>"; };
+		8EE107472A624AA6002FBD68 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../packages/chromium/logo.png; sourceTree = "<group>"; };
+		8EE107482A624AA6002FBD68 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../packages/chromium/manifest.json; sourceTree = "<group>"; };
+		8EE107492A624AA6002FBD68 /* logo-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-32.png"; path = "../../../packages/chromium/logo-32.png"; sourceTree = "<group>"; };
+		8EE1074A2A624AA6002FBD68 /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../packages/chromium/options.html; sourceTree = "<group>"; };
+		8EE1074B2A624AA6002FBD68 /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = ../../../packages/chromium/popup.css; sourceTree = "<group>"; };
+		8EE1074C2A624AA6002FBD68 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../../packages/chromium/content.js; sourceTree = "<group>"; };
+		8EE1074D2A624AA6002FBD68 /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = setting.png; path = ../../../packages/chromium/setting.png; sourceTree = "<group>"; };
+		8EE1074E2A624AA6002FBD68 /* options.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = options.css; path = ../../../packages/chromium/options.css; sourceTree = "<group>"; };
+		8EE1074F2A624AA6002FBD68 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = copy.png; path = ../../../packages/chromium/copy.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EE106EE2A624AA6002FBD68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE107002A624AA6002FBD68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE1070D2A624AA6002FBD68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE107172A624AA6002FBD68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8EE106DD2A624AA4002FBD68 = {
+			isa = PBXGroup;
+			children = (
+				8EE106E22A624AA4002FBD68 /* Shared (App) */,
+				8EE106EB2A624AA6002FBD68 /* Shared (Extension) */,
+				8EE106F32A624AA6002FBD68 /* iOS (App) */,
+				8EE107042A624AA6002FBD68 /* macOS (App) */,
+				8EE107142A624AA6002FBD68 /* iOS (Extension) */,
+				8EE1071E2A624AA6002FBD68 /* macOS (Extension) */,
+				8EE106F22A624AA6002FBD68 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8EE106E22A624AA4002FBD68 /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				8EE106E92A624AA4002FBD68 /* ViewController.swift */,
+				8EE106EA2A624AA6002FBD68 /* Assets.xcassets */,
+				8EE106E32A624AA4002FBD68 /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		8EE106E32A624AA4002FBD68 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8EE106E42A624AA4002FBD68 /* Main.html */,
+				8EE106E62A624AA4002FBD68 /* Icon.png */,
+				8EE106E72A624AA4002FBD68 /* Style.css */,
+				8EE106E82A624AA4002FBD68 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8EE106EB2A624AA6002FBD68 /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				8EE1073F2A624AA6002FBD68 /* Resources */,
+				8EE106EC2A624AA6002FBD68 /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		8EE106F22A624AA6002FBD68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EE106F12A624AA6002FBD68 /* SummarAI.app */,
+				8EE107032A624AA6002FBD68 /* SummarAI.app */,
+				8EE107102A624AA6002FBD68 /* SummarAI Extension.appex */,
+				8EE1071A2A624AA6002FBD68 /* SummarAI Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EE106F32A624AA6002FBD68 /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				8EE106F42A624AA6002FBD68 /* AppDelegate.swift */,
+				8EE106F62A624AA6002FBD68 /* SceneDelegate.swift */,
+				8EE106F82A624AA6002FBD68 /* LaunchScreen.storyboard */,
+				8EE106FB2A624AA6002FBD68 /* Main.storyboard */,
+				8EE106FE2A624AA6002FBD68 /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		8EE107042A624AA6002FBD68 /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				8EE107052A624AA6002FBD68 /* AppDelegate.swift */,
+				8EE107072A624AA6002FBD68 /* Main.storyboard */,
+				8EE1070A2A624AA6002FBD68 /* Info.plist */,
+				8EE1070B2A624AA6002FBD68 /* SummarAI.entitlements */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		8EE107142A624AA6002FBD68 /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				8EE107152A624AA6002FBD68 /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		8EE1071E2A624AA6002FBD68 /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				8EE1071F2A624AA6002FBD68 /* Info.plist */,
+				8EE107202A624AA6002FBD68 /* SummarAI.entitlements */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		8EE1073F2A624AA6002FBD68 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8EE107402A624AA6002FBD68 /* logo-128.png */,
+				8EE107412A624AA6002FBD68 /* popup.js */,
+				8EE107422A624AA6002FBD68 /* logo-16.png */,
+				8EE107432A624AA6002FBD68 /* background.js */,
+				8EE107442A624AA6002FBD68 /* popup.html */,
+				8EE107452A624AA6002FBD68 /* options.js */,
+				8EE107462A624AA6002FBD68 /* logo-48.png */,
+				8EE107472A624AA6002FBD68 /* logo.png */,
+				8EE107482A624AA6002FBD68 /* manifest.json */,
+				8EE107492A624AA6002FBD68 /* logo-32.png */,
+				8EE1074A2A624AA6002FBD68 /* options.html */,
+				8EE1074B2A624AA6002FBD68 /* popup.css */,
+				8EE1074C2A624AA6002FBD68 /* content.js */,
+				8EE1074D2A624AA6002FBD68 /* setting.png */,
+				8EE1074E2A624AA6002FBD68 /* options.css */,
+				8EE1074F2A624AA6002FBD68 /* copy.png */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8EE106F02A624AA6002FBD68 /* SummarAI (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE107352A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI (iOS)" */;
+			buildPhases = (
+				8EE106ED2A624AA6002FBD68 /* Sources */,
+				8EE106EE2A624AA6002FBD68 /* Frameworks */,
+				8EE106EF2A624AA6002FBD68 /* Resources */,
+				8EE107342A624AA6002FBD68 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EE107132A624AA6002FBD68 /* PBXTargetDependency */,
+			);
+			name = "SummarAI (iOS)";
+			productName = "SummarAI (iOS)";
+			productReference = 8EE106F12A624AA6002FBD68 /* SummarAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8EE107022A624AA6002FBD68 /* SummarAI (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE1073C2A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI (macOS)" */;
+			buildPhases = (
+				8EE106FF2A624AA6002FBD68 /* Sources */,
+				8EE107002A624AA6002FBD68 /* Frameworks */,
+				8EE107012A624AA6002FBD68 /* Resources */,
+				8EE1073B2A624AA6002FBD68 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EE1071D2A624AA6002FBD68 /* PBXTargetDependency */,
+			);
+			name = "SummarAI (macOS)";
+			productName = "SummarAI (macOS)";
+			productReference = 8EE107032A624AA6002FBD68 /* SummarAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8EE1070F2A624AA6002FBD68 /* SummarAI Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE107312A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI Extension (iOS)" */;
+			buildPhases = (
+				8EE1070C2A624AA6002FBD68 /* Sources */,
+				8EE1070D2A624AA6002FBD68 /* Frameworks */,
+				8EE1070E2A624AA6002FBD68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SummarAI Extension (iOS)";
+			productName = "SummarAI Extension (iOS)";
+			productReference = 8EE107102A624AA6002FBD68 /* SummarAI Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8EE107192A624AA6002FBD68 /* SummarAI Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE107382A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI Extension (macOS)" */;
+			buildPhases = (
+				8EE107162A624AA6002FBD68 /* Sources */,
+				8EE107172A624AA6002FBD68 /* Frameworks */,
+				8EE107182A624AA6002FBD68 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SummarAI Extension (macOS)";
+			productName = "SummarAI Extension (macOS)";
+			productReference = 8EE1071A2A624AA6002FBD68 /* SummarAI Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8EE106DE2A624AA4002FBD68 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					8EE106F02A624AA6002FBD68 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					8EE107022A624AA6002FBD68 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					8EE1070F2A624AA6002FBD68 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					8EE107192A624AA6002FBD68 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 8EE106E12A624AA4002FBD68 /* Build configuration list for PBXProject "SummarAI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8EE106DD2A624AA4002FBD68;
+			productRefGroup = 8EE106F22A624AA6002FBD68 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EE106F02A624AA6002FBD68 /* SummarAI (iOS) */,
+				8EE107022A624AA6002FBD68 /* SummarAI (macOS) */,
+				8EE1070F2A624AA6002FBD68 /* SummarAI Extension (iOS) */,
+				8EE107192A624AA6002FBD68 /* SummarAI Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8EE106EF2A624AA6002FBD68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE107232A624AA6002FBD68 /* Icon.png in Resources */,
+				8EE106FA2A624AA6002FBD68 /* LaunchScreen.storyboard in Resources */,
+				8EE107212A624AA6002FBD68 /* Main.html in Resources */,
+				8EE107272A624AA6002FBD68 /* Script.js in Resources */,
+				8EE1072B2A624AA6002FBD68 /* Assets.xcassets in Resources */,
+				8EE106FD2A624AA6002FBD68 /* Main.storyboard in Resources */,
+				8EE107252A624AA6002FBD68 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE107012A624AA6002FBD68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE107242A624AA6002FBD68 /* Icon.png in Resources */,
+				8EE107262A624AA6002FBD68 /* Style.css in Resources */,
+				8EE107092A624AA6002FBD68 /* Main.storyboard in Resources */,
+				8EE107282A624AA6002FBD68 /* Script.js in Resources */,
+				8EE1072C2A624AA6002FBD68 /* Assets.xcassets in Resources */,
+				8EE107222A624AA6002FBD68 /* Main.html in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE1070E2A624AA6002FBD68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE107632A624AA6002FBD68 /* background.js in Resources */,
+				8EE107662A624AA6002FBD68 /* logo-48.png in Resources */,
+				8EE1076E2A624AA6002FBD68 /* options.css in Resources */,
+				8EE107652A624AA6002FBD68 /* options.js in Resources */,
+				8EE107642A624AA6002FBD68 /* popup.html in Resources */,
+				8EE1076C2A624AA6002FBD68 /* content.js in Resources */,
+				8EE1076F2A624AA6002FBD68 /* copy.png in Resources */,
+				8EE1076A2A624AA6002FBD68 /* options.html in Resources */,
+				8EE107682A624AA6002FBD68 /* manifest.json in Resources */,
+				8EE107692A624AA6002FBD68 /* logo-32.png in Resources */,
+				8EE107672A624AA6002FBD68 /* logo.png in Resources */,
+				8EE1076B2A624AA6002FBD68 /* popup.css in Resources */,
+				8EE1076D2A624AA6002FBD68 /* setting.png in Resources */,
+				8EE107602A624AA6002FBD68 /* logo-128.png in Resources */,
+				8EE107612A624AA6002FBD68 /* popup.js in Resources */,
+				8EE107622A624AA6002FBD68 /* logo-16.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE107182A624AA6002FBD68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE107532A624AA6002FBD68 /* background.js in Resources */,
+				8EE107562A624AA6002FBD68 /* logo-48.png in Resources */,
+				8EE1075E2A624AA6002FBD68 /* options.css in Resources */,
+				8EE107552A624AA6002FBD68 /* options.js in Resources */,
+				8EE107542A624AA6002FBD68 /* popup.html in Resources */,
+				8EE1075C2A624AA6002FBD68 /* content.js in Resources */,
+				8EE1075F2A624AA6002FBD68 /* copy.png in Resources */,
+				8EE1075A2A624AA6002FBD68 /* options.html in Resources */,
+				8EE107582A624AA6002FBD68 /* manifest.json in Resources */,
+				8EE107592A624AA6002FBD68 /* logo-32.png in Resources */,
+				8EE107572A624AA6002FBD68 /* logo.png in Resources */,
+				8EE1075B2A624AA6002FBD68 /* popup.css in Resources */,
+				8EE1075D2A624AA6002FBD68 /* setting.png in Resources */,
+				8EE107502A624AA6002FBD68 /* logo-128.png in Resources */,
+				8EE107512A624AA6002FBD68 /* popup.js in Resources */,
+				8EE107522A624AA6002FBD68 /* logo-16.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EE106ED2A624AA6002FBD68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE107292A624AA6002FBD68 /* ViewController.swift in Sources */,
+				8EE106F52A624AA6002FBD68 /* AppDelegate.swift in Sources */,
+				8EE106F72A624AA6002FBD68 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE106FF2A624AA6002FBD68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE1072A2A624AA6002FBD68 /* ViewController.swift in Sources */,
+				8EE107062A624AA6002FBD68 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE1070C2A624AA6002FBD68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE1072D2A624AA6002FBD68 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE107162A624AA6002FBD68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE1072E2A624AA6002FBD68 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8EE107132A624AA6002FBD68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EE1070F2A624AA6002FBD68 /* SummarAI Extension (iOS) */;
+			targetProxy = 8EE107122A624AA6002FBD68 /* PBXContainerItemProxy */;
+		};
+		8EE1071D2A624AA6002FBD68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EE107192A624AA6002FBD68 /* SummarAI Extension (macOS) */;
+			targetProxy = 8EE1071C2A624AA6002FBD68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8EE106E42A624AA4002FBD68 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE106E52A624AA4002FBD68 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		8EE106F82A624AA6002FBD68 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE106F92A624AA6002FBD68 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		8EE106FB2A624AA6002FBD68 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE106FC2A624AA6002FBD68 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8EE107072A624AA6002FBD68 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE107082A624AA6002FBD68 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8EE1072F2A624AA6002FBD68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8EE107302A624AA6002FBD68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		8EE107322A624AA6002FBD68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X36232M6Y9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SummarAI Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI.Extension;
+				PRODUCT_NAME = "SummarAI Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8EE107332A624AA6002FBD68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X36232M6Y9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SummarAI Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI.Extension;
+				PRODUCT_NAME = "SummarAI Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8EE107362A624AA6002FBD68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X36232M6Y9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SummarAI;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI;
+				PRODUCT_NAME = SummarAI;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8EE107372A624AA6002FBD68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X36232M6Y9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SummarAI;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI;
+				PRODUCT_NAME = SummarAI;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8EE107392A624AA6002FBD68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/SummarAI.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SummarAI Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI.Extension;
+				PRODUCT_NAME = "SummarAI Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8EE1073A2A624AA6002FBD68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/SummarAI.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SummarAI Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI.Extension;
+				PRODUCT_NAME = "SummarAI Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8EE1073D2A624AA6002FBD68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/SummarAI.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SummarAI;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI;
+				PRODUCT_NAME = SummarAI;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8EE1073E2A624AA6002FBD68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/SummarAI.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SummarAI;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangferry.SummarAI;
+				PRODUCT_NAME = SummarAI;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8EE106E12A624AA4002FBD68 /* Build configuration list for PBXProject "SummarAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE1072F2A624AA6002FBD68 /* Debug */,
+				8EE107302A624AA6002FBD68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EE107312A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE107322A624AA6002FBD68 /* Debug */,
+				8EE107332A624AA6002FBD68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EE107352A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE107362A624AA6002FBD68 /* Debug */,
+				8EE107372A624AA6002FBD68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EE107382A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE107392A624AA6002FBD68 /* Debug */,
+				8EE1073A2A624AA6002FBD68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EE1073C2A624AA6002FBD68 /* Build configuration list for PBXNativeTarget "SummarAI (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE1073D2A624AA6002FBD68 /* Debug */,
+				8EE1073E2A624AA6002FBD68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8EE106DE2A624AA4002FBD68 /* Project object */;
+}
