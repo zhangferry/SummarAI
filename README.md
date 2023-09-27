@@ -18,13 +18,6 @@ There are two ways to summarize:
 3. Enable Developer mode by toggling the switch in the top right corner.
 4. Click on "Load unpacked", select the `packages/chromium` folder if you are using clone or the unzip folder if you are using Release package.
 
-## Build from source(Optional)
-
-If you want to change the code logic, you need to recompile the TypeScript file:
-
-1. install dependencies with `yarn install`
-2. build source code with `yarn build`
-
 ## Usage
 
 ### Setting
@@ -74,6 +67,15 @@ Safari plug-ins are typically used for macOS/iOS systems, you should compile Sum
 
 </span>
 </div>
+
+## Build from source(Optional)
+
+If you want to change the code logic, you need to recompile the TypeScript file:
+
+1. install dependencies with `yarn install`
+2. build source code with `yarn build`
+
+The development of the web side of safari extension is still carried out through typescript code, and the js code update will be completed in `yarn build`. The native interface development should use Swift in the xcode project.
 
 ## Support
 
