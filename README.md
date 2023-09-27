@@ -30,7 +30,7 @@ There are two AI modes available for you to choose from:
 
 2. Through OpenAI's API, which requires you to provide the corresponding API Key.
 
-- The default host is https://api.openai.com.
+- The default host is https://api.openai.com, you can customize this value.
 - API key is required, you can find it in [OpenAI API Key](https://platform.openai.com/account/api-keys)
 
 If you don't have access to OpenAI, you can purchase API Key at [API2D](https://api2d.com/r/187046). Update the host and API Key to use it.
@@ -54,19 +54,6 @@ Safari plug-ins are typically used for macOS/iOS systems, you should compile Sum
 ### iOS
 
 - Change the developer certificate to yours.
-
-<div style="display: flex;justify-content: space-between;">
-<span style="width:40%;display:inline-block">
-
-![长图一 alt](https://cdn.zhangferry.com/Images/WechatIMG553.jpeg)
-
-</span>
-<span style="width:40%;display:inline-block">
-
-![图二](https://cdn.zhangferry.com/Images/202309092304234.png)
-
-</span>
-</div>
 
 ## Build from source(Optional)
 
